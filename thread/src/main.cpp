@@ -2,9 +2,8 @@
 // Created by whx on 24-10-14.
 //
 
-#include <iostream>
-
 #include "../include/thread.hpp"
+#include "../include/multhread.hpp"
 
 int main(int argc,char **argv) {
     std::ios::sync_with_stdio(NULL);
@@ -22,6 +21,9 @@ int main(int argc,char **argv) {
     }
     std::cout << "---------++++----------" << std::endl;
     {
+        using namespace MULTHREAD;
+        // count_workspace();
+        // restrict_learn();
 
     }
     std::cout << "---------++++----------" << std::endl;

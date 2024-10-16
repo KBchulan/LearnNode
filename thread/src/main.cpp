@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "thread.hpp"
+#include "../include/thread.hpp"
 
 int main(int argc,char **argv) {
     std::ios::sync_with_stdio(NULL);
@@ -16,8 +16,15 @@ int main(int argc,char **argv) {
         // create_workspace();
         // exit_workspace();
         // recycle_workspace();
-        detach_workspace();
+        // detach_workspace();
+        // cancel_workspace();
+        // class_workspace();
     }
+    std::cout << "---------++++----------" << std::endl;
+    {
+
+    }
+    std::cout << "---------++++----------" << std::endl;
 
 
     return 0;

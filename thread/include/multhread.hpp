@@ -12,10 +12,12 @@
 #ifndef MULTHREAD_HPP
 #define MULTHREAD_HPP
 
-// #include <mutex>
+#include <list>
+#include <mutex>
 #include <chrono>
 #include <thread>
 #include <iostream>
+#include <semaphore>
 // #include <functional>
 
 namespace MULTHREAD {
@@ -184,7 +186,7 @@ namespace MULTHREAD {
             pthread_rwlock_wrlock(&rwlock);
             cout << "write: " << pthread_self() << " " << num++ << endl;
             pthread_rwlock_unlock(&rwlock);
-            usleep(random() % 50);
+            usleep(random() % 500);
         }
         return nullptr;
     }
@@ -194,7 +196,7 @@ namespace MULTHREAD {
             pthread_rwlock_rdlock(&rwlock);
             cout << "read: " << pthread_self() << " " << num++ << endl;
             pthread_rwlock_unlock(&rwlock);
-            usleep(random() % 50);
+            usleep(random() % 500);
         }
         return nullptr;
     }
@@ -211,24 +213,181 @@ namespace MULTHREAD {
         for (auto& read : read_thr)
             pthread_create(&read, nullptr, read_callback, nullptr);
 
-        for (auto& write : write_thr)
+        for (const auto& write : write_thr)
                 pthread_join(write, nullptr);
 
-        for (auto& read : read_thr)
+        for (const auto& read : read_thr)
                 pthread_join(read, nullptr);
 
         pthread_rwlock_destroy(&rwlock);
-
     }
 
     // 条件变量函数
     // 严格来说，条件变量并不是实现线程同步，而是进行线程的阻塞
     // 与互斥锁不同之处：假设有100个线程，互斥锁会使其中一个线程加锁成功而阻塞其他线程，从而确保
     // 线程同步，但是条件变量会使满足条件的所有线程都进入临界区，同时进行读写操作，这显然会有一些问题
+    // 可以与锁共同使用（互斥锁）处理生产者和消费者模型（应用场景）
+    // （多线程）生产者->任务队列<-消费者（多线程）
 
+    // condition储存阻塞的线程信息
+    // pthread_cond_init 初始化
+    // pthread_cond_destroy 释放资源
+    // pthread_cond_wait 线程阻塞函数，调用此函数会阻塞线程
+    // pthread_cond_timedwait 上面那个阻塞，只要不唤醒就会一直阻塞，这个有时间限制
+    // pthread_cond_signal 唤醒至少一个阻塞线程
+    // pthread_cond_broadcast 唤醒全部阻塞函数
 
+    // 以下为一个生产者（5）-消费者（5）模型
+    inline pthread_cond_t cond_from_create;
+    inline pthread_cond_t cond_from_cost;
+    // 上文有一个mutex的互斥锁
 
+    inline void condition_callback() {
+        // 初始化
+        pthread_cond_init(&cond_from_cost, nullptr);
+        pthread_cond_init(&cond_from_create, nullptr);
+        pthread_mutex_init(&mutex, nullptr);
 
+        static list<int> my_list;
+
+        pthread_t createres[5],
+                  costeres[5];
+
+        auto create = [](void *arg)->void* {
+            while(my_list.size() <= 50) {
+                pthread_mutex_lock(&mutex);
+
+                while(my_list.size() >= 20) {
+                    // 若是被阻塞，则会释放这个互斥锁
+                    pthread_cond_wait(&cond_from_create, &mutex);
+                }
+
+                my_list.emplace_back(forward<int>(static_cast<int>(random() % 50)));
+                cout << "creater :" << " " << pthread_self() << " "
+                     << my_list.back() << endl;
+
+                pthread_mutex_unlock(&mutex);
+                pthread_cond_broadcast(&cond_from_cost);
+                this_thread::sleep_for(chrono::seconds(forward<int>(static_cast<int>(random() % 3))));
+
+            }
+            return nullptr;
+        };
+
+        auto cost = [](void *arg)->void* {
+            while(my_list.size() <= 50) {
+                pthread_mutex_lock(&mutex);
+
+                while(my_list.empty()) {
+                    // 若是被阻塞，则会释放这个互斥锁
+                    pthread_cond_wait(&cond_from_cost, &mutex);
+                }
+
+                const int begin = my_list.front();
+                my_list.pop_front();
+                cout << "coster :" << " " << pthread_self() << " "
+                     << begin << endl;
+
+                pthread_mutex_unlock(&mutex);
+                pthread_cond_broadcast(&cond_from_create);
+                this_thread::sleep_for(chrono::seconds(forward<int>(static_cast<int>(random() % 3))));
+            }
+            return nullptr;
+        };
+
+        for (auto &creater : createres)
+            pthread_create(&creater, nullptr, create, nullptr);
+
+        for (auto &coster : costeres)
+            pthread_create(&coster, nullptr, cost,nullptr);
+
+        for (const auto& creater : createres)
+            pthread_join(creater, nullptr);
+
+        for (const auto& coster : costeres)
+            pthread_join(coster, nullptr);
+
+        // 释放
+        pthread_cond_destroy(&cond_from_cost);
+        pthread_cond_destroy(&cond_from_create);
+        pthread_mutex_destroy(&mutex);
+    }
+
+    // 信号量：与条件变量应用场景差不多，但是更轻量化
+
+    // sem_t 创建信号量
+    // sem_init 地址，（0为线程同步，非0为进程同步），资源数目
+    // sem_destroy 销毁信号量
+    // sem_wait 资源数量为0则阻塞，其余情况资源数-1
+    // sem_trywait 资源数为0还不阻塞
+    // sem_post 资源数+1
+    // sem_getvalue
+
+    // 创建两个信号量
+    inline sem_t sem_from_create;
+    inline sem_t sem_from_cost;
+
+    inline void sem_workspace() {
+        sem_init(&sem_from_cost, 0 ,0);
+        sem_init(&sem_from_create, 0, 5);
+
+        pthread_mutex_init(&mutex, nullptr);
+
+        pthread_t createres[5],
+                  costeres[5];
+
+        static list<int> my_list;
+
+        auto create = [](void *arg)->void* {
+            while(my_list.size() <= 30) {
+                sem_wait(&sem_from_create);
+                pthread_mutex_lock(&mutex);
+                my_list.emplace_back(forward<int>(static_cast<int>(random() % 5000)));
+                cout << "creater :" << " " << pthread_self() << " "
+                     << my_list.back() << endl;
+                pthread_mutex_unlock(&mutex);
+
+                sem_post(&sem_from_cost);
+                this_thread::sleep_for(chrono::seconds(forward<int>(static_cast<int>(random() % 3))));
+            }
+            return nullptr;
+        };
+
+        auto cost = [](void *arg)->void* {
+            while(my_list.size() <= 30) {
+                sem_wait(&sem_from_cost);
+
+                pthread_mutex_lock(&mutex);
+                const int begin = my_list.front();
+                my_list.pop_front();
+                cout << "coster :" << " " << pthread_self() << " "
+                     << begin << endl;
+                pthread_mutex_unlock(&mutex);
+
+                sem_post(&sem_from_create);
+                this_thread::sleep_for(chrono::seconds(forward<int>(static_cast<int>(random() % 3))));
+            }
+            return nullptr;
+        };
+
+        // 创建和回收
+        for (auto &creater : createres)
+            pthread_create(&creater, nullptr, create, nullptr);
+
+        for (auto &coster : costeres)
+            pthread_create(&coster, nullptr, cost,nullptr);
+
+        for (const auto& creater : createres)
+            pthread_join(creater, nullptr);
+
+        for (const auto& coster : costeres)
+            pthread_join(coster, nullptr);
+
+        pthread_mutex_destroy(&mutex);
+        sem_destroy(&sem_from_cost);
+        sem_destroy(&sem_from_create);
+
+    }
 
 }
 

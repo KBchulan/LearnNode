@@ -2,6 +2,7 @@
 // Created by whx on 24-10-14.
 //
 
+#include "../include/chrono.hpp"
 #include "../include/thread.hpp"
 #include "../include/multhread.hpp"
 
@@ -25,7 +26,9 @@ int main(int argc,char **argv) {
         // count_workspace();
         // restrict_learn();
         // mutex_workspace();
-        rwlock_workspace();
+        // rwlock_workspace();
+        // condition_callback();
+        sem_workspace();
     }
     std::cout << "------------++++-------------" << std::endl;
 

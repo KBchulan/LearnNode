@@ -8,7 +8,7 @@
 
 ​	SDL2_ttf:	      https://wiki.libsdl.org/SDL2_ttf/CategoryAPI
 
-#### 巨难，慎学
+#### 图形库
   vulkan：https://easyvulkan.github.io/
 
 #### 一些算法的实现博客：
@@ -27,6 +27,8 @@
 
   OpenCV：https://docs.opencv.org/4.x/
 
+  cpp-httplib：https://github.com/yhirose/cpp-httplib  
+  
 #### 一些知识的学习：
 
   模板：https://juejin.cn/post/7078530622527897631
@@ -57,4 +59,8 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
 
   STL：https://docs.oldtimes.me/c.biancheng.net/stl/index.html
 
-  并发：https://juejin.cn/post/7129130891011457037
+  并发：https://juejin.cn/post/7129130891011457037  
+
+  c++14：https://zh.wikipedia.org/wiki/C%2B%2B14
+
+  c++17，20：https://stibel.icu/md/c++/features/c17/c++-features-c17.html

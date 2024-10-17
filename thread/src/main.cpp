@@ -19,14 +19,15 @@ int main(int argc,char **argv) {
         // cancel_workspace();
         // class_workspace();
     }
-    std::cout << "---------++++----------" << std::endl;
+    std::cout << "------------++++-------------" << std::endl;
     {
         using namespace MULTHREAD;
         // count_workspace();
         // restrict_learn();
-
+        // mutex_workspace();
+        rwlock_workspace();
     }
-    std::cout << "---------++++----------" << std::endl;
+    std::cout << "------------++++-------------" << std::endl;
 
 
     return 0;

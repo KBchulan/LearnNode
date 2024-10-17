@@ -98,10 +98,10 @@ namespace Test
 
         virtual void on_updata(double delta)
         {
-            cout << "aaaa";
+            cout << "aaaa" << endl;
         }
     };
-callback
+
     class MainPlayer : public Player
     {
     public:
@@ -124,9 +124,13 @@ callback
 
     void character_4()
     {
-        unique_ptr<Player> player(new MainPlayer());
-        player->on_update(0.5);
-        player->on_updata(1);
+        // unique_ptr<Player> player(new MainPlayer());
+        Player *__restrict player_01 = new MainPlayer();
+        Player *__restrict player_02 = new MainPlayer();
+        player_01->on_update(0.5);
+        player_02->on_update(1);
+        delete player_01;
+        delete player_02;
     }
 
     // 模板的优化,即增加默认参数
@@ -687,7 +691,7 @@ namespace USING
     void bind_test()
     {
         // auto callback = bind(add, placeholders::_1, placeholders::_2)(10,20);
-        std::function<int(int,int)> callback = bind(add, placeholders::_1, placeholders::_2)(50, 60);
+        auto callback = bind(add, placeholders::_1, placeholders::_2)(50, 60);
         cout << callback <<endl;
     }
 
@@ -903,7 +907,7 @@ int main(int argc, char **argv)
 
     {
         using namespace Test;
-        // character_17();
+        character_4();
     }
     {
         using namespace USING;
@@ -934,8 +938,8 @@ int main(int argc, char **argv)
         //     if(x == 3)
         //         break;
         // }
-        simple_test();
-        wchar_t_test();
+        // simple_test();
+        // wchar_t_test();
     }
 
 

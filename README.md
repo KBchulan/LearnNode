@@ -27,6 +27,8 @@
 
   OpenCV：https://docs.opencv.org/4.x/
 
+  cpp-httplib：https://github.com/yhirose/cpp-httplib
+
 #### 一些知识的学习：
 
   模板：https://juejin.cn/post/7078530622527897631

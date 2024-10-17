@@ -8,7 +8,7 @@
 
 ​	SDL2_ttf:	      https://wiki.libsdl.org/SDL2_ttf/CategoryAPI
 
-#### 巨难，慎学
+#### 图形库
   vulkan：https://easyvulkan.github.io/
 
 #### 一些算法的实现博客：

@@ -20,7 +20,6 @@ int main(int argc,char **argv) {
         // cancel_workspace();
         // class_workspace();
     }
-    std::cout << "------------++++-------------" << std::endl;
     {
         using namespace MULTHREAD;
         // count_workspace();
@@ -28,7 +27,13 @@ int main(int argc,char **argv) {
         // mutex_workspace();
         // rwlock_workspace();
         // condition_callback();
-        sem_workspace();
+        // sem_workspace();
+    }
+    std::cout << "------------++++-------------" << std::endl;
+    {
+        using namespace CHRONO;
+        // duration_workspace();
+        time_point_workspace();
     }
     std::cout << "------------++++-------------" << std::endl;
 

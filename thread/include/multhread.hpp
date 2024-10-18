@@ -382,7 +382,6 @@ namespace MULTHREAD {
 
         for (const auto& coster : costeres)
             pthread_join(coster, nullptr);
-
         pthread_mutex_destroy(&mutex);
         sem_destroy(&sem_from_cost);
         sem_destroy(&sem_from_create);

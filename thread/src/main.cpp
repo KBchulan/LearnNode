@@ -5,6 +5,7 @@
 #include "../include/chrono.hpp"
 #include "../include/thread.hpp"
 #include "../include/multhread.hpp"
+#include "../include/this_whread.hpp"
 
 int main(int argc,char **argv) {
     std::ios::sync_with_stdio(NULL);
@@ -29,11 +30,18 @@ int main(int argc,char **argv) {
         // condition_callback();
         // sem_workspace();
     }
-    std::cout << "------------++++-------------" << std::endl;
     {
         using namespace CHRONO;
         // duration_workspace();
-        time_point_workspace();
+        // time_point_workspace();
+        // system_clock_workspace();
+        // steady_clock_workspace();
+        // time_point_cast_workspace();
+    }
+    std::cout << "------------++++-------------" << std::endl;
+    {
+        using namespace THISTHREAD;
+        get_id_workspace();
     }
     std::cout << "------------++++-------------" << std::endl;
 

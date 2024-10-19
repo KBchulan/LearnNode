@@ -12,4 +12,5 @@ add_executable(thread src/main.cpp
         include/chrono.hpp
         include/thread.hpp
         include/multhread.hpp
-        include/this_whread.hpp)
+        include/this_whread.hpp
+        include/condition.hpp)

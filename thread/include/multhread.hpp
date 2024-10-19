@@ -16,6 +16,7 @@
 #include <mutex>
 #include <chrono>
 #include <thread>
+#include <cassert>
 #include <iostream>
 #include <semaphore>
 // #include <functional>
@@ -388,6 +389,129 @@ namespace MULTHREAD {
 
     }
 
+    // 下述是c++11提供的互斥锁:
+    // 独占的互斥锁  mutex
+    // 带超时的互斥锁 timed_mutex
+    // 递归的互斥锁   recursive_mutex
+    // 带超时的递归互斥锁 recursive_timed_mutex
+
+    // mutex的API：
+    // lock:调用函数的线程将会获得互斥锁的所有权并上锁，上锁的互斥锁是无法被其他线程获得的，
+    // 其他线程调用将会被阻塞，只有所有者可以解锁
+    // trylock:不会阻塞
+    // unlock:解锁互斥锁，只有加锁的线程有资格解锁
+    // 互斥锁的个数应该与共享资源个数相同
+    inline std::mutex c11_check_num_mutex;
+
+    inline void c11_mutex_workspace() {
+        static int num = 0;
+
+        auto check_num = [](const int& id) {
+            for(auto i = 0; i < 3; i++) {
+                c11_check_num_mutex.lock();
+                num++;
+                cout << id << "-->" << num << endl;
+                c11_check_num_mutex.unlock();
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+            }
+        };
+
+        std::thread t1(check_num, 1);
+        std::thread t2(check_num, 2);
+        t1.join();
+        t2.join();
+    }
+
+    // lock_guard:可以简化互斥锁的写法，同时更安全，通过一个互斥锁来构造，
+    // 会自动锁定该锁，同时在退出作用域后自动进行析构和释放资源，避免忘记解锁导致的死锁
+    // 使用了RAII技术管理：类构造时分配资源，析沟时释放资源
+    // 由此我们可以修改上文的check_num,但是整个for都被当成了临界区，在这里其实是不好的
+
+    // inline void lock_guard_worksapce() {
+    //     auto check_num = [](const int& id) {
+    //         for(auto i = 0; i < 3; i++) {
+    //             std::lock_guard<std::mutex> lock(c11_check_num_mutex);
+    //             num++;
+    //             cout << id << "-->" << num << endl;
+    //             std::this_thread::sleep_for(std::chrono::seconds(1));
+    //         }
+    //     };
+    // }
+
+    // recursive_mutex：允许同一线程多次获取互斥锁，可以解决一个线程需要多次获取互斥锁
+    // 时死锁的问题，如A(){std::lock_guard<mutex> aaa;}B(){A();std::lock_guard<mutex> bbb;}
+    // 但是这个不应该用，会导致复杂逻辑的产生，且效率较低
+    class Calcute {
+    public:
+        explicit Calcute(const int64_t& x):idx(x){}
+
+
+        void mul(const int& x) {
+            lock_guard<recursive_mutex> locker(rec_mutex);
+            idx *= x;
+        }
+
+        void div(const int& x) {
+            lock_guard<recursive_mutex> locker(rec_mutex);
+            idx /= x;
+        }
+
+        void both(const int& x) {
+            lock_guard<recursive_mutex> lock(rec_mutex);
+            mul(x);
+            div(x);
+        }
+
+    private:
+        int64_t idx;
+        std::recursive_mutex rec_mutex;
+    };
+
+    inline void c11_recursive_mutex_workspace() {
+        Calcute cal(5);
+        cal.both(2);
+    }
+
+    // timed_mutex:增加了超时等待功能，超时后自动解锁
+    // 多了一个try_lock_for：函数是当线程获取不到资源时，设置一定阻塞长度
+    // try_lock_until：阻塞到指定的时间点
+    inline std::timed_mutex time_mutex;
+
+    inline void c11_timed_mutex_workspace() {
+        // 得不到就阻塞一秒钟，超时没得到就再阻塞60ms,然后再尝试
+        auto func = []() {
+            const std::chrono::seconds timeout(1);
+            while(true) {
+                if(time_mutex.try_lock_for(timeout)) {
+                    cout << "User's ID is:" << this_thread::get_id() << endl;
+                    this_thread::sleep_for(chrono::seconds(3));
+                    time_mutex.unlock();
+                    break;
+                }
+                else {
+                    cout << "No User Id is:" << this_thread::get_id() << endl;
+                    this_thread::sleep_for(chrono::milliseconds(60));
+                }
+            }
+
+        };
+
+        std::thread thr_01(func);
+        std::thread thr_02(func);
+        thr_01.join();
+        thr_02.join();
+    }
+
 }
+
+/*
+*RAII（Resource Acquisition Is Initialization）是一种编程技术，主要用于管理资源的获取和释放。
+*RAII的核心理念是将资源的生命周期与对象的生命周期绑定在一起，也就是说，当一个对象被创建时，
+*它会自动获取所需的资源，而当对象被销毁时，它会自动释放这些资源。
+*在C++中，RAII通常通过构造函数和析构函数来实现。构造函数负责分配资源（例如，动态内存、文件句柄、网络连接等），
+*而析构函数则释放这些资源。这种方式可以有效避免资源泄露和使用已释放资源的错误。
+*以std::lock_guard为例，它在构造时会自动锁定一个互斥量，而在对象的生命周期结束时（即离开作用域时），
+*它的析构函数会自动解锁互斥量。这种机制保证了在异常或任何其他情况下，互斥量都能得到正确的处理，从而减少了因忘记解锁而导致的死锁问题。
+*/
 
 #endif //MULTHREAD_HPP

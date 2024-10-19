@@ -98,7 +98,7 @@ namespace CHRONO {
         // 上面一个声明与const std::chrono::system_clock::time_point d_ten(day_02)等价
 
         // 当前时间
-        std::chrono::time_point today = std::chrono::system_clock::now();
+        const std::chrono::time_point today = std::chrono::system_clock::now();
 
         const time_t aaa = std::chrono::system_clock::to_time_t(today);
         std::cout << "今天是： " << std::ctime(&aaa);

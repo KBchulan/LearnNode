@@ -4,8 +4,10 @@
 
 #include "../include/chrono.hpp"
 #include "../include/thread.hpp"
+#include "../include/condition.hpp"
 #include "../include/multhread.hpp"
-#include "../include/this_whread.hpp"
+#include "../include/this_thread.hpp"
+#include "../include/async_thread.hpp"
 
 int main(int argc,char **argv) {
     std::ios::sync_with_stdio(NULL);
@@ -32,7 +34,7 @@ int main(int argc,char **argv) {
         // sem_workspace();
         // c11_mutex_workspace();
         // c11_recursive_mutex_workspace();
-        c11_timed_mutex_workspace();
+        // c11_timed_mutex_workspace();
     }
     {
         using namespace CHRONO;
@@ -49,6 +51,22 @@ int main(int argc,char **argv) {
         // sleep_until_workspace();
         // yield_workspace();
         // call_once_workspace();
+    }
+    {
+        using namespace CONDITION;
+        // condition_workspace();
+    }
+    {
+        using namespace ATOMIC;
+        // atomic_workspace();
+        // count_with_mutex();
+        // count_with_atomic();
+    }
+    {
+        using namespace ASYNCTHREAD;
+        // promise_workspace();
+        // packaged_task_workspace();
+        async_workspace_right_now();
     }
     std::cout << "------------++++-------------" << std::endl;
 

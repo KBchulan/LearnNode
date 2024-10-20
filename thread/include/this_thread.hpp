@@ -90,6 +90,7 @@ namespace THISTHREAD {
 
         std::once_flag g_flag;
         std::once_flag gf_flag;
+
         auto do_something = [&](const int& a, const int& b) {
             static int num = 1;
             std::call_once(g_flag, do_once, a, b);

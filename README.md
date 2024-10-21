@@ -8,7 +8,7 @@
 
 ​	SDL2_ttf:	      https://wiki.libsdl.org/SDL2_ttf/CategoryAPI
 
-#### 图形库
+#### 图形库：
   vulkan：https://easyvulkan.github.io/
 
 #### 一些算法的实现博客：
@@ -28,17 +28,17 @@
   OpenCV：https://docs.opencv.org/4.x/
 
   cpp-httplib：https://github.com/yhirose/cpp-httplib  
-  
+
 #### 一些知识的学习：
 
   模板：https://juejin.cn/post/7078530622527897631
 
 https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E8%A8%80  
-  
+
   柏林噪声：https://www.cnblogs.com/hggzhang/p/17432947.html
-  
+
   命名空间：https://www.bilibili.com/video/BV1Va411T7TJ/?p=2&spm_id_from=pageDriver&vd_source=621e8394e4f064afa62902c0650ccad8
-  
+
   智能指针：https://www.bilibili.com/video/BV18B4y187uL/?spm_id_from=333.999.0.0&vd_source=621e8394e4f064afa62902c0650ccad8
 
   友元：https://docs.oldtimes.me/c.biancheng.net/view/169.html

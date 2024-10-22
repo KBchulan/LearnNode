@@ -73,4 +73,6 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
 
   c++17，20：https://stibel.icu/md/c++/features/c17/c++-features-c17.html  
 
-  折叠表达式：https://xuchengpeng.cn/posts/2024/07/cpp-fold-expressions.html
+  折叠表达式：https://xuchengpeng.cn/posts/2024/07/cpp-fold-expressions.html  
+
+  variant：https://juejin.cn/post/7321967886934228992

@@ -75,4 +75,8 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
 
   折叠表达式：https://xuchengpeng.cn/posts/2024/07/cpp-fold-expressions.html  
 
-  variant：https://juejin.cn/post/7321967886934228992
+  variant：https://juejin.cn/post/7321967886934228992  
+
+  optional：https://juejin.cn/post/7247848854438461477  
+
+  any：https://hedzr.com/c++/variant/any-in-c++17/

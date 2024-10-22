@@ -1,3 +1,7 @@
+#### 总述：
+
+已完成的笔记：c++11	thread	CS-Base(xiaolin)	c++14
+
 #### 一些API可以通过下面查看：
 
 ​	SDL2：		https://wiki.libsdl.org/SDL2/CategoryAPI

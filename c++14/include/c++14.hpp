@@ -97,7 +97,7 @@ namespace WIDELAMBDA {
 
     // 特化
     template <>
-    constexpr decltype(auto) pi<const char *> = "pi";
+    constexpr const auto &pi<const char *> = "pi";
 
     inline void workspace_05() {
         cout << pi<int> << endl;
@@ -143,12 +143,12 @@ namespace WIDELAMBDA {
     }
 
     // 共享的互斥体和锁,感觉不如一个共享资源一个锁来的实在
-    std::shared_future<int> a;
+    inline std::shared_future<int> a;
 
     // 元函数的别名
     // c++11的元函数用于查询一个给定类型是否具有某种特征，或者转换给定类型的某种特征，从而得到另一个类型。后一种元函数通过成员类型type来返回转换后的类型，当它们用在模板中时，必须使用typename关键字，这会增加代码的长度。
     template <class T>
-        auto get_type_object(T&) -> typename std::remove_cv<typename std::remove_reference<T>::type>::type;
+    auto get_type_object(T&) -> typename std::remove_cv<typename std::remove_reference<T>::type>::type;
 
     // 可以看出是十分不优美的写法,在14中，我们可以这样写
     template <class T>
@@ -183,9 +183,9 @@ namespace WIDELAMBDA {
     }
 
     // 11的元组允许我们通过索引查询，现在可以用类型查询了
-    std::tuple<std::string, std::string, int> t("aaa", "bbb", 100);
-    int i = get<int>(t);
-    int j = get<2>(t);
+    inline std::tuple<std::string, std::string, int> t("aaa", "bbb", 100);
+    inline int i = get<int>(t);
+    inline int j = get<2>(t);
 
     // 小知识点，看下名字就知道是干啥的了
     // 类的继承里有一个is_final，判断能否被继承

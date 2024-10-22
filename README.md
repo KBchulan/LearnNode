@@ -79,4 +79,8 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
 
   optional：https://juejin.cn/post/7247848854438461477  
 
-  any：https://hedzr.com/c++/variant/any-in-c++17/
+  any：https://hedzr.com/c++/variant/any-in-c++17/  
+
+  as_const：https://blog.csdn.net/jiemashizhen/article/details/125561668  
+
+  函数及头文件大全：https://www.w3cschool.cn/doc_cpp/cpp-error-bad_exception.html?lang=en

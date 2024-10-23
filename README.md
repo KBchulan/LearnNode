@@ -17,6 +17,12 @@ c++17
 
 ​	SDL2_ttf:	      https://wiki.libsdl.org/SDL2_ttf/CategoryAPI
 
+#### 其他语言学习  
+
+rust：https://kaisery.github.io/trpl-zh-cn/title-page.html
+
+js：https://developer.mozilla.org/en-US/docs/Web/JavaScript
+
 #### 图形库：
   vulkan：https://easyvulkan.github.io/
 
@@ -85,5 +91,11 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
   as_const：https://blog.csdn.net/jiemashizhen/article/details/125561668  
 
   tuple：https://www.w3cschool.cn/article/37883024.html  
+
+  concept：https://uint128.com/2020/11/20/C-20%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8Bconcept/  
+
+  SFINAE：https://www.luozhiyun.com/archives/744  
+
+  协程：https://www.cnblogs.com/blizzard8204/p/17563217.html  
 
   函数及头文件大全：https://www.w3cschool.cn/doc_cpp/cpp-error-bad_exception.html?lang=en

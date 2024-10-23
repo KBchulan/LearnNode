@@ -5,7 +5,8 @@ c++11
 thread  
 CS-Base(xiaolin)  
 c++14  
-c++17
+c++17  
+c++20  
 
 #### 一些API可以通过下面查看：
 

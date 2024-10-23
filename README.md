@@ -5,6 +5,7 @@ c++11
 thread  
 CS-Base(xiaolin)  
 c++14  
+c++17
 
 #### 一些API可以通过下面查看：
 
@@ -82,5 +83,7 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
   any：https://hedzr.com/c++/variant/any-in-c++17/  
 
   as_const：https://blog.csdn.net/jiemashizhen/article/details/125561668  
+
+  tuple：https://www.w3cschool.cn/article/37883024.html  
 
   函数及头文件大全：https://www.w3cschool.cn/doc_cpp/cpp-error-bad_exception.html?lang=en

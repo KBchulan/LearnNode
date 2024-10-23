@@ -18,7 +18,9 @@ int main(int argc, char **argv) {
         // constexpr_lambda_workspace();
         // workspace_10();
         // variant_func();
-        optional_func();
+        // optional_func();
+        // tuple_func();
+        as_const_func();
     }
     std::cout << "-------+++-------" << std::endl;
 

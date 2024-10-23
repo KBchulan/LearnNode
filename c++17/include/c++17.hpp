@@ -67,7 +67,7 @@ namespace CXX_17 {
     }
 
     // 在模板中，我们通常给定typename，并在实例化时显式声明，但是你是否这样想过，auto
-    // 能自己推导类型，这里为什么没有这样写过，其实是可以的，但作者认为用处不是很大
+    // 能自己推导类型，这里为什么没有这样写过，其实是可以的
     template <auto T>
     auto func() {cout << T << endl;}
 
@@ -285,8 +285,26 @@ namespace CXX_17 {
     }
 
     // std::tuple
+    // tuple的长度是固定的，一旦创建，就不能再添加或删除元素
+    inline decltype(auto) tuple_func() {
+        std::tuple<int, double, std::string> my_tuple = std::make_tuple(1, 25.9, "xiaoming");
+        std::cout << std::get<1>(my_tuple) << std::endl;
+        std::cout << std::get<double>(my_tuple) << std::endl;
+        std::cout << std::get<std::string>(my_tuple) << std::endl;
+
+        auto [fir, sec, thi] = my_tuple;
+        cout << fir << " " << thi << " " << sec << endl;
+
+    }
 
     // std::as_const
+    // 其实就是左值->const类型
+    inline decltype(auto) as_const_func() {
+        std::string str = "xiaohong";
+        const std::string& str_ccc = std::as_const(str);
+        cout << str << endl;
+        cout << str_ccc << endl;
+    }
 
 
 

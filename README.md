@@ -86,4 +86,6 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
 
   tuple：https://www.w3cschool.cn/article/37883024.html  
 
+  concept：https://uint128.com/2020/11/20/C-20%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8Bconcept/
+
   函数及头文件大全：https://www.w3cschool.cn/doc_cpp/cpp-error-bad_exception.html?lang=en

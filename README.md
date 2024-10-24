@@ -99,4 +99,6 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
 
   协程：https://www.cnblogs.com/blizzard8204/p/17563217.html  
 
+  rust实现编译器：https://rust-hosted-langs.github.io/book/  
+
   函数及头文件大全：https://www.w3cschool.cn/doc_cpp/cpp-error-bad_exception.html?lang=en

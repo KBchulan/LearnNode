@@ -31,5 +31,4 @@ extern int dns_connect_to_endpoint();
 // accept new connection
 extern int accept_new_connection();
 
-
 #endif //END_POINT_HPP

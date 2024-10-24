@@ -8,6 +8,7 @@ int main(int argc, char **argv) {
     std::ios::sync_with_stdio(NULL);
     std::cin.tie(nullptr);
     std::cout.tie(nullptr);
+
     std::cout << " ------------------" << std::endl;
     {
         using namespace WIDELAMBDA;

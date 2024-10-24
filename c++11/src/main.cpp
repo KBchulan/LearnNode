@@ -72,7 +72,7 @@ namespace Test
         int b = 2;
         inline static int c = 3; // 静态成员
         static const int d = 4;  // 静态常量成员
-        inline static const char *const e = "i am hansdom";
+        inline static const char *const e{ "i am hansdom" };
         string name;
     };
 
@@ -485,7 +485,7 @@ namespace Test
 
     // 右值引用类型:&&
     // 左值引用类型:&
-    // const Test& t可以返回任何引用类型
+    // const Test&可以返回任何引用类型
     // 对于需要动态申请大量资源的类，应该设计移动构造函数，以提高程序效率。需要注意的是，我们一般在提供移动构造函数的同时，也会提供常量左值引用的拷贝构造函数，以保证移动不成还可以使用拷贝构造函数
     /*
     值：左值（可取地址的值）

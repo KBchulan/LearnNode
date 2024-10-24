@@ -85,6 +85,7 @@ namespace CXX_17 {
         if constexpr(ok == true) {
             cout << "ok" << endl;
         }
+        // 下面代码不会生成汇编代码
         else {
             cout << "not ok" << endl;
         }
@@ -164,7 +165,7 @@ namespace CXX_17 {
     }
 
     // 简化命名空间，跟using搭配起来还是有点用的
-    namespace AAA{namespace BBB{namespace CCC{inline void func(){}}}}
+    // namespace AAA{namespace BBB{namespace CCC{inline void func(){}}}}
     // --->
     namespace AAA::BBB::CCC{inline void funct(){}}
 

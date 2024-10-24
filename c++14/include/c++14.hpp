@@ -6,7 +6,6 @@
 #define WIDE_LAMBDA_HPP
 
 #include <future>
-#include <mutex>
 #include <memory>
 #include <iostream>
 
@@ -78,12 +77,12 @@ namespace WIDELAMBDA {
     // c++14增加了decltype(auto)的语法，即decltype的实参不需要显式制定，可以通过auto推导
     inline void workspacr_04() {
         constexpr int x = 0;
-        auto x1 = x;    // int
-        constexpr decltype(auto) x2 = x;    // int
+        [[maybe_unused]] auto x1 = x;    // int
+        [[maybe_unused]] constexpr decltype(auto) x2 = x;    // int
         auto& y = x;
-        decltype(auto) y1 = y;
+        [[maybe_unused]] decltype(auto) y1 = y;
         int&& z = 0;
-        decltype(auto) z1 = std::move(z);
+        [[maybe_unused]] decltype(auto) z1 = std::move(z);
     }
 
     // 也可以用decltype(auto)替换auto
@@ -148,11 +147,11 @@ namespace WIDELAMBDA {
     // 元函数的别名
     // c++11的元函数用于查询一个给定类型是否具有某种特征，或者转换给定类型的某种特征，从而得到另一个类型。后一种元函数通过成员类型type来返回转换后的类型，当它们用在模板中时，必须使用typename关键字，这会增加代码的长度。
     template <class T>
-    auto get_type_object(T&) -> typename std::remove_cv<typename std::remove_reference<T>::type>::type;
+    auto get_type_object(T&) -> typename std::remove_cv<typename std::remove_reference<T>::type>::type{return T();}
 
     // 可以看出是十分不优美的写法,在14中，我们可以这样写
     template <class T>
-    auto get_type_object(T&) -> std::remove_cv_t<std::remove_reference_t<T>>;
+    auto get_type_object_new(T&) -> std::remove_cv_t<std::remove_reference_t<T>>{return T{};}
 
     /**
      *在C++14，拥有类型别名的元函数包括：remove_const、remove_volatile、remove_cv、add_const、add_volatile、
@@ -177,9 +176,9 @@ namespace WIDELAMBDA {
 
     inline void workspace_09() {
         auto str = "hello,world"s;
-        auto dur_01 = 60s;
-        auto dur_02 = 60h;
-        auto dur_03 = 60ms;
+        [[maybe_unused]] auto dur_01 = 60s;
+        [[maybe_unused]] auto dur_02 = 60h;
+        [[maybe_unused]] auto dur_03 = 60ms;
     }
 
     // 11的元组允许我们通过索引查询，现在可以用类型查询了

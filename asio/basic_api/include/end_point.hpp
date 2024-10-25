@@ -4,6 +4,8 @@
 
 #ifndef END_POINT_HPP
 #define END_POINT_HPP
+#include <boost/asio/detail/descriptor_ops.hpp>
+#include <boost/asio/ip/address.hpp>
 
 // 端点是服务器端用来绑定，客户端用来连接的东西，可以说是媒介
 
@@ -30,5 +32,14 @@ extern int dns_connect_to_endpoint();
 
 // accept new connection
 extern int accept_new_connection();
+
+// 传递const_buffer_sequence（麻烦版本）
+extern void use_const_buffer();
+
+// 比较简单的使用方法
+extern void use_buffer_str();
+
+// 数组的处理方式
+extern void use_buffer_array();
 
 #endif //END_POINT_HPP

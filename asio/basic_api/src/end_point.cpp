@@ -4,6 +4,7 @@
 
 #include "../include/end_point.hpp"
 
+#include <vector>
 #include <iostream>
 #include <boost/asio.hpp>
 
@@ -121,10 +122,177 @@ int accept_new_connection() {
     return 0;
 }
 
+void use_const_buffer() {
+    const auto buf(std::string("Hello, buffer!"));
+    // const_buffer_1是对应的适配器
+    const boost::asio::const_buffer asio_buf(buf.c_str(), buf.size());
+    std::vector<boost::asio::const_buffer> buffers_sequence;
+    buffers_sequence.push_back(asio_buf);
+    // send(buffers_sequence); 伪代码，并不对，思路基本是这样
+    // 因为send传入的是const_buffer_sequence类型的，构造一个即可，每个是const_buffer
 
+}
 
+void use_buffer_str() {
+    // 跟上面那个函数一个效果
+    [[maybe_unused]] boost::asio::const_buffers_1 output_buf = boost::asio::buffer("hello,buffer");
+}
 
+void use_buffer_array() {
+    constexpr size_t BUFFER_SIZE = 20;
+    const std::unique_ptr<char []> buf(new char [BUFFER_SIZE]);
+    [[maybe_unused]] auto input_bur = boost::asio::buffer(buf.get(), BUFFER_SIZE);
+}
 
+// 下面写一下同步读写的功能
+void write_to_socket(boost::asio::ip::tcp::socket& sock) {
+    const auto buf(std::string("hello, buffer"));
+    size_t total_bytes_written = 0;
+    // write_some, 返回每次写入的字节数
+    while(total_bytes_written != buf.size()) {
+        total_bytes_written += sock.write_some(boost::asio::buffer(buf.c_str() +
+            total_bytes_written, buf.length() - total_bytes_written));
+    }
+}
 
+// use write_to_socket
+int send_data_by_write_some() {
+    const auto raw_ip_address(std::string("100.65.140.179"));
 
+    try {
+        constexpr unsigned short port = 8089;
+        const boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address::from_string(raw_ip_address), port);
+        boost::asio::io_context ioc;
+        boost::asio::ip::tcp::socket sock(ioc, ep.protocol());
+
+        sock.connect(ep);
+        write_to_socket(sock);
+    }catch(const boost::system::system_error& e) {
+        std::cout << "Error code:" << e.code() << std::endl;
+        std::cout << "Error message:" << e.what() << std::endl;
+        return e.code().value();
+    }
+    return 0;
+}
+
+// use send
+int send_data_by_send() {
+    const auto raw_ip_address(std::string("100.65.140.179"));
+
+    try {
+        constexpr unsigned short port = 8089;
+        const boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address::from_string(raw_ip_address), port);
+        boost::asio::io_context ioc;
+        boost::asio::ip::tcp::socket sock(ioc, ep.protocol());
+
+        sock.connect(ep);
+        const auto buf(std::string("hello, buffer"));
+        // user ---> tcp
+        [[maybe_unused]] unsigned long send_length = sock.send(boost::asio::buffer(buf.c_str(), buf.size()));
+        // send_length<0 tcp error    =0:ep error
+    }catch(const boost::system::system_error& e) {
+        std::cout << "Error code:" << e.code() << std::endl;
+        std::cout << "Error message:" << e.what() << std::endl;
+        return e.code().value();
+    }
+    return 0;
+}
+
+int send_data_by_write() {
+    const auto raw_ip_address(std::string("100.65.140.179"));
+
+    try {
+        constexpr unsigned short port = 8089;
+        const boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address::from_string(raw_ip_address), port);
+        boost::asio::io_context ioc;
+        boost::asio::ip::tcp::socket sock(ioc, ep.protocol());
+
+        sock.connect(ep);
+        const auto buf(std::string("hello, buffer"));
+        [[maybe_unused]] size_t write_length = boost::asio::write(sock, boost::asio::buffer(buf.c_str(), buf.size()));
+
+    }catch(const boost::system::system_error& e) {
+        std::cout << "Error code:" << e.code() << std::endl;
+        std::cout << "Error message:" << e.what() << std::endl;
+        return e.code().value();
+    }
+    return 0;
+}
+
+std::string read_from_socket(boost::asio::ip::tcp::socket& sock) {
+    constexpr unsigned char MESSAGE_SIZE = 7;
+    char buf[MESSAGE_SIZE];
+    size_t total_bytes_read = 0;
+    while (total_bytes_read != MESSAGE_SIZE) {
+        total_bytes_read += sock.read_some(boost::asio::buffer(buf + total_bytes_read, MESSAGE_SIZE - total_bytes_read));
+    }
+    return {buf, total_bytes_read};
+}
+
+int read_data_by_read_some() {
+    const auto raw_ip_address(std::string("100.65.140.179"));
+
+    try {
+        constexpr unsigned short port = 8080;
+        boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address::from_string(raw_ip_address), port);
+        boost::asio::io_context ioc;
+        boost::asio::ip::tcp::socket sock(ioc, ep.protocol());
+
+        sock.connect(ep);
+        write_to_socket(sock);
+
+    }catch (const boost::system::system_error& e) {
+        std::cout << "Error code:" << e.code() << std::endl;
+        std::cout << "Error message:" << e.what() << std::endl;
+        return e.code().value();
+    }
+
+    return 0;
+}
+
+int read_data_by_receive() {
+    const auto raw_ip_address(std::string("100.65.140.179"));
+
+    try {
+        constexpr unsigned short port = 8080;
+        boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address::from_string(raw_ip_address), port);
+        boost::asio::io_context ioc;
+        boost::asio::ip::tcp::socket sock(ioc, ep.protocol());
+
+        sock.connect(ep);
+        constexpr unsigned char BUFF_SIZE = 7;
+        char buffer[BUFF_SIZE];
+        [[maybe_unused]] size_t receive_length = sock.receive(boost::asio::buffer(buffer, BUFF_SIZE));
+
+    }catch (const boost::system::system_error& e) {
+        std::cout << "Error code:" << e.code() << std::endl;
+        std::cout << "Error message:" << e.what() << std::endl;
+        return e.code().value();
+    }
+
+    return 0;
+}
+
+int read_data_by_read() {
+    const auto raw_ip_address(std::string("100.65.140.179"));
+
+    try {
+        constexpr unsigned short port = 8080;
+        boost::asio::ip::tcp::endpoint ep(boost::asio::ip::address::from_string(raw_ip_address), port);
+        boost::asio::io_context ioc;
+        boost::asio::ip::tcp::socket sock(ioc, ep.protocol());
+
+        sock.connect(ep);
+        constexpr unsigned char BUFF_SIZE = 7;
+        char buffer[BUFF_SIZE];
+        [[maybe_unused]] size_t receive_length = boost::asio::read(sock, boost::asio::buffer(buffer, BUFF_SIZE));
+
+    }catch (const boost::system::system_error& e) {
+        std::cout << "Error code:" << e.code() << std::endl;
+        std::cout << "Error message:" << e.what() << std::endl;
+        return e.code().value();
+    }
+
+    return 0;
+}
 

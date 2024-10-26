@@ -109,8 +109,17 @@ void Session::ReadFromSocket() {
 }
 
 void Session::ReadCallBack(const boost::system::error_code &ec, std::size_t bytes_transferred) {
+    // _recv_node->_cur_len += static_cast<int>(bytes_transferred);
+    // _recv_node = nullptr;
+    // _recv_pending = false;
+
     _recv_node->_cur_len += static_cast<int>(bytes_transferred);
-    _recv_node = nullptr;
-    _recv_pending = false;
+
+    if(_recv_node->_cur_len < _recv_node->_total_len) {
+        this->_socket->async_read_some(boost::asio::buffer(_recv_node->_msg + _recv_node->_cur_len, _recv_node->_total_len - _recv_node->_cur_len),
+        [this](auto && PH1, auto && PH2) {
+            ReadCallBack(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2));
+            });
+    }
 }
 

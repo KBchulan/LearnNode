@@ -37,7 +37,7 @@ js：https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
   boost：https://www.boost.org/doc/libs/1_86_0/
 
-  asio：https://www.bilibili.com/video/BV1FY4y1S7QW/?spm_id_from=333.788&vd_source=621e8394e4f064afa62902c0650ccad8
+  asio：https://www.bilibili.com/video/BV1FY4y1S7QW/
 
   jsoncpp：http://jsoncpp.sourceforge.net/old.html
 
@@ -53,9 +53,9 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
 
   柏林噪声：https://www.cnblogs.com/hggzhang/p/17432947.html
 
-  命名空间：https://www.bilibili.com/video/BV1Va411T7TJ/?p=2&spm_id_from=pageDriver&vd_source=621e8394e4f064afa62902c0650ccad8
+  命名空间：https://www.bilibili.com/video/BV1Va411T7TJ/
 
-  智能指针：https://www.bilibili.com/video/BV18B4y187uL/?spm_id_from=333.999.0.0&vd_source=621e8394e4f064afa62902c0650ccad8
+  智能指针：https://www.bilibili.com/video/BV18B4y187uL/
 
   友元：https://docs.oldtimes.me/c.biancheng.net/view/169.html
 
@@ -67,9 +67,9 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
 
   大丙tag：https://subingwen.cn/tags/
 
-  小满zs-node.js：https://www.bilibili.com/video/BV1cV4y1B7P4/?spm_id_from=333.999.0.0&vd_source=621e8394e4f064afa62902c0650ccad8
+  小满zs-node.js：https://www.bilibili.com/video/BV1cV4y1B7P4/
 
-  modern c++ teach(!!!!):https://www.bilibili.com/video/BV1D84y1t76J/?vd_source=621e8394e4f064afa62902c0650ccad8
+  modern c++ teach(!!!!):https://www.bilibili.com/video/BV1D84y1t76J/
 
   mongoDB：https://github.com/nummy/pymongo-tutorial-cn
 

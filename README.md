@@ -22,7 +22,9 @@ CS-Base(xiaolin)
 
 rust：https://kaisery.github.io/trpl-zh-cn/title-page.html
 
-js：https://developer.mozilla.org/en-US/docs/Web/JavaScript
+js：https://developer.mozilla.org/en-US/docs/Web/JavaScript  
+
+汇编：https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html
 
 #### 图形库：
   vulkan：https://easyvulkan.github.io/

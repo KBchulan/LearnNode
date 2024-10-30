@@ -15,7 +15,7 @@
 
 class AbstractTeam {
 public:
-    explicit AbstractTeam(std::string name):_name(std::move(name)){}
+    explicit AbstractTeam(const std::string &name):_name(std::move(name)){}
     virtual ~AbstractTeam() = default;
 
     void setParent(const std::shared_ptr<AbstractTeam>& parent) {

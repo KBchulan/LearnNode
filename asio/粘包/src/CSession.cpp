@@ -56,6 +56,7 @@ void CSession::handle_read(const boost::system::error_code &error,
                     return;
                 }
 
+                // 收集到的数据比头部多
                 const int head_remain = HEAD_LENGTH - _recv_head_node->_cur_len;
                 memcpy(_recv_head_node->_data + _recv_head_node->_cur_len, _data + copy_len, head_remain);
 
@@ -64,14 +65,15 @@ void CSession::handle_read(const boost::system::error_code &error,
 
                 short data_len = 0;
                 memcpy(&data_len, _recv_head_node->_data, HEAD_LENGTH);
+                std::cout << "data length is: " << data_len << std::endl;
 
                 if(data_len > max_length) {
                     std::cout << "invaild data length is: " << data_len << std::endl;
                     _server->clear_session(_uuid);
                 }
-
                 _recv_msg_node = std::make_shared<MsgNode>(data_len);
 
+                // 消息未收集全
                 if(bytes_transferred < data_len) {
                     memcpy(_recv_msg_node->_data + _recv_msg_node->_cur_len, _data + copy_len, bytes_transferred);
                     _recv_msg_node->_cur_len += static_cast<int>(bytes_transferred);
@@ -87,6 +89,7 @@ void CSession::handle_read(const boost::system::error_code &error,
                     return;
                 }
 
+                // 收集完数据
                 memcpy(_recv_msg_node->_data + _recv_msg_node->_cur_len, _data + copy_len, data_len);
                 _recv_msg_node->_cur_len += data_len;
                 copy_len += data_len;
@@ -116,6 +119,7 @@ void CSession::handle_read(const boost::system::error_code &error,
             if(bytes_transferred < remain_msg) {
                 memcpy(_recv_msg_node->_data + _recv_msg_node->_cur_len, _data + copy_len, bytes_transferred);
                 _recv_msg_node->_cur_len += static_cast<int>(bytes_transferred);
+
                 memset(_data, 0, max_length);
                 _socket.async_read_some(boost::asio::buffer(_data, max_length),
                 [this, _self_shared] <typename T0, typename T1>
@@ -150,6 +154,7 @@ void CSession::handle_read(const boost::system::error_code &error,
     }
     else {
         std::cout << R"(read error!)" << error.value() << "\n";
+
         _server->clear_session(_uuid);
     }
 }

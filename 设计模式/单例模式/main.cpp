@@ -29,7 +29,7 @@ public:
     static std::shared_ptr<T> get_instance() {
         static std::once_flag o_flag;
         std::call_once(o_flag, [&] {
-            instance = std::make_shared<T>();
+            instance = std::shared_ptr<T>(new T);
         });
         return instance;
     }

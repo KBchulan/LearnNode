@@ -9,7 +9,7 @@ int main()
     {
         boost::asio::io_context ioc;
         boost::asio::ip::tcp::endpoint remote_ep(boost::asio::ip::address::from_string("127.0.0.1"), 12569);
-        boost::asio::ip::tcp::socket sock(ioc);
+        boost::asio::ip::tcp::socket sock(ioc, remote_ep.protocol());
 
         boost::system::error_code ec = boost::asio::error::host_not_found;
         sock.connect(remote_ep, ec);

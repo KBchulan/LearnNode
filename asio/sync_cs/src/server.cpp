@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 
     try {
         boost::asio::io_context ioc;
-        const auto server_thread = std::make_shared<std::thread>(server, std::ref(ioc), 16686);
+        const auto server_thread = std::make_shared<std::thread>(server, std::ref(ioc), 12569);
         server_thread->join();
     }catch (const std::exception& e) {
         std::cout << e.what() << std::endl;

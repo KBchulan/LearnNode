@@ -28,6 +28,13 @@ void Session::handle_read(const boost::system::error_code &error,
                 handle_write(std::forward<T0>(PH1));
             });
 
+        memset(_data, 0, max_length);
+
+        _socket.async_read_some(boost::asio::buffer(_data, max_length),
+        [this]<typename T0, typename T1>
+            (T0 && PH1, T1 && PH2){
+                handle_read(std::forward<T0>(PH1), std::forward<T1>(PH2));
+            });
     }
     else {
         std::cout << R"(read error!)" << error.value() << "\n";

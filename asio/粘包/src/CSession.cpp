@@ -96,6 +96,10 @@ void CSession::handle_read(const boost::system::error_code &error,
                 bytes_transferred -= data_len;
                 _recv_msg_node->_data[_recv_msg_node->_total_len] = '\0';
                 std::cout << "receive data is: " << _recv_msg_node->_data << std::endl;
+                // char send[max_length];
+                // std::cin.getline(send, max_length);
+                // const size_t length = strlen(send);
+                // Send(send, static_cast<int>(length));
                 Send(_recv_msg_node->_data, _recv_msg_node->_total_len);
 
                 // 切包

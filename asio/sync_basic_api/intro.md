@@ -1,1 +1,0 @@
-这个仓库里面我们记录一些asio中socket的基础知识，如服务端的socket，bind，listen，accept，客户端的socket，connect，以及双端的端点（endpoint）等分模块化的写法，纯基础内容，有基础的小伙伴不用观看

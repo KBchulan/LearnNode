@@ -30,7 +30,7 @@ private:
 };
 
 class CServer;
-class CSession final :public std::enable_shared_from_this<CSession>{
+class CSession final : public std::enable_shared_from_this<CSession>{
 public:
     // 上下文
     explicit CSession(boost::asio::io_context& ioc,
@@ -68,7 +68,6 @@ private:
     boost::asio::ip::tcp::socket _socket;
     std::queue<std::shared_ptr<MsgNode>> _send_que;
     std::mutex _send_lock;
-
 };
 
 

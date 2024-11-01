@@ -31,7 +31,7 @@ int main()
         {
             boost::asio::write(sock, boost::asio::buffer(send_data, request_length + 2));
 
-            char reply_head[2];
+            char reply_head[2] = {0};
             size_t reply_length = boost::asio::read(sock, boost::asio::buffer(reply_head, 2));
             short msgLen = 0;
             memcpy(&msgLen, reply_head, 2);

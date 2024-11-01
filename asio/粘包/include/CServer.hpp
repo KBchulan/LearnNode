@@ -24,7 +24,6 @@ private:
     boost::asio::io_context& _ioc;
     boost::asio::ip::tcp::acceptor _acceptor;
     std::map<std::string, std::shared_ptr<CSession>> _sessions;
-
 };
 
 #endif //CSERVER_HPP

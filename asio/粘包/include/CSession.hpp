@@ -20,7 +20,7 @@ public:
     // send
     explicit MsgNode(const char *msg, const short max_len): _cur_len(0), _total_len(max_len + HEAD_LENGTH)
     {
-        _data = new char[_total_len + 1];
+        _data = new char[_total_len + 1]();
         memcpy(_data, &max_len, HEAD_LENGTH);
         memcpy(_data + HEAD_LENGTH, msg, max_len);
         _data[_total_len] = '\0';
@@ -53,6 +53,10 @@ public:
     explicit CSession(boost::asio::io_context& ioc,
         CServer* server):
         _head_parse(false), _server(server), _data{}, _socket(ioc) {
+
+        _recv_head_node = std::make_shared<MsgNode>(HEAD_LENGTH);
+
+        //
         const boost::uuids::uuid a_uuid = boost::uuids::random_generator()();
         _uuid = to_string(a_uuid);
     }
@@ -76,7 +80,7 @@ private:
 
     void handle_write(const boost::system::error_code& error, const std::shared_ptr<CSession>& _self_shared);
 
-    enum {max_length = 1024 * 2};
+    enum {max_length = 2048};
 
 private:
     bool _head_parse;

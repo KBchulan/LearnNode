@@ -44,7 +44,7 @@ int main(int argc, char **argv)
             std::cout.write(reply, static_cast<long>(reply_length));
             std::cout << "\n";
 
-            std::this_thread::sleep_for(std::chrono::seconds(3));
+            std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
     catch (const boost::system::system_error &e)

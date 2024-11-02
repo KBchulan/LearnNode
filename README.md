@@ -25,7 +25,7 @@ rust：https://kaisery.github.io/trpl-zh-cn/title-page.html
 
 js：https://developer.mozilla.org/en-US/docs/Web/JavaScript  
 
-汇编：https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html  
+汇编：https://www.cnblogs.com/wingsummer/p/16305622.html  
 
 简单rust：https://fasterthanli.me/articles/a-half-hour-to-learn-rust
 

@@ -74,7 +74,7 @@ https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E
 
   小满zs-node.js：https://www.bilibili.com/video/BV1cV4y1B7P4/
 
-  modern c++ teach(!!!!):https://www.bilibili.com/video/BV1D84y1t76J/
+  modern c++ teach: https://www.bilibili.com/video/BV1D84y1t76J/
 
   mongoDB：https://github.com/nummy/pymongo-tutorial-cn
 

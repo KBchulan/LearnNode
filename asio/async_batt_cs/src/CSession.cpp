@@ -39,6 +39,8 @@ void CSession::Send(char *msg, int max_length) {
 void CSession::handle_read(const boost::system::error_code &error,
                           const std::size_t bytes_transferred, const std::shared_ptr<CSession>& _self_shared) {
     if(!error) {
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+
         std::cout << R"(server receive data is : )" << _data << "\n";
         Send(_data, static_cast<int>(bytes_transferred));
         memset(_data, 0, max_length);

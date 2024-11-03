@@ -37,7 +37,6 @@ void CSession::Send(char *msg, int max_length) {
         });
 }
 
-
 void CSession::handle_read(const boost::system::error_code &error,
         std::size_t bytes_transferred, const std::shared_ptr<CSession>& _self_shared) {
     if(!error) {

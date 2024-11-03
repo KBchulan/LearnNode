@@ -1,3 +1,6 @@
+
+![register](https://i-blog.csdnimg.cn/blog_migrate/2fff47d81ef1ae2385e62e0ad0522197.png)
+
 %rax 存储的系统调用标识符：
 
 文件操作：  

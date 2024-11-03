@@ -1,17 +1,20 @@
 .section .data
-hello:
-    .asciz "Hello, World!"
+
+msg:
+    .asciz "Hello, world!\n"
 
 .section .text
 .globl _start
 
 _start:
-    movl $1, %eax
-    movl $1, %edi
-    lea hello, %rsi
-    movl $13, %edx
+    movq $1, %rax
+    movq $1, %rdi
+    movq $msg, %rsi
+    movq $14, %rdx
     syscall
 
-    movl $60, %eax
-    xor %edi, %edi
+    movq $1, %rax
+
+    movq $60, %rax
+    xorq %rdi, %rdi
     syscall

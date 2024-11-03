@@ -1,7 +1,8 @@
 #include <boost/asio.hpp>
 #include <iostream>
 
-int main(){
+int main()
+{
     uint32_t host_long_value = 0x12345678;
     uint16_t host_short_value = 0x5678;
 

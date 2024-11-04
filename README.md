@@ -31,7 +31,13 @@ js：https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
 #### 图形库：
 
-vulkan：https://easyvulkan.github.io/
+vulkan：https://easyvulkan.github.io/  
+
+#### 算法：  
+
+leetcode：https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/medium  
+
+oi_wiki：https://en.oi-wiki.org/
 
 #### 一些算法的实现博客：
 

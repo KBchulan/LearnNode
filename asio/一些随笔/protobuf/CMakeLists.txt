@@ -12,8 +12,7 @@ pkg_check_modules(GTEST REQUIRED gtest gtest_main)
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src src_list)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-include_directories(${PROTOBUF_INCLUDE_DIRS} ${ABSL_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 
 add_executable(protobuf_ ${src_list})
-
+target_include_directories(protobuf_ PUBLIC ${PROTOBUF_INCLUDE_DIRS} ${ABSL_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(protobuf_ ${PROTOBUF_LIBRARIES} ${ABSL_LIBRARIES} ${GTEST_LIBRARIES})

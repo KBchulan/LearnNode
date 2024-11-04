@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message MsgNode
+{
+    int32 id = 1;
+    string data = 2;
+}

@@ -11,12 +11,8 @@ bool isBigEndian()
 int main()
 {
     if (isBigEndian())
-    {
         std::cout << "This system is big-endian." << std::endl;
-    }
     else
-    {
         std::cout << "This system is little-endian." << std::endl;
-    }
     return 0;
 }

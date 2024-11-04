@@ -61,7 +61,7 @@ oi_wiki：https://en.oi-wiki.org/
 
   模板：https://juejin.cn/post/7078530622527897631
 
-https://github.com/wuye9036/CppTemplateTutorial?tab=readme-ov-file#1-%E5%89%8D%E8%A8%80  
+https://github.com/wuye9036/CppTemplateTutorial  
 
   柏林噪声：https://www.cnblogs.com/hggzhang/p/17432947.html
 

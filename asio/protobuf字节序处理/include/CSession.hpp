@@ -66,15 +66,17 @@ public:
         return _socket;
     }
 
+    [[nodiscard]] std::string& get_uuid() {
+        return _uuid;
+    }
+
     // 监听客户端的读和写
     void Start();
 
     // 发送数据
     void Send(char* msg, int max_length);
 
-    [[nodiscard]] std::string& get_uuid() {
-        return _uuid;
-    }
+    void Send(const std::string& str);
 
 private:
     void handle_read(const boost::system::error_code& error,

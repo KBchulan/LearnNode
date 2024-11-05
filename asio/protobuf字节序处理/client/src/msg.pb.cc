@@ -25,7 +25,7 @@ namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 
-inline constexpr MsgNode::Impl_::Impl_(
+inline constexpr MsgData::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         data_(
@@ -34,24 +34,24 @@ inline constexpr MsgNode::Impl_::Impl_(
         id_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR MsgNode::MsgNode(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR MsgData::MsgData(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(MsgNode_class_data_.base()),
+    : ::google::protobuf::Message(MsgData_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct MsgNodeDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR MsgNodeDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~MsgNodeDefaultTypeInternal() {}
+struct MsgDataDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR MsgDataDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~MsgDataDefaultTypeInternal() {}
   union {
-    MsgNode _instance;
+    MsgData _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MsgNodeDefaultTypeInternal _MsgNode_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MsgDataDefaultTypeInternal _MsgData_default_instance_;
 static constexpr const ::_pb::EnumDescriptor**
     file_level_enum_descriptors_msg_2eproto = nullptr;
 static constexpr const ::_pb::ServiceDescriptor**
@@ -59,30 +59,30 @@ static constexpr const ::_pb::ServiceDescriptor**
 const ::uint32_t
     TableStruct_msg_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
-        PROTOBUF_FIELD_OFFSET(::MsgNode, _impl_._has_bits_),
-        PROTOBUF_FIELD_OFFSET(::MsgNode, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::MsgData, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::MsgData, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::MsgNode, _impl_.id_),
-        PROTOBUF_FIELD_OFFSET(::MsgNode, _impl_.data_),
+        PROTOBUF_FIELD_OFFSET(::MsgData, _impl_.id_),
+        PROTOBUF_FIELD_OFFSET(::MsgData, _impl_.data_),
         1,
         0,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 10, -1, sizeof(::MsgNode)},
+        {0, 10, -1, sizeof(::MsgData)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
-    &::_MsgNode_default_instance_._instance,
+    &::_MsgData_default_instance_._instance,
 };
 const char descriptor_table_protodef_msg_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\tmsg.proto\"#\n\007MsgNode\022\n\n\002id\030\001 \001(\005\022\014\n\004da"
+    "\n\tmsg.proto\"#\n\007MsgData\022\n\n\002id\030\001 \001(\005\022\014\n\004da"
     "ta\030\002 \001(\tb\006proto3"
 };
 static ::absl::once_flag descriptor_table_msg_2eproto_once;
@@ -104,95 +104,95 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_msg_2eproto = 
 };
 // ===================================================================
 
-class MsgNode::_Internal {
+class MsgData::_Internal {
  public:
   using HasBits =
-      decltype(std::declval<MsgNode>()._impl_._has_bits_);
+      decltype(std::declval<MsgData>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(MsgNode, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(MsgData, _impl_._has_bits_);
 };
 
-MsgNode::MsgNode(::google::protobuf::Arena* arena)
+MsgData::MsgData(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, MsgNode_class_data_.base()) {
+    : ::google::protobuf::Message(arena, MsgData_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:MsgNode)
+  // @@protoc_insertion_point(arena_constructor:MsgData)
 }
-inline PROTOBUF_NDEBUG_INLINE MsgNode::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE MsgData::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::MsgNode& from_msg)
+    const Impl_& from, const ::MsgData& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         data_(arena, from.data_) {}
 
-MsgNode::MsgNode(
+MsgData::MsgData(
     ::google::protobuf::Arena* arena,
-    const MsgNode& from)
+    const MsgData& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, MsgNode_class_data_.base()) {
+    : ::google::protobuf::Message(arena, MsgData_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  MsgNode* const _this = this;
+  MsgData* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   _impl_.id_ = from._impl_.id_;
 
-  // @@protoc_insertion_point(copy_constructor:MsgNode)
+  // @@protoc_insertion_point(copy_constructor:MsgData)
 }
-inline PROTOBUF_NDEBUG_INLINE MsgNode::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE MsgData::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : _cached_size_{0},
         data_(arena) {}
 
-inline void MsgNode::SharedCtor(::_pb::Arena* arena) {
+inline void MsgData::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.id_ = {};
 }
-MsgNode::~MsgNode() {
-  // @@protoc_insertion_point(destructor:MsgNode)
+MsgData::~MsgData() {
+  // @@protoc_insertion_point(destructor:MsgData)
   SharedDtor(*this);
 }
-inline void MsgNode::SharedDtor(MessageLite& self) {
-  MsgNode& this_ = static_cast<MsgNode&>(self);
+inline void MsgData::SharedDtor(MessageLite& self) {
+  MsgData& this_ = static_cast<MsgData&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.data_.Destroy();
   this_._impl_.~Impl_();
 }
 
-inline void* MsgNode::PlacementNew_(const void*, void* mem,
+inline void* MsgData::PlacementNew_(const void*, void* mem,
                                         ::google::protobuf::Arena* arena) {
-  return ::new (mem) MsgNode(arena);
+  return ::new (mem) MsgData(arena);
 }
-constexpr auto MsgNode::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(MsgNode),
-                                            alignof(MsgNode));
+constexpr auto MsgData::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(MsgData),
+                                            alignof(MsgData));
 }
-constexpr auto MsgNode::InternalGenerateClassData_() {
+constexpr auto MsgData::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_MsgNode_default_instance_._instance,
+          &_MsgData_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &MsgNode::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<MsgNode>(),
+          &MsgData::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<MsgData>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &MsgNode::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<MsgNode>(), &MsgNode::ByteSizeLong,
-              &MsgNode::_InternalSerialize,
+          &MsgData::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<MsgData>(), &MsgData::ByteSizeLong,
+              &MsgData::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(MsgNode, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(MsgData, _impl_._cached_size_),
           false,
       },
-      &MsgNode::kDescriptorMethods,
+      &MsgData::kDescriptorMethods,
       &descriptor_table_msg_2eproto,
       nullptr,  // tracker
   };
@@ -200,18 +200,18 @@ constexpr auto MsgNode::InternalGenerateClassData_() {
 
 PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const ::google::protobuf::internal::ClassDataFull
-        MsgNode_class_data_ =
-            MsgNode::InternalGenerateClassData_();
+        MsgData_class_data_ =
+            MsgData::InternalGenerateClassData_();
 
-const ::google::protobuf::internal::ClassData* MsgNode::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&MsgNode_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(MsgNode_class_data_.tc_table);
-  return MsgNode_class_data_.base();
+const ::google::protobuf::internal::ClassData* MsgData::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&MsgData_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(MsgData_class_data_.tc_table);
+  return MsgData_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 20, 2> MsgNode::_table_ = {
+const ::_pbi::TcParseTable<1, 2, 0, 20, 2> MsgData::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(MsgNode, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(MsgData, _impl_._has_bits_),
     0, // no _extensions_
     2, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -220,39 +220,39 @@ const ::_pbi::TcParseTable<1, 2, 0, 20, 2> MsgNode::_table_ = {
     2,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    MsgNode_class_data_.base(),
+    MsgData_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::MsgNode>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::MsgData>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // string data = 2;
     {::_pbi::TcParser::FastUS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(MsgNode, _impl_.data_)}},
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(MsgData, _impl_.data_)}},
     // int32 id = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(MsgNode, _impl_.id_), 1>(),
-     {8, 1, 0, PROTOBUF_FIELD_OFFSET(MsgNode, _impl_.id_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(MsgData, _impl_.id_), 1>(),
+     {8, 1, 0, PROTOBUF_FIELD_OFFSET(MsgData, _impl_.id_)}},
   }}, {{
     65535, 65535
   }}, {{
     // int32 id = 1;
-    {PROTOBUF_FIELD_OFFSET(MsgNode, _impl_.id_), _Internal::kHasBitsOffset + 1, 0,
+    {PROTOBUF_FIELD_OFFSET(MsgData, _impl_.id_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
     // string data = 2;
-    {PROTOBUF_FIELD_OFFSET(MsgNode, _impl_.data_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(MsgData, _impl_.data_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
     "\7\0\4\0\0\0\0\0"
-    "MsgNode"
+    "MsgData"
     "data"
   }},
 };
 
-PROTOBUF_NOINLINE void MsgNode::Clear() {
-// @@protoc_insertion_point(message_clear_start:MsgNode)
+PROTOBUF_NOINLINE void MsgData::Clear() {
+// @@protoc_insertion_point(message_clear_start:MsgData)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -268,17 +268,17 @@ PROTOBUF_NOINLINE void MsgNode::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* MsgNode::_InternalSerialize(
+        ::uint8_t* MsgData::_InternalSerialize(
             const MessageLite& base, ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const MsgNode& this_ = static_cast<const MsgNode&>(base);
+          const MsgData& this_ = static_cast<const MsgData&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* MsgNode::_InternalSerialize(
+        ::uint8_t* MsgData::_InternalSerialize(
             ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const MsgNode& this_ = *this;
+          const MsgData& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:MsgNode)
+          // @@protoc_insertion_point(serialize_to_array_start:MsgData)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
@@ -296,7 +296,7 @@ PROTOBUF_NOINLINE void MsgNode::Clear() {
             if (!this_._internal_data().empty()) {
               const std::string& _s = this_._internal_data();
               ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                  _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "MsgNode.data");
+                  _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "MsgData.data");
               target = stream->WriteStringMaybeAliased(2, _s, target);
             }
           }
@@ -306,18 +306,18 @@ PROTOBUF_NOINLINE void MsgNode::Clear() {
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:MsgNode)
+          // @@protoc_insertion_point(serialize_to_array_end:MsgData)
           return target;
         }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t MsgNode::ByteSizeLong(const MessageLite& base) {
-          const MsgNode& this_ = static_cast<const MsgNode&>(base);
+        ::size_t MsgData::ByteSizeLong(const MessageLite& base) {
+          const MsgData& this_ = static_cast<const MsgData&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t MsgNode::ByteSizeLong() const {
-          const MsgNode& this_ = *this;
+        ::size_t MsgData::ByteSizeLong() const {
+          const MsgData& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:MsgNode)
+          // @@protoc_insertion_point(message_byte_size_start:MsgData)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
@@ -346,10 +346,10 @@ PROTOBUF_NOINLINE void MsgNode::Clear() {
                                                      &this_._impl_._cached_size_);
         }
 
-void MsgNode::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<MsgNode*>(&to_msg);
-  auto& from = static_cast<const MsgNode&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:MsgNode)
+void MsgData::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<MsgData*>(&to_msg);
+  auto& from = static_cast<const MsgData&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:MsgData)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -375,15 +375,15 @@ void MsgNode::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google:
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void MsgNode::CopyFrom(const MsgNode& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:MsgNode)
+void MsgData::CopyFrom(const MsgData& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:MsgData)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void MsgNode::InternalSwap(MsgNode* PROTOBUF_RESTRICT other) {
+void MsgData::InternalSwap(MsgData* PROTOBUF_RESTRICT other) {
   using std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
@@ -393,7 +393,7 @@ void MsgNode::InternalSwap(MsgNode* PROTOBUF_RESTRICT other) {
         swap(_impl_.id_, other->_impl_.id_);
 }
 
-::google::protobuf::Metadata MsgNode::GetMetadata() const {
+::google::protobuf::Metadata MsgData::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

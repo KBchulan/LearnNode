@@ -51,10 +51,10 @@ struct TableStruct_msg_2eproto {
 };
 extern const ::google::protobuf::internal::DescriptorTable
     descriptor_table_msg_2eproto;
-class MsgNode;
-struct MsgNodeDefaultTypeInternal;
-extern MsgNodeDefaultTypeInternal _MsgNode_default_instance_;
-extern const ::google::protobuf::internal::ClassDataFull MsgNode_class_data_;
+class MsgData;
+struct MsgDataDefaultTypeInternal;
+extern MsgDataDefaultTypeInternal _MsgData_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull MsgData_class_data_;
 namespace google {
 namespace protobuf {
 }  // namespace protobuf
@@ -66,32 +66,32 @@ namespace protobuf {
 
 // -------------------------------------------------------------------
 
-class MsgNode final
+class MsgData final
     : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:MsgNode) */ {
+/* @@protoc_insertion_point(class_definition:MsgData) */ {
  public:
-  inline MsgNode() : MsgNode(nullptr) {}
-  ~MsgNode() PROTOBUF_FINAL;
+  inline MsgData() : MsgData(nullptr) {}
+  ~MsgData() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(MsgNode* msg, std::destroying_delete_t) {
+  void operator delete(MsgData* msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(MsgNode));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(MsgData));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR MsgNode(
+  explicit PROTOBUF_CONSTEXPR MsgData(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline MsgNode(const MsgNode& from) : MsgNode(nullptr, from) {}
-  inline MsgNode(MsgNode&& from) noexcept
-      : MsgNode(nullptr, std::move(from)) {}
-  inline MsgNode& operator=(const MsgNode& from) {
+  inline MsgData(const MsgData& from) : MsgData(nullptr, from) {}
+  inline MsgData(MsgData&& from) noexcept
+      : MsgData(nullptr, std::move(from)) {}
+  inline MsgData& operator=(const MsgData& from) {
     CopyFrom(from);
     return *this;
   }
-  inline MsgNode& operator=(MsgNode&& from) noexcept {
+  inline MsgData& operator=(MsgData&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -119,16 +119,16 @@ class MsgNode final
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const MsgNode& default_instance() {
+  static const MsgData& default_instance() {
     return *internal_default_instance();
   }
-  static inline const MsgNode* internal_default_instance() {
-    return reinterpret_cast<const MsgNode*>(
-        &_MsgNode_default_instance_);
+  static inline const MsgData* internal_default_instance() {
+    return reinterpret_cast<const MsgData*>(
+        &_MsgData_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 0;
-  friend void swap(MsgNode& a, MsgNode& b) { a.Swap(&b); }
-  inline void Swap(MsgNode* other) {
+  friend void swap(MsgData& a, MsgData& b) { a.Swap(&b); }
+  inline void Swap(MsgData* other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -136,7 +136,7 @@ class MsgNode final
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(MsgNode* other) {
+  void UnsafeArenaSwap(MsgData* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -144,13 +144,13 @@ class MsgNode final
 
   // implements Message ----------------------------------------------
 
-  MsgNode* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<MsgNode>(arena);
+  MsgData* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<MsgData>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const MsgNode& from);
+  void CopyFrom(const MsgData& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const MsgNode& from) { MsgNode::MergeImpl(*this, from); }
+  void MergeFrom(const MsgData& from) { MsgData::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -187,18 +187,18 @@ class MsgNode final
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(MsgNode* other);
+  void InternalSwap(MsgData* other);
  private:
   template <typename T>
   friend ::absl::string_view(
       ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "MsgNode"; }
+  static ::absl::string_view FullMessageName() { return "MsgData"; }
 
  protected:
-  explicit MsgNode(::google::protobuf::Arena* arena);
-  MsgNode(::google::protobuf::Arena* arena, const MsgNode& from);
-  MsgNode(::google::protobuf::Arena* arena, MsgNode&& from) noexcept
-      : MsgNode(arena) {
+  explicit MsgData(::google::protobuf::Arena* arena);
+  MsgData(::google::protobuf::Arena* arena, const MsgData& from);
+  MsgData(::google::protobuf::Arena* arena, MsgData&& from) noexcept
+      : MsgData(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
@@ -243,7 +243,7 @@ class MsgNode final
   void _internal_set_id(::int32_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:MsgNode)
+  // @@protoc_insertion_point(class_scope:MsgData)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -265,7 +265,7 @@ class MsgNode final
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const MsgNode& from_msg);
+                          const MsgData& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr data_;
@@ -276,7 +276,7 @@ class MsgNode final
   friend struct ::TableStruct_msg_2eproto;
 };
 
-extern const ::google::protobuf::internal::ClassDataFull MsgNode_class_data_;
+extern const ::google::protobuf::internal::ClassDataFull MsgData_class_data_;
 
 // ===================================================================
 
@@ -292,73 +292,73 @@ extern const ::google::protobuf::internal::ClassDataFull MsgNode_class_data_;
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
-// MsgNode
+// MsgData
 
 // int32 id = 1;
-inline void MsgNode::clear_id() {
+inline void MsgData::clear_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.id_ = 0;
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline ::int32_t MsgNode::id() const {
-  // @@protoc_insertion_point(field_get:MsgNode.id)
+inline ::int32_t MsgData::id() const {
+  // @@protoc_insertion_point(field_get:MsgData.id)
   return _internal_id();
 }
-inline void MsgNode::set_id(::int32_t value) {
+inline void MsgData::set_id(::int32_t value) {
   _internal_set_id(value);
   _impl_._has_bits_[0] |= 0x00000002u;
-  // @@protoc_insertion_point(field_set:MsgNode.id)
+  // @@protoc_insertion_point(field_set:MsgData.id)
 }
-inline ::int32_t MsgNode::_internal_id() const {
+inline ::int32_t MsgData::_internal_id() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.id_;
 }
-inline void MsgNode::_internal_set_id(::int32_t value) {
+inline void MsgData::_internal_set_id(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.id_ = value;
 }
 
 // string data = 2;
-inline void MsgNode::clear_data() {
+inline void MsgData::clear_data() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.data_.ClearToEmpty();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const std::string& MsgNode::data() const
+inline const std::string& MsgData::data() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:MsgNode.data)
+  // @@protoc_insertion_point(field_get:MsgData.data)
   return _internal_data();
 }
 template <typename Arg_, typename... Args_>
-inline PROTOBUF_ALWAYS_INLINE void MsgNode::set_data(Arg_&& arg,
+inline PROTOBUF_ALWAYS_INLINE void MsgData::set_data(Arg_&& arg,
                                                      Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.data_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:MsgNode.data)
+  // @@protoc_insertion_point(field_set:MsgData.data)
 }
-inline std::string* MsgNode::mutable_data() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline std::string* MsgData::mutable_data() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   std::string* _s = _internal_mutable_data();
-  // @@protoc_insertion_point(field_mutable:MsgNode.data)
+  // @@protoc_insertion_point(field_mutable:MsgData.data)
   return _s;
 }
-inline const std::string& MsgNode::_internal_data() const {
+inline const std::string& MsgData::_internal_data() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.data_.Get();
 }
-inline void MsgNode::_internal_set_data(const std::string& value) {
+inline void MsgData::_internal_set_data(const std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.data_.Set(value, GetArena());
 }
-inline std::string* MsgNode::_internal_mutable_data() {
+inline std::string* MsgData::_internal_mutable_data() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   return _impl_.data_.Mutable( GetArena());
 }
-inline std::string* MsgNode::release_data() {
+inline std::string* MsgData::release_data() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:MsgNode.data)
+  // @@protoc_insertion_point(field_release:MsgData.data)
   if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
     return nullptr;
   }
@@ -369,7 +369,7 @@ inline std::string* MsgNode::release_data() {
   }
   return released;
 }
-inline void MsgNode::set_allocated_data(std::string* value) {
+inline void MsgData::set_allocated_data(std::string* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000001u;
@@ -380,7 +380,7 @@ inline void MsgNode::set_allocated_data(std::string* value) {
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.data_.IsDefault()) {
     _impl_.data_.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:MsgNode.data)
+  // @@protoc_insertion_point(field_set_allocated:MsgData.data)
 }
 
 #ifdef __GNUC__

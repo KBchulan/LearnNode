@@ -19,7 +19,13 @@ CS-Base(xiaolin)
 
 ​	SDL2_ttf:	      https://wiki.libsdl.org/SDL2_ttf/CategoryAPI
 
-#### 其他语言学习  
+#### 语言学习  
+
+c++：https://zh.cppreference.com/w/cpp  
+
+c++函数：https://www.w3cschool.cn/doc_cpp/cpp-error-bad_exception.html?lang=en  
+
+python：https://www.freecodecamp.org/chinese/news/python-code-examples-sample-script-coding-tutorial-for-beginners/  
 
 rust：https://kaisery.github.io/trpl-zh-cn/title-page.html
 
@@ -61,9 +67,9 @@ oi_wiki：https://en.oi-wiki.org/
 
 #### 一些知识的学习：
 
-  模板：https://juejin.cn/post/7078530622527897631
-
-https://github.com/wuye9036/CppTemplateTutorial  
+  模板：https://juejin.cn/post/7078530622527897631  
+  
+  模板git：https://github.com/wuye9036/CppTemplateTutorial  
 
   柏林噪声：https://www.cnblogs.com/hggzhang/p/17432947.html
 
@@ -119,4 +125,4 @@ https://github.com/wuye9036/CppTemplateTutorial
 
   rust实现编译器：https://rust-hosted-langs.github.io/book/  
 
-  函数及头文件大全：https://www.w3cschool.cn/doc_cpp/cpp-error-bad_exception.html?lang=en
+  并发：https://mq-b.github.io/ModernCpp-ConcurrentProgramming-Tutorial/  

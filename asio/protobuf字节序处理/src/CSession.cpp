@@ -2,10 +2,9 @@
 // Created by whx on 24-10-28.
 //
 
+#include "../include/msg.pb.h"
 #include "../include/CServer.hpp"
 #include "../include/CSession.hpp"
-
-#include <msg.pb.h>
 
 void CSession::Start() {
     memset(_data, 0, max_length);
@@ -82,7 +81,7 @@ void CSession::handle_read(const boost::system::error_code &error,
                 }
 
                 // 收集到的数据比头部多
-                int head_remain = HEAD_LENGTH - _recv_head_node->_cur_len;
+                const int head_remain = HEAD_LENGTH - _recv_head_node->_cur_len;
                 memcpy(_recv_head_node->_data + _recv_head_node->_cur_len, _data + copy_len, head_remain);
 
                 copy_len += head_remain;
@@ -90,7 +89,7 @@ void CSession::handle_read(const boost::system::error_code &error,
 
                 short data_len = 0;
                 memcpy(&data_len, _recv_head_node->_data, HEAD_LENGTH);
-                data_len = static_cast<short>(boost::asio::detail::socket_ops::host_to_network_short(data_len));
+                data_len = static_cast<short>(boost::asio::detail::socket_ops::network_to_host_short(data_len));
                 std::cout << "data length is: " << data_len << std::endl;
 
                 if(data_len > max_length) {
@@ -125,15 +124,15 @@ void CSession::handle_read(const boost::system::error_code &error,
                 _recv_msg_node->_data[_recv_msg_node->_total_len] = '\0';
 
                 // 反序列化
-                std::shared_ptr<MsgData> msg_data = std::make_shared<MsgData>();
+                const auto msg_data = std::make_shared<MsgData>();
                 msg_data->ParseFromString(std::string(_recv_msg_node->_data, _recv_msg_node->_total_len));
-                std::cout << R"(receive msg id is: )" << msg_data->id() << R"(receive msg data is: )" << msg_data->data() << '\n';
+                std::cout << R"(receive msg id is: )" << msg_data->id() << '\n' << R"(receive msg data is: )" << msg_data->data() << '\n';
 
                 // 序列化发送
                 std::string return_str = "server has received msg, the msg is: " + msg_data->data();
-                std::shared_ptr<MsgData> return_data = std::make_shared<MsgData>();
+                auto return_data = std::make_shared<MsgData>();
                 return_data->set_id(msg_data->id());
-                return_data->set_data(return_data);
+                return_data->set_data(return_str);
                 return_data->SerializeToString(&return_str);
                 Send(return_str);
 
@@ -175,15 +174,15 @@ void CSession::handle_read(const boost::system::error_code &error,
             _recv_msg_node->_data[_recv_msg_node->_total_len] = '\0';
 
             // 反序列化
-            std::shared_ptr<MsgData> msg_data = std::make_shared<MsgData>();
+            const auto msg_data = std::make_shared<MsgData>();
             msg_data->ParseFromString(std::string(_recv_msg_node->_data, _recv_msg_node->_total_len));
-            std::cout << R"(receive msg id is: )" << msg_data->id() << R"(receive msg data is: )" << msg_data->data() << '\n';
+            std::cout << R"(receive msg id is: )" << msg_data->id() << '\n' << R"(receive msg data is: )" << msg_data->data() << '\n';
 
             // 序列化发送
             std::string return_str = "server has received msg, the msg is: " + msg_data->data();
-            std::shared_ptr<MsgData> return_data = std::make_shared<MsgData>();
+            auto return_data = std::make_shared<MsgData>();
             return_data->set_id(msg_data->id());
-            return_data->set_data(return_data);
+            return_data->set_data(return_str);
             return_data->SerializeToString(&return_str);
             Send(return_str);
 

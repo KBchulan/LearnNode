@@ -44,7 +44,7 @@ print(not True)
 # = += -= *= /= %= //= **=
 
 
-# 成员操作符
+# 成员操作符(T or F)
 # in not in
 print(1 in (1, 2, 3))
 print(1 not in (1, 2, 3))

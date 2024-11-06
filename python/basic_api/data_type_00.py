@@ -69,3 +69,5 @@ print("jiashu\nmeimei".splitlines())    # 以换行符号分割
 print(text.join(['a', 'b']))            # 以字符串做连接桥
 
 # 布尔类型
+print(type(True))
+print(type(False))

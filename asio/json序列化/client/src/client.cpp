@@ -1,5 +1,3 @@
-#include "../include/msg.pb.h"
-
 #include <thread>
 #include <memory>
 #include <iostream>
@@ -26,44 +24,6 @@ int main()
                       << R"(error message is: )" << error.message() << '\n';
             return 0;
         }
-
-        // 构建节点
-        std::shared_ptr<MsgData> sendMsgData = std::make_shared<MsgData>();
-        sendMsgData->set_id(1001);
-        sendMsgData->set_data("hello server!");
-
-        // protobuf序列化
-        std::string sendData;
-        sendMsgData->SerializeToString(&sendData);
-
-        // 构建包头及包体
-        char send[MAX_LENGTH];
-        short sendLength = sendData.length();
-        short sendLengthNet = boost::asio::detail::socket_ops::host_to_network_short(sendLength);
-        memcpy(send, &sendLengthNet, HEAD_LENGTH);
-        memcpy(send + HEAD_LENGTH, sendData.c_str(), sendLength);
-
-        // 开始发送
-        boost::asio::write(sock, boost::asio::buffer(send, sendLength + HEAD_LENGTH));
-
-        // 开始接收
-        std::cout << R"(begin to receive....)" << '\n';
-        // head
-        char receive_head[HEAD_LENGTH];
-        std::size_t receive_length = boost::asio::read(sock, boost::asio::buffer(receive_head, HEAD_LENGTH));
-        short recv_length = 0;
-        memcpy(&recv_length, receive_head, HEAD_LENGTH);
-        // ntohs
-        recv_length = boost::asio::detail::socket_ops::network_to_host_short(recv_length);
-        // body
-        char recv_msg[MAX_LENGTH] = {0};
-        std::size_t msg_length = boost::asio::read(sock, boost::asio::buffer(recv_msg, recv_length));
-
-        // obstray protobuf
-        std::shared_ptr<MsgData> recvMsgData = std::make_shared<MsgData>();
-        recvMsgData->ParseFromArray(recv_msg, msg_length);
-        std::cout << R"(receive id is: )" << recvMsgData->id() << R"(receive data is: )" << recvMsgData->data();
-        getchar();
     }
     catch (const boost::system::system_error &err)
     {

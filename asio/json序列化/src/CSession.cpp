@@ -5,7 +5,6 @@
 #include "../include/CServer.hpp"
 #include "../include/CSession.hpp"
 
-
 void CSession::Start() {
     memset(_data, 0, max_length);
     _socket.async_read_some(boost::asio::buffer(_data, max_length),
@@ -58,7 +57,7 @@ void CSession::handle_read(const boost::system::error_code &error,
                 }
 
                 // 收集到的数据比头部多
-                int head_remain = HEAD_LENGTH - _recv_head_node->_cur_len;
+                const int head_remain = HEAD_LENGTH - _recv_head_node->_cur_len;
                 memcpy(_recv_head_node->_data + _recv_head_node->_cur_len, _data + copy_len, head_remain);
 
                 copy_len += head_remain;
@@ -120,7 +119,7 @@ void CSession::handle_read(const boost::system::error_code &error,
             }
 
             // 头部处理完了
-            int remain_msg = _recv_msg_node->_total_len - _recv_msg_node->_cur_len;
+            const int remain_msg = _recv_msg_node->_total_len - _recv_msg_node->_cur_len;
             if(bytes_transferred < remain_msg) {
                 memcpy(_recv_msg_node->_data + _recv_msg_node->_cur_len, _data + copy_len, bytes_transferred);
 

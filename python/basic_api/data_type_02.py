@@ -31,7 +31,7 @@ print(aa , bb)
 
 # 还可以用于多值返回
 def min_max(values):
-    return (min(values), max(values))
+    return min(values), max(values)
 
 result = min_max((10, 20, 30, 40))
 print(result)

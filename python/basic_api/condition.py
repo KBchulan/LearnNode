@@ -12,9 +12,9 @@ else:
 
 # if/elif/else语句（elif语句可以有多个）
 x = complex(2, 5)
-if(x.real > 6):
+if x.real > 6:
     print(x.real)
-elif(x.real > 1 and x.imag > 6):
+elif x.real > 1 and x.imag > 6:
     print(x.imag)
 else:
     print(x)

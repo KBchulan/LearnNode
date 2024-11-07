@@ -1,0 +1,14 @@
+{
+    "basic": {
+        "window_width": 1280,
+        "window_height": 720,
+        "window_title": "lowr_protect"
+    },
+    "player": {
+        "speed": 5,
+        "normal_attack_interval": 0.800000011920929,
+        "normal_attack_damage": 80,
+        "skill_interval": 3,
+        "skill_damage": 100
+    }
+}

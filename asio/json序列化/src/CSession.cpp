@@ -5,6 +5,7 @@
 #include "../include/CServer.hpp"
 #include "../include/CSession.hpp"
 
+
 void CSession::Start() {
     memset(_data, 0, max_length);
     _socket.async_read_some(boost::asio::buffer(_data, max_length),

@@ -6,6 +6,10 @@
 /asio/json序列化/client/build/
 /asio/json序列化/.idea/
 
+/asio/逻辑层/cmake-build-debug/
+/asio/逻辑层/client/build/
+/asio/逻辑层/.idea/
+
 
 
 /一些随笔/.vscode/

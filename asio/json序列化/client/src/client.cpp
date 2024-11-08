@@ -2,6 +2,9 @@
 #include <memory>
 #include <iostream>
 #include <boost/asio.hpp>
+#include <jsoncpp/json/json.h>
+#include <jsoncpp/json/value.h>
+#include <jsoncpp/json/writer.h>
 
 constexpr int MAX_LENGTH = 1024 * 2;
 constexpr int HEAD_LENGTH = 2;
@@ -24,6 +27,40 @@ int main()
                       << R"(error message is: )" << error.message() << '\n';
             return 0;
         }
+        
+        // define json message
+        Json::Value sendJsonData;
+        sendJsonData["id"] = 1001;
+        sendJsonData["message"] = "hello, jsonServer!";
+
+        // the fold header and body
+        std::string sendDataStr = sendJsonData.toStyledString();
+        short sendDataLen = boost::asio::detail::socket_ops::host_to_network_short(sendDataStr.length());
+
+        char sendData[MAX_LENGTH];
+        memcpy(sendData, &sendDataLen, HEAD_LENGTH);
+        memcpy(sendData + HEAD_LENGTH, sendDataStr.c_str(), sendDataStr.length());
+
+        boost::asio::write(sock, boost::asio::buffer(sendData, sendDataStr.length() + HEAD_LENGTH));
+        std::cout << R"(begin to receive...)" << '\n';
+
+        // header
+        char recvHead[HEAD_LENGTH];
+        boost::asio::read(sock, boost::asio::buffer(recvHead, HEAD_LENGTH));
+        short recvLengthHost;
+        memcpy(&recvLengthHost, recvHead, HEAD_LENGTH);
+        recvLengthHost = boost::asio::detail::socket_ops::network_to_host_short(recvLengthHost);
+
+        // body
+        char recvBody[MAX_LENGTH];
+        boost::asio::read(sock, boost::asio::buffer(recvBody, recvLengthHost));
+
+        Json::Value recvJsonData;
+        Json::Reader reader;
+        reader.parse(std::string(recvBody, recvLengthHost), recvJsonData);
+
+        std::cout << "id is: " << recvJsonData["id"] << '\n' << "message is: " << recvJsonData["message"] << '\n';
+        getchar();
     }
     catch (const boost::system::system_error &err)
     {

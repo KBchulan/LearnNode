@@ -5,6 +5,10 @@
 #include "../include/CServer.hpp"
 #include "../include/CSession.hpp"
 
+#include <jsoncpp//json/json.h>
+#include <jsoncpp/json/value.h>
+#include <jsoncpp/json/writer.h>
+
 void CSession::Start() {
     memset(_data, 0, max_length);
     _socket.async_read_some(boost::asio::buffer(_data, max_length),
@@ -35,6 +39,29 @@ void CSession::Send(char *msg, int max_length) {
             handle_write(std::forward<T0>(PH1), shared_from_this());
         });
 }
+
+void CSession::Send(const std::string& str) {
+    std::lock_guard lock(_send_lock);
+    const unsigned long send_size = _send_que.size();
+    if(_send_que.size() > 50) {
+        std::cout << "too much " << '\n';
+        return;
+    }
+
+    _send_que.push(std::make_shared<MsgNode>(str.c_str(), str.length()));
+    if(send_size > 0) {
+        return;
+    }
+
+    const auto& msgNode = _send_que.front();
+    // ReSharper disable once CppRedundantQualifier
+    boost::asio::async_write(_socket, boost::asio::buffer(msgNode->_data, msgNode->_total_len),
+    [this]<typename T0, typename T1>
+                (T0&& PH1, T1&&) {
+            handle_write(std::forward<T0>(PH1), shared_from_this());
+        });
+}
+
 
 void CSession::handle_read(const boost::system::error_code &error,
         std::size_t bytes_transferred, const std::shared_ptr<CSession>& _self_shared) {
@@ -99,8 +126,14 @@ void CSession::handle_read(const boost::system::error_code &error,
                 bytes_transferred -= data_len;
                 _recv_msg_node->_data[_recv_msg_node->_total_len] = '\0';
 
-                std::cout << "receive data is: " << _recv_msg_node->_data << std::endl;
-                Send(_recv_msg_node->_data, _recv_msg_node->_total_len);
+                Json::Value root;
+                Json::Reader reader;
+                reader.parse(std::string(_recv_msg_node->_data,_recv_msg_node->_total_len), root);
+
+                std::cout << "id is: " << root["id"].asInt() << '\n' << "message is: " << root["message"].asString() << '\n';
+                root["message"] = "server has received message, the detail is: " + root["message"].asString();
+                std::string return_str = root.toStyledString();
+                Send(return_str);
 
                 // 切包
                 _head_parse = false;
@@ -138,8 +171,15 @@ void CSession::handle_read(const boost::system::error_code &error,
             bytes_transferred -= remain_msg;
             copy_len += remain_msg;
             _recv_msg_node->_data[_recv_msg_node->_total_len] = '\0';
-            std::cout << "receive data is: " << _recv_msg_node->_data << std::endl;
-            Send(_recv_msg_node->_data, _recv_msg_node->_total_len);
+
+            Json::Value root;
+            Json::Reader reader;
+            reader.parse(std::string(_recv_msg_node->_data,_recv_msg_node->_total_len), root);
+
+            std::cout << "id is: " << root["id"].asInt() << '\n' << "message is: " << root["message"].asString() << '\n';
+            root["message"] = "server has received message, the detail is: " + root["message"].asString();
+            std::string return_str = root.toStyledString();
+            Send(return_str);
 
             // 切包
             _head_parse = false;
@@ -165,7 +205,6 @@ void CSession::handle_read(const boost::system::error_code &error,
 void CSession::handle_write(const boost::system::error_code &error, const std::shared_ptr<CSession>& _self_shared) {
     if(!error) {
         std::lock_guard lock(_send_lock);
-        std::cout << "send data is: " << _send_que.front()->_data + HEAD_LENGTH << std::endl;
         _send_que.pop();
         if(!_send_que.empty()) {
             const auto &msgNode = _send_que.front();

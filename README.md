@@ -9,11 +9,7 @@ thread
 设计模式  
 CS-Base(xiaolin)  
 
-#### 一些API可以通过下面查看：
-
-
-
-#### 语言学习  
+#### 语言学习:  
 
 c++：https://zh.cppreference.com/w/cpp  
 

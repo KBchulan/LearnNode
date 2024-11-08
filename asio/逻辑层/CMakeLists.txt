@@ -18,5 +18,6 @@ add_executable(LogicServer ${SRC_LIST}
         include/config.hpp
         include/CSession.hpp
         include/CServer.hpp
+        src/CServer.cc
 )
 target_link_libraries(LogicServer ${JSONCPP_LIBRARIES})

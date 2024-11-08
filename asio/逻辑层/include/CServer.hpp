@@ -6,24 +6,24 @@
 #define CSERVER_HPP
 
 #include "CSession.hpp"
-
 #include <boost/asio.hpp>
 
 class CServer {
 public:
-    explicit CServer(boost::asio::io_context& ioc, unsigned short port);
+    explicit CServer(boost::asio::io_context &ioc, unsigned short port);
 
-    void clear_session(const std::string& uuid);
-
-private:
-    void start_accept();
-
-    void handle_accept(const std::shared_ptr<CSession>& new_session, const boost::system::error_code& error);
+    void ClearSession(const std::string &uuid);
 
 private:
-    boost::asio::io_context& _ioc;
+    void StartAccept();
+
+    void HandleAccept(const std::shared_ptr<CSession> &new_session, const boost::system::error_code &error);
+
+private:
+    unsigned short _port;
+    boost::asio::io_context &_ioc;
     boost::asio::ip::tcp::acceptor _acceptor;
-    std::map<std::string, std::shared_ptr<CSession>> _sessions;
+    std::map<std::string, std::shared_ptr<CSession> > _sessions;
 };
 
 #endif //CSERVER_HPP

@@ -43,7 +43,16 @@ private:
     void HandleWrite(const boost::system::error_code& ec, std::shared_ptr<CSession> shared_self);
 
 private:
-
+    bool _b_close;                                      // 会话是否关闭
+    std::string _uuid;                                  // 会话的id
+    bool _b_head_parse;                                 // 头部是否处理完成
+    std::mutex _send_lock;                              // 为HandleWrite的回调队列加锁处理
+    char _data[MAX_LENGTH];                             // 数据缓冲区
+    std::shared_ptr<CServer> _server;                   // 会话归属的服务
+    boost::asio::ip::tcp::socket _socket;               // 通信的socket
+    std::shared_ptr<MsgNode> _recv_head_node;           // 收到的头部（TL）
+    std::shared_ptr<RecvNode> _recv_msg_node;           // 收到的数据体
+    std::queue<std::shared_ptr<SendNode>> _send_queue;  // 发送节点队列
 };
 
 #endif //CSESSION_HPP

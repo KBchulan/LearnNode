@@ -8,7 +8,9 @@
 
 /asio/逻辑层/cmake-build-debug/
 /asio/逻辑层/client/build/
+/asio/逻辑层/.vscode/
 /asio/逻辑层/.idea/
+/asio/逻辑层/build/
 
 
 

@@ -19,7 +19,6 @@ public:
     }
 
     virtual ~MsgNode() {
-        std::cout << R"(Destruct MsgNode.)" << std::endl;
         delete []_data;
     }
 
@@ -37,6 +36,9 @@ public:
 class RecvNode final : public MsgNode {
 public:
     RecvNode(long max_len, long msg_id);
+    ~RecvNode() override{
+        std::cout << "RecvNode " << _msg_id << " deleted" << std::endl;
+    }
 
 private:
     long _msg_id{};
@@ -45,6 +47,9 @@ private:
 class SendNode final : public MsgNode {
 public:
     SendNode(const char *msg, long max_len, long msg_id);
+    ~SendNode() override{
+        std::cout << "SendNode " << _msg_id << " deleted" << std::endl;
+    }
 
 private:
     long _msg_id{};

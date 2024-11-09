@@ -5,7 +5,6 @@
 #ifndef CSESSION_HPP
 #define CSESSION_HPP
 
-
 #include <queue>
 #include <iostream>
 #include <config.hpp>
@@ -19,6 +18,8 @@ class CSession final : public std::enable_shared_from_this<CSession> {
 public:
     explicit CSession(boost::asio::io_context &ioc, CServer *server);
 
+    ~CSession();
+
     // 会话的启动入口
     void Start();
 
@@ -26,7 +27,7 @@ public:
     void Close();
 
     // 发送数据接口
-    void Send(std::string msg, long msg_id);
+    void Send(const std::string& msg, long msg_id);
     void Send(char *msg, long max_length, long msg_id);
 
     // socket外部获取接口
@@ -39,8 +40,8 @@ public:
     std::shared_ptr<CSession> SharedSelf();
 
 private:
-    void HandleRead(const boost::system::error_code& ec, size_t bytes_transferred, std::shared_ptr<CSession> shared_self);
-    void HandleWrite(const boost::system::error_code& ec, std::shared_ptr<CSession> shared_self);
+    void HandleRead(const boost::system::error_code& ec, size_t bytes_transferred, const std::shared_ptr<CSession>& shared_self);
+    void HandleWrite(const boost::system::error_code& ec, const std::shared_ptr<CSession>& shared_self);
 
 private:
     bool _b_close;                                      // 会话是否关闭

@@ -11,13 +11,6 @@ pkg_check_modules(JSONCPP REQUIRED jsoncpp)
 aux_source_directory(${PROJECT_SOURCE_DIR}/src SRC_LIST)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-add_executable(LogicServer ${SRC_LIST}
-        src/async_server.cc
-        include/MsgNode.hpp
-        src/MsgNode.cc
-        include/config.hpp
-        include/CSession.hpp
-        include/CServer.hpp
-        src/CServer.cc
-)
+add_executable(LogicServer ${SRC_LIST})
+
 target_link_libraries(LogicServer ${JSONCPP_LIBRARIES})

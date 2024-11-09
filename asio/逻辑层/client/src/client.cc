@@ -64,6 +64,7 @@ int main() {
 
         recvDataId = boost::asio::detail::socket_ops::network_to_host_long(recvDataId);
         recvDataLen = boost::asio::detail::socket_ops::network_to_host_long(recvDataLen);
+
         boost::asio::read(sock, boost::asio::buffer(receive_body, recvDataLen));
 
         Json::Value receiveData;
@@ -71,6 +72,7 @@ int main() {
         reader.parse(std::string(receive_body, recvDataLen), receiveData);
         std::cout << "Msg id is: " << receiveData["id"] <<
                 "Msg body is: " << receiveData["body"];
+        getchar();
     } catch (const boost::system::system_error &error) {
         std::cout << R"(The error code is: )" << error.code().value() << '\n';
         std::cout << R"(The error message is: )" << error.code().message() << '\n';

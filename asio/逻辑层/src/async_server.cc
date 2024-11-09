@@ -2,13 +2,12 @@
 // Created by whx on 24-11-8.
 //
 
-#include <iostream>
-#include <boost/asio.hpp>
+#include "../include/CServer.hpp"
 
 int main(int argc, char **argv) {
     try {
         boost::asio::io_context ioc;
-
+        CServer server(ioc, 12569);
         ioc.run();
     } catch (const boost::system::system_error &error) {
         std::cout << R"(Ioc server failed!)" << '\n';

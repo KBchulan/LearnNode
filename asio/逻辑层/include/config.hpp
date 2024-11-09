@@ -11,4 +11,6 @@
 #define HEAD_DATA_LENGTH 8
 #define HEAD_TOTAL_LENGTH (8 * 2)
 
+#define MAX_SENDQUE 50
+
 #endif //CONFIG_HPP

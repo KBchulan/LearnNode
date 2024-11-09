@@ -17,7 +17,7 @@ void CServer::StartAccept() {
     _acceptor.async_accept(new_session->GetSocket(),
                            [this, new_session]
                            <typename T0>(T0 &&PH1) {
-                               handle_accept(new_session, std::forward<T0>(PH1));
+                               HandleAccept(new_session, std::forward<T0>(PH1));
                            });
 }
 

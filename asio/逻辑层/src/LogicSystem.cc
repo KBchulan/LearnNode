@@ -83,6 +83,6 @@ void LogicSystem::HelloWorldCallback(const std::shared_ptr<CSession>& session, c
     std::cout << "Receive msg body is: " << root["body"].asString() << '\n';
     root["body"] = "Server has received msg, msg body is: " + root["body"].asString();
 
-    std::string return_str = root.toStyledString();
-    session->Send(return_str, root["id"].asInt());
+    const std::string return_str = root.toStyledString();
+    session->Send(return_str, msg_id);
 }

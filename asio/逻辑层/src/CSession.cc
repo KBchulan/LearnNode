@@ -5,10 +5,8 @@
 #include "../include/CSession.hpp"
 
 #include "CServer.hpp"
+#include <LogicSystem.hpp>
 #include <jsoncpp/json/value.h>
-#include <jsoncpp/json/reader.h>
-
-#include "LogicSystem.hpp"
 
 CSession::CSession(boost::asio::io_context &ioc, CServer *server) : _b_close(false), _b_head_parse(false), _data{},
                                                                     _server(server), _socket(ioc) {

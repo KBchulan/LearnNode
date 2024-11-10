@@ -27,10 +27,13 @@ public:
 private:
     LogicSystem();
 
+    // 消费者线程的函数
     void DealMsg();
 
+    // 注册回调
     void RegisterCallbacks();
 
+    // 第一个回调
     void HelloWorldCallback(const std::shared_ptr<CSession>&, const long &msg_id, const std::string &msg_data);
 
     bool _b_stop;

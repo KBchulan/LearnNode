@@ -27,6 +27,10 @@ public:
         _cur_len = 0;
     }
 
+    [[nodiscard]] char *GetData() const {
+        return _data;
+    }
+
     char *_data{};
     long _cur_len{};
     long _total_len{};
@@ -40,6 +44,10 @@ public:
         std::cout << "RecvNode " << _msg_id << " deleted" << std::endl;
     }
 
+    [[nodiscard]] long GetMsgId() const {
+        return _msg_id;
+    }
+
 private:
     long _msg_id{};
 };
@@ -49,6 +57,10 @@ public:
     SendNode(const char *msg, long max_len, long msg_id);
     ~SendNode() override{
         std::cout << "SendNode " << _msg_id << " deleted" << std::endl;
+    }
+
+    [[nodiscard]] long GetMsgId() const {
+        return _msg_id;
     }
 
 private:

@@ -70,7 +70,7 @@ int main() {
         Json::Value receiveData;
         Json::Reader reader;
         reader.parse(std::string(receive_body, recvDataLen), receiveData);
-        std::cout << "Msg id is: " << receiveData["id"] <<
+        std::cout << "Msg id is: " << receiveData["id"] << '\n' <<
                 "Msg body is: " << receiveData["body"];
         getchar();
     } catch (const boost::system::system_error &error) {

@@ -5,9 +5,10 @@
 #include "../include/CSession.hpp"
 
 #include "CServer.hpp"
-#include <jsoncpp/json/json.h>
 #include <jsoncpp/json/value.h>
 #include <jsoncpp/json/reader.h>
+
+#include "LogicSystem.hpp"
 
 CSession::CSession(boost::asio::io_context &ioc, CServer *server) : _b_close(false), _b_head_parse(false), _data{},
                                                                     _server(server), _socket(ioc) {
@@ -167,14 +168,7 @@ void CSession::HandleRead(const boost::system::error_code &ec, size_t bytes_tran
                     bytes_transferred -= msg_len;
                     _recv_msg_node->_data[_recv_msg_node->_total_len] = '\0';
 
-                    std::cout << "Receive data is: " << _recv_msg_node->_data << '\n';
-                    Json::Value root;
-                    Json::Reader reader;
-                    reader.parse(std::string(_recv_msg_node->_data, _recv_msg_node->_total_len), root);
-                    root["body"] = "Server receive message is: " + root["body"].asString();
-                    std::string send_msg = root.toStyledString();
-                    
-                    Send(send_msg, root["id"].asInt());
+                    LogicSystem::GetInstance()->PostMsgToQueue(std::make_shared<LogicNode>(shared_from_this(), _recv_msg_node));
 
                     // 继续轮询未查找数据
                     _b_head_parse = false;
@@ -215,14 +209,7 @@ void CSession::HandleRead(const boost::system::error_code &ec, size_t bytes_tran
                 copy_len += remain_msg;
                 _recv_msg_node->_data[_recv_msg_node->_total_len] = '\0';
 
-                std::cout << "Receive data is: " << _recv_msg_node->_data << '\n';
-                Json::Value root;
-                Json::Reader reader;
-                reader.parse(std::string(_recv_msg_node->_data, _recv_msg_node->_total_len), root);
-                root["body"] = "Server receive message is: " + root["body"].asString();
-                std::string send_msg = root.toStyledString();
-                
-                Send(send_msg, root["id"].asInt());
+                LogicSystem::GetInstance()->PostMsgToQueue(std::make_shared<LogicNode>(shared_from_this(), _recv_msg_node));
 
                 // 继续轮询
                 _b_head_parse = false;

@@ -6,9 +6,9 @@ public:
     operator std::string() const
     {
         return "八奈见真可爱";
-    } 
+    }
 
-    int num;
+    int num{};
 };
 
 std::ostream &operator<<(std::ostream &os, const std::string &str)

@@ -13,4 +13,5 @@ int main()
 
     for (const auto &num : nums)
         std::cout << num << " ";
+    std::cout << '\n';
 }

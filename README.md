@@ -13,6 +13,8 @@ CS-Base(xiaolin)
 
 c++：https://zh.cppreference.com/w/cpp  
 
+cpp：https://cplusplus.com/reference/iolibrary/
+
 c++函数：https://www.w3cschool.cn/doc_cpp/cpp-error-bad_exception.html?lang=en  
 
 python：https://www.freecodecamp.org/chinese/news/python-code-examples-sample-script-coding-tutorial-for-beginners/  
@@ -41,7 +43,9 @@ vulkan：https://easyvulkan.github.io/
 
 leetcode：https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/medium  
 
-oi_wiki：https://en.oi-wiki.org/
+oi_wiki：https://en.oi-wiki.org/  
+
+Hello算法：https://www.hello-algo.com/chapter_preface/about_the_book/
 
 #### 一些算法的实现博客：
 

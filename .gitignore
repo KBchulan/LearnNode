@@ -16,6 +16,10 @@
 /asio/优雅退出/client/build/
 /asio/优雅退出/.vscode/
 
+/asio/多线程IOserverPool/server_build/
+/asio/多线程IOserverPool/client/build/
+/asio/多线程IOserverPool/.vscode/
+
 /一些随笔/.vscode/
 /c++17/.vscode/
 

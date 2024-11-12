@@ -8,7 +8,8 @@
 #include "CSession.hpp"
 #include <boost/asio.hpp>
 
-class CServer {
+class CServer
+{
 public:
     explicit CServer(boost::asio::io_context &ioc, unsigned short port);
 
@@ -26,4 +27,4 @@ private:
     std::map<std::string, std::shared_ptr<CSession>> _sessions;
 };
 
-#endif //CSERVER_HPP
+#endif // CSERVER_HPP

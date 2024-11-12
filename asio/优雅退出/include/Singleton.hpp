@@ -9,26 +9,28 @@
 #include <memory>
 #include <iostream>
 
-template<typename T>
-class Singleton {
+template <typename T>
+class Singleton
+{
 public:
     Singleton(const Singleton &) = delete;
     Singleton &operator=(const Singleton &) = delete;
 
-    ~Singleton() {
+    ~Singleton()
+    {
         std::cout << R"(This singleton has been destructed!)" << '\n';
     }
 
-    static std::shared_ptr<T> GetInstance() {
+    static std::shared_ptr<T> GetInstance()
+    {
         static std::once_flag g_flag;
-        std::call_once(g_flag, [&] {
-            // ReSharper disable once CppSmartPointerVsMakeFunction
-            _instance = std::shared_ptr<T>(new T);
-        });
+        std::call_once(g_flag, [&]
+                       { _instance = std::shared_ptr<T>(new T); });
         return _instance;
     }
 
-    void PrintAddress() {
+    void PrintAddress()
+    {
         std::cout << _instance.get() << std::endl;
     }
 
@@ -37,7 +39,6 @@ private:
 
 protected:
     Singleton() = default;
-
 };
 
-#endif //SINGLETON_HPP
+#endif // SINGLETON_HPP

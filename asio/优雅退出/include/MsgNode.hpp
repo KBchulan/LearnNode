@@ -8,43 +8,50 @@
 #include <iostream>
 #include <boost/asio.hpp>
 
-class MsgNode {
+class MsgNode
+{
 public:
     MsgNode &operator=(const MsgNode &) = delete;
     MsgNode &&operator=(const MsgNode &&) = delete;
 
-    explicit MsgNode(const long max_len): _total_len(max_len) {
+    explicit MsgNode(const long max_len) : _total_len(max_len)
+    {
         _data = new char[_total_len + 1]();
         _data[_total_len] = '\0';
     }
 
-    virtual ~MsgNode() {
-        delete []_data;
+    virtual ~MsgNode()
+    {
+        delete[] _data;
     }
 
-    void Clear() {
+    void Clear()
+    {
         memset(_data, 0, _total_len);
         _cur_len = 0;
     }
 
-    [[nodiscard]] char *GetData() const {
+    [[nodiscard]] char *GetData() const
+    {
         return _data;
     }
 
     char *_data{};
     long _cur_len{};
     long _total_len{};
-
 };
 
-class RecvNode final : public MsgNode {
+class RecvNode final : public MsgNode
+{
 public:
     RecvNode(long max_len, long msg_id);
-    ~RecvNode() override{
+    ~RecvNode() override
+    {
         std::cout << "RecvNode " << _msg_id << " deleted" << std::endl;
     }
 
-    [[nodiscard]] long GetMsgId() const {
+    [[nodiscard]] long GetMsgId() const
+    {
         return _msg_id;
     }
 
@@ -52,14 +59,17 @@ private:
     long _msg_id{};
 };
 
-class SendNode final : public MsgNode {
+class SendNode final : public MsgNode
+{
 public:
     SendNode(const char *msg, long max_len, long msg_id);
-    ~SendNode() override{
+    ~SendNode() override
+    {
         std::cout << "SendNode " << _msg_id << " deleted" << std::endl;
     }
 
-    [[nodiscard]] long GetMsgId() const {
+    [[nodiscard]] long GetMsgId() const
+    {
         return _msg_id;
     }
 
@@ -67,4 +77,4 @@ private:
     long _msg_id{};
 };
 
-#endif //MSGNODE_HPP
+#endif // MSGNODE_HPP

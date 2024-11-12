@@ -13,7 +13,8 @@
 #include <Singleton.hpp>
 #include <jsoncpp/json/json.h>
 
-class LogicSystem final : public Singleton<LogicSystem> {
+class LogicSystem final : public Singleton<LogicSystem>
+{
     using FunCallBack = std::function<void(std::shared_ptr<CSession>, const long &msg_id, const std::string &msg_data)>;
 
     friend class Singleton<LogicSystem>;
@@ -22,7 +23,7 @@ public:
     ~LogicSystem();
 
     // 将逻辑消息放在队列里
-    void PostMsgToQueue(const std::shared_ptr<LogicNode>& msg);
+    void PostMsgToQueue(const std::shared_ptr<LogicNode> &msg);
 
 private:
     LogicSystem();
@@ -34,7 +35,7 @@ private:
     void RegisterCallbacks();
 
     // 第一个回调
-    void HelloWorldCallback(const std::shared_ptr<CSession>&, const long &msg_id, const std::string &msg_data);
+    void HelloWorldCallback(const std::shared_ptr<CSession> &, const long &msg_id, const std::string &msg_data);
 
     bool _b_stop;
     std::mutex _mutex;
@@ -44,4 +45,4 @@ private:
     std::queue<std::shared_ptr<LogicNode>> _msg_que;
 };
 
-#endif //LOGICSYSTEM_HPP
+#endif // LOGICSYSTEM_HPP

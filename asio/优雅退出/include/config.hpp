@@ -13,8 +13,9 @@
 
 #define MAX_SENDQUE 50
 
-enum MSG_IDS {
+enum MSG_IDS
+{
     MSG_HELLO_WORLD = 1001
 };
 
-#endif //CONFIG_HPP
+#endif // CONFIG_HPP

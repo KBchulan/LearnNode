@@ -7,7 +7,8 @@
 
 #include <CSession.hpp>
 
-class LogicNode {
+class LogicNode
+{
     friend class LogicSystem;
 
 public:
@@ -18,4 +19,4 @@ private:
     std::shared_ptr<RecvNode> _recvnode;
 };
 
-#endif //LOGICNODE_HPP
+#endif // LOGICNODE_HPP

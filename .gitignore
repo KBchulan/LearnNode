@@ -12,11 +12,9 @@
 /asio/逻辑层/.idea/
 /asio/逻辑层/build/
 
-/asio/优雅退出/cmake-build-debug/
+/asio/优雅退出/server_build/
 /asio/优雅退出/client/build/
 /asio/优雅退出/.vscode/
-/asio/优雅退出/.idea/
-/asio/优雅退出/build/
 
 /一些随笔/.vscode/
 /c++17/.vscode/

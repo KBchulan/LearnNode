@@ -6,9 +6,10 @@
 
 #include <config.hpp>
 
-RecvNode::RecvNode(const long max_len, const long msg_id): MsgNode(max_len), _msg_id(msg_id) {}
+RecvNode::RecvNode(const long max_len, const long msg_id) : MsgNode(max_len), _msg_id(msg_id) {}
 
-SendNode::SendNode(const char *msg, const long max_len, const long msg_id) : MsgNode(max_len + HEAD_TOTAL_LENGTH), _msg_id(msg_id) {
+SendNode::SendNode(const char *msg, const long max_len, const long msg_id) : MsgNode(max_len + HEAD_TOTAL_LENGTH), _msg_id(msg_id)
+{
     // 先发送ID
     long msg_id_htonl = boost::asio::detail::socket_ops::host_to_network_long(_msg_id);
     memcpy(_data, &msg_id_htonl, HEAD_ID_LENGTH);

@@ -13,9 +13,6 @@ template <typename T>
 class Singleton
 {
 public:
-    Singleton(const Singleton &) = delete;
-    Singleton &operator=(const Singleton &) = delete;
-
     ~Singleton()
     {
         std::cout << R"(This singleton has been destructed!)" << '\n';
@@ -39,6 +36,8 @@ private:
 
 protected:
     Singleton() = default;
+    Singleton(const Singleton &) = delete;
+    Singleton &operator=(const Singleton &) = delete;
 };
 
 #endif // SINGLETON_HPP

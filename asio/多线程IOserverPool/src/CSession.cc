@@ -189,7 +189,7 @@ void CSession::HandleRead(const boost::system::error_code &ec, size_t bytes_tran
           bytes_transferred -= msg_len;
           _recv_msg_node->_data[_recv_msg_node->_total_len] = '\0';
 
-          LogicSystem::GetInstance()->PostMsgToQueue(std::make_shared<LogicNode>(shared_from_this(), _recv_msg_node));
+          LogicSystem::GetInstance()->PostMsgToQueue(std::make_shared<LogicNode>(shared_from_this(), std::move(_recv_msg_node)));
 
           // 继续轮询未查找数据
           _b_head_parse = false;
@@ -233,7 +233,7 @@ void CSession::HandleRead(const boost::system::error_code &ec, size_t bytes_tran
         copy_len += remain_msg;
         _recv_msg_node->_data[_recv_msg_node->_total_len] = '\0';
 
-        LogicSystem::GetInstance()->PostMsgToQueue(std::make_shared<LogicNode>(shared_from_this(), _recv_msg_node));
+        LogicSystem::GetInstance()->PostMsgToQueue(std::make_shared<LogicNode>(shared_from_this(), std::move(_recv_msg_node)));
 
         // 继续轮询
         _b_head_parse = false;
@@ -251,10 +251,11 @@ void CSession::HandleRead(const boost::system::error_code &ec, size_t bytes_tran
         }
       }
     }
-
     else
     {
       std::cout << "handle read failed, error is " << ec.message() << '\n';
+      _recv_msg_node.reset();
+      
       Close();
       _server->ClearSession(_uuid);
     }
@@ -262,6 +263,7 @@ void CSession::HandleRead(const boost::system::error_code &ec, size_t bytes_tran
   catch (const boost::system::system_error &e)
   {
     std::cout << "Exception code is " << e.what() << std::endl;
+    _recv_msg_node.reset();
   }
 }
 

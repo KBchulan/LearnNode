@@ -1,0 +1,21 @@
+server start success, listen on port: 12569
+msg_id is: 1001
+msg_len is: 44
+Recv msg id is: 1001
+Receive msg id is: 1001
+Receive msg body is: hello, logic!
+RecvNode 1001 deleted
+SendNode 1001 deleted
+
+msg_id is: 1001
+msg_len is: 44
+Recv msg id is: 1001
+Receive msg id is: 1001
+Receive msg body is: hello, logic!
+RecvNode 1001 deleted
+SendNode 1001 deleted
+
+handle read failed, error is End of file
+CSession destruct
+double free or corruption (out)
+已中止 (核心已转储)

@@ -33,48 +33,55 @@ void LogicSystem::DealMsg()
 {
     while (true)
     {
-        std::unique_lock unique_locker(_mutex);
-
-        // 判断队列为空，则用条件变量阻塞
-        if (_msg_que.empty() && !_b_stop)
+        std::shared_ptr<LogicNode> msg_node;
         {
-            _consume.wait(unique_locker);
-        }
+            std::unique_lock unique_locker(_mutex);
 
-        // 判断如果为关闭状态，取出所有的进行处理并退出循环
-        if (_b_stop)
-        {
-            while (!_msg_que.empty())
+            if (_msg_que.empty() && !_b_stop)
             {
-                const auto msg_node = _msg_que.front();
-                std::cout << R"(Recv msg id is: )" << msg_node->_recvnode->GetMsgId() << '\n';
-
-                auto call_back_iter = _fun_callbak.find(msg_node->_recvnode->GetMsgId());
-                if (call_back_iter == _fun_callbak.end())
-                {
-                    _msg_que.pop();
-                    continue;
-                }
-
-                call_back_iter->second(msg_node->_session, msg_node->_recvnode->GetMsgId(), std::string(msg_node->_recvnode->GetData(), msg_node->_recvnode->_total_len));
-                _msg_que.pop();
+                _consume.wait(unique_locker);
             }
-            break;
-        }
 
-        // 队列不空了
-        const auto msg_node = _msg_que.front();
-        std::cout << R"(Recv msg id is: )" << msg_node->_recvnode->GetMsgId() << '\n';
+            if (_b_stop)
+            {
+                while (!_msg_que.empty())
+                {
+                    msg_node = _msg_que.front();
+                    _msg_que.pop();
 
-        auto call_back_iter = _fun_callbak.find(msg_node->_recvnode->GetMsgId());
-        if (call_back_iter == _fun_callbak.end())
-        {
+                    auto session = msg_node->_session.lock();
+                    if (!session) continue;  // 跳过已失效的会话
+
+                    if (auto session = msg_node->_session.lock()) {
+                        auto call_back_iter = _fun_callbak.find(msg_node->_recvnode->GetMsgId());
+                        if (call_back_iter != _fun_callbak.end()) {
+                            unique_locker.unlock();  // 在执行回调前解锁
+                            call_back_iter->second(session, msg_node->_recvnode->GetMsgId(), 
+                                std::string(msg_node->_recvnode->GetData(), msg_node->_recvnode->_total_len));
+                            unique_locker.lock();
+                        }
+                    }
+                }
+                break;
+            }
+
+            msg_node = _msg_que.front();
             _msg_que.pop();
-            continue;
         }
 
-        call_back_iter->second(msg_node->_session, msg_node->_recvnode->GetMsgId(), std::string(msg_node->_recvnode->GetData(), msg_node->_recvnode->_total_len));
-        _msg_que.pop();
+        auto session = msg_node->_session.lock();
+        if (!session) continue;  // 跳过已失效的会话
+
+        std::cout << "Recv msg id is: " << msg_node->_recvnode->GetMsgId() << '\n';
+        
+        auto call_back_iter = _fun_callbak.find(msg_node->_recvnode->GetMsgId());
+        if (call_back_iter != _fun_callbak.end()) 
+        {
+            auto msg_id = msg_node->_recvnode->GetMsgId();
+            auto msg_data = std::string(msg_node->_recvnode->GetData(), 
+                                      msg_node->_recvnode->_total_len);
+            call_back_iter->second(session, msg_id, msg_data);
+        }
     }
 }
 

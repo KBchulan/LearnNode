@@ -9,6 +9,8 @@
 #include <thread>
 #include <condition_variable>
 
+// 主循环是监听的
+
 int main(int argc, char **argv)
 {
     try

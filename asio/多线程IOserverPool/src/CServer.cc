@@ -3,6 +3,7 @@
 //
 
 #include "../include/CServer.hpp"
+#include "../include/IOServerPool.hpp"
 
 #include <iostream>
 
@@ -15,7 +16,8 @@ CServer::CServer(boost::asio::io_context &ioc, const unsigned short port) : _por
 
 void CServer::StartAccept()
 {
-    auto new_session = std::make_shared<CSession>(_ioc, this);
+    auto &io_context = IOServerPool::GetInstance()->GetIOContext();
+    auto new_session = std::make_shared<CSession>(io_context, this);
     _acceptor.async_accept(new_session->GetSocket(),
                            [this, new_session]<typename T0>(T0 &&PH1)
                            {

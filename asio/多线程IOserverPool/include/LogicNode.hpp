@@ -12,10 +12,15 @@ class LogicNode
     friend class LogicSystem;
 
 public:
-    explicit LogicNode(const std::shared_ptr<CSession> &session, const std::shared_ptr<RecvNode> &recvnode);
+    explicit LogicNode(std::shared_ptr<CSession> session, std::shared_ptr<RecvNode> recvnode);
+    
+    // 添加析构函数用于调试
+    ~LogicNode() {
+        std::cout << "LogicNode destruct" << std::endl;
+    }
 
 private:
-    std::shared_ptr<CSession> _session;
+    std::weak_ptr<CSession> _session;
     std::shared_ptr<RecvNode> _recvnode;
 };
 

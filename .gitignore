@@ -20,6 +20,8 @@
 /asio/多线程IOserverPool/client/build/
 /asio/多线程IOserverPool/.vscode/
 
+/asio/协程服务器/build/
+
 /一些随笔/.vscode/
 /c++17/.vscode/
 

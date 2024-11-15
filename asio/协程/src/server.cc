@@ -18,6 +18,7 @@ int main()
             while (true)
             {
                 std::size_t len = co_await socket.async_read_some(boost::asio::buffer(data, 1024), boost::asio::use_awaitable);
+                std::cout << std::string(data, len) << '\n';
                 co_await boost::asio::async_write(socket, boost::asio::buffer(data, len), boost::asio::use_awaitable);
             }
         }

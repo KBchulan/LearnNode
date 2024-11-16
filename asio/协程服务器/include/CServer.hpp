@@ -11,7 +11,7 @@ class CServer
 {
 public:
     explicit CServer(boost::asio::io_context &ioc, short port);
-
+    
     ~CServer();
 
     // 清除某一个会话
@@ -21,7 +21,7 @@ private:
     // 接收的回调
     void HandleAccept(std::shared_ptr<CSession>, const boost::system::error_code &error);
 
-    // 开始接收
+    // 开始接收连接
     void StartAccept();
 
 private:

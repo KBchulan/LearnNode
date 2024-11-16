@@ -13,10 +13,10 @@ int main()
         boost::asio::io_context ioc;
         boost::asio::signal_set signals(ioc, SIGINT, SIGTERM);
 
-        signals.async_wait([&ioc, &pool](const boost::system::error_code &error, int signal_number)
-        { 
+        signals.async_wait([&ioc, &pool](auto, auto)
+        {
             ioc.stop(); 
-            pool.Stop(); 
+            pool.Stop();
         });
 
         CServer server(ioc, 14789);

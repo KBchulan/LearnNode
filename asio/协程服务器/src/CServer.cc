@@ -8,11 +8,13 @@ CServer::CServer(boost::asio::io_context &ioc, short port) : _port(port), _ioc(i
                                                              _acceptor(_ioc, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), _port))
 
 {
+    std::cout << R"(CServer success on port :)" << _port << '\n';
     StartAccept();
 }
 
 CServer::~CServer()
 {
+    std::cout << R"(CServer desstruct)" << std::endl;
 }
 
 void CServer::ClearSession(std::string uuid)

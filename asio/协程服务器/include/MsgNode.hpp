@@ -28,7 +28,7 @@ public:
         _cur_len = 0;
     }
 
-protected:
+public:
     char *_data;      // 消息（TLV）
     short _cur_len;   // 当前处理的长度
     short _total_len; // 包括包头和包体
@@ -40,6 +40,11 @@ class RecvNode final : public MsgNode
 public:
     explicit RecvNode(short max_len, short msg_id) : MsgNode(max_len), _msg_id(msg_id)
     {
+    }
+
+    short GetMsgId() const
+    {
+        return _msg_id;
     }
 
 private:
@@ -62,6 +67,11 @@ public:
 
         // 包体
         memcpy(_data + HEAD_TOTAL_LEN, msg, max_len);
+    }
+
+    short GetMsgId() const
+    {
+        return _msg_id;
     }
 
 private:

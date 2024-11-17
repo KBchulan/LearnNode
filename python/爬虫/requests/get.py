@@ -12,10 +12,10 @@ try:
     resp = requests.get(url, headers=headers)
     resp.encoding = 'utf-8'
 
-    # print(f'状态码: {resp.status_code}')
-    # print(f'响应头: {resp.headers}')
+    print(f'状态码: {resp.status_code}')
+    print(f'响应头: {resp.headers}')
     print(f'文本内容: {resp.text}')
-    # print(f'文本二进制内容: {resp.content}')
+    print(f'文本二进制内容: {resp.content}')
     
 except Exception as e:
     print(f"发生错误: {e}")
@@ -23,3 +23,4 @@ except Exception as e:
 finally:
     if 'resp' in locals():
         resp.close()
+        

@@ -280,7 +280,7 @@ cv::equalizeHist(InputArray src,OutputArray dst)
 
 - 保持空间一致性; 即，同一子图像的像素点具有相同的运动
 
-![alt text](image.png)
+![alt text](picture/image-11.png)
 
 ## 图像掩膜与特征提取
 掩膜(mask)实际上就是一个二值图像, 他可以用来只对图像的某一部分进行操作(mask>=1), 对图像的另一部分(mask=0)进行忽略。
@@ -314,7 +314,7 @@ cv::add(
 
 识别我们宿舍的空调外机, 图片如下
 
-![alt text](hw.jpg)
+![alt text](picture/hw.jpg)
 
 ## 详细要求
 

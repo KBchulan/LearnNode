@@ -3,6 +3,7 @@
 ### - 图像梯度,边缘检测与微分算子
 
 什么是卷积?
+
 ![alt text](picture/image.png)
 
 卷积就是把一个邻域内的数进行加权, 然后求和
@@ -249,7 +250,7 @@ cv::HoughLinesP(
 
 ![alt text](picture/image-10.png)
 
-直方图统计我们初中学过, 在这里其实就是把所有亮度用直方图进行统计。
+直方图统计我们初中学过, 在这里其实就是把亮度值用直方图进行统计。
 
 通过这种统计, 我们会发现大部分图片的亮度分布不均, 于是我们可以通过变换把亮度调整得均匀。
 
@@ -263,15 +264,39 @@ cv::equalizeHist(InputArray src,OutputArray dst)
 
 - 光流(Optical flow)
 
+光流是像素运动的“瞬时速度”
 
+光流的研究是利用图像序列中的像素强度数据的时域变化和相关性来确定各自像素位置的“运动”。研究光流场的目的就是为了从图片序列中近似得到不能直接得到的运动场
+
+运动场，是物体在三维真实世界中的运动; 
+
+光流场，是运动场在二维图像平面上的投影。
+
+光流法的前提假设：
+
+- 相邻帧之间的亮度变化小; 
+
+- 相邻视频帧的取帧时间间隔小; 
+
+- 保持空间一致性; 即，同一子图像的像素点具有相同的运动
+
+![alt text](image.png)
 
 ## 图像掩膜与特征提取
 掩膜(mask)实际上就是一个二值图像, 他可以用来只对图像的某一部分进行操作(mask>=1), 对图像的另一部分(mask=0)进行忽略。
 
 我们常常用掩膜表示感兴趣区域, 或者表示我们提取出来的图像特征
 ```
-
+cv::add(
+	InputArray 	src1,
+	InputArray 	src2,
+	OutputArray dst,
+	InputArray 	mask = noArray(),
+	int 	dtype = -1 
+)		
 ```
+
+注意看,opencv的add函数就有mask参数。对于mask=0的像素, 输出图像的相应像素不会改变。
 
 ## pnp与位姿态估计
 
@@ -281,6 +306,7 @@ cv::equalizeHist(InputArray src,OutputArray dst)
 
 我们通过图像中物体上的特征点, 结合该物体特征点本来的位置, 来估计物体在三维空间中的位姿。
 
+[opencv PnP](https://docs.opencv.org/4.x/d5/d1f/calib3d_solvePnP.html)
 
 # 作业!
 

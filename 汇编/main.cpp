@@ -1,20 +1,28 @@
-#include <memory>
+#include <concepts>
 #include <iostream>
+#include <unordered_map>
+#include <boost/multiprecision/cpp_int.hpp>
 
-struct Message
-{
-    explicit Message(int data) : data(data){}
-    int data{};
-};
+using int_ = boost::multiprecision::int1024_t;
 
-std::ostream &operator<<(std::ostream &os, const std::shared_ptr<Message> &msg)
+std::unordered_map<int, int_> memo;
+int_ fib(int n)
 {
-    os << msg->data;
-    return os;
+    if (n <= 2)
+        return 1;
+    
+    if(memo.find(n) != memo.end())
+        return memo[n];
+
+    memo[n] = fib(n - 1) + fib(n - 2);
+    return memo[n];
 }
 
 int main()
 {
-    std::shared_ptr<Message> msg = std::make_shared<Message>(6);
-    std::cout << msg;
+    int n;
+    while (std::cin >> n)
+    {
+        std::cout << fib(n) << '\n';
+    }
 }

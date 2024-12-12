@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from PreSolve import DataPreprocessor
 
-class CustomerSegmentation:
+# ...Begin Analysis...
+class CustomerAnalysize:
     def __init__(self, data_path, n_clusters = 5):
         self.data = pd.read_csv(data_path)
         
@@ -22,7 +23,7 @@ class CustomerSegmentation:
             n_clusters = self.n_clusters,
             init = 'k-means++',
             n_init = 10,
-            max_iter = 300,
+            max_iter = 100,
             tol = 0.0001,
             random_state = 42
         )
@@ -30,7 +31,7 @@ class CustomerSegmentation:
         self.labels = self.kmeans.fit_predict(self.data)
         self.cluster_centers = self.kmeans.cluster_centers_
         return self
-        
+    
     def analyze_clusters(self):
         result_df = self.data.copy()
         result_df['Cluster'] = self.labels
@@ -49,7 +50,7 @@ class CustomerSegmentation:
         
         return cluster_summary
     
-    def plot_radar_chart(self, cluster_summary):
+    def draw_radar_chart(self, cluster_summary):
         categories = ['L', 'R', 'F', 'M', 'C']
         angles = np.linspace(0, 2 * np.pi, len(categories), endpoint = False)
         angles = np.concatenate((angles, [angles[0]]))
@@ -87,7 +88,7 @@ class CustomerSegmentation:
         plt.tight_layout()
         plt.savefig('../resources/res.png', dpi = 300, bbox_inches = 'tight')
         plt.close()
-    
+        
     def analyze_customer_characteristics(self, cluster_summary):
         characteristics = []
         
@@ -117,17 +118,17 @@ class CustomerSegmentation:
 
 def main():
     pre = DataPreprocessor("../resources/raw_data.csv")
-    pre.clean_data().create_lrfmc_features().handle_missing_values().standardize_features()
+    pre.clean_data().create_lrfmc_features().standardize_features()
     pre.save_processed_data("../resources/processed_data.csv")
     
-    segmentation = CustomerSegmentation("../resources/processed_data.csv")
+    segmentation = CustomerAnalysize("../resources/processed_data.csv")
     segmentation.perform_clustering()
     
     cluster_summary = segmentation.analyze_clusters()
     print("聚类结果汇总:")
     print(cluster_summary)
     
-    segmentation.plot_radar_chart(cluster_summary)
+    segmentation.draw_radar_chart(cluster_summary)
     
     characteristics = segmentation.analyze_customer_characteristics(cluster_summary)
     

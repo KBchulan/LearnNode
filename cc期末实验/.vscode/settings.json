@@ -71,6 +71,7 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "qgridlayout": "cpp",
-        "qmessagebox": "cpp"
+        "qmessagebox": "cpp",
+        "*.ipp": "cpp"
     }
 }

@@ -6,6 +6,7 @@
 
 // cc
 #include <queue>
+#include <tuple>
 #include <vector>
 #include <thread>
 #include <functional>
@@ -28,7 +29,6 @@
 #include <spdlog/sinks/daily_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-// RAII
 class RAII
 {
 public:
@@ -39,5 +39,22 @@ public:
 private:
     std::function<void()> _func;
 };
+
+// template <typename ReturnType, typename... Args>
+// class RAII
+// {
+// public:
+//     explicit RAII(std::function<ReturnType(Args...)> func) : _func(func) {}
+//     ~RAII() { std::apply(_func, _args); }
+
+//     void SetArgs(Args... args)
+//     {
+//         _args = std::make_tuple(std::forward<Args>(args)...);
+//     }
+
+// private:
+//     std::tuple<Args...> _args;
+//     std::function<ReturnType(Args...)> _func;
+// };
 
 #endif // !CONST_H

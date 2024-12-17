@@ -38,6 +38,7 @@ menu_loop:
     
     jmp menu_loop
 
+# 存储用户结构体数据
 store_contact:
     movq current_count, %rax
     cmpq $50, %rax
@@ -77,6 +78,7 @@ store_contact:
     
     jmp menu_loop
 
+# 搜索用户数据
 search_contact:
     movq $prompt_name, %rdi
     call print_string
@@ -116,6 +118,7 @@ name_not_found:
     call print_string
     jmp menu_loop
 
+# 冒泡排序
 sort_contacts:
     movq current_count, %r13
     decq %r13
@@ -161,6 +164,7 @@ no_swap_needed:
 
     jmp menu_loop
 
+# 绘制逻辑
 display_contacts:
     movq $display_header, %rdi
     call print_string
@@ -205,6 +209,7 @@ swap_loop:
     popq %rcx
     ret
 
+# %rsi作数据,%rcx作长度,复制到%rdi
 copy_string:
     pushq %rcx
 copy_loop:
@@ -217,6 +222,7 @@ copy_loop:
     popq %rcx
     ret
 
+# 比较%rdi和%rsi的字符串
 compare_string:
     pushq %rcx
     movq $20, %rcx
@@ -232,6 +238,7 @@ compare_done:
     popq %rcx
     ret
 
+# 打印%rdi的字符串
 print_string:
     pushq %rbx
     movq %rdi, %rbx
@@ -252,6 +259,7 @@ strlen_done:
     popq %rbx
     ret
 
+# 读取字符串到%rdi,在%rsi指定长度
 input_string:
     pushq %rbx
     movq %rdi, %rbx
@@ -268,6 +276,7 @@ input_string:
     popq %rbx
     ret
 
+# 读取单个字符到input_buf
 input_char:
     movq $0, %rax
     movq $0, %rdi
@@ -277,6 +286,7 @@ input_char:
     
     movb input_buf, %al
     
+    # 处理回车
     pushq %rax
     movq $0, %rax
     movq $0, %rdi
@@ -284,7 +294,6 @@ input_char:
     movq $1, %rdx
     syscall
     popq %rax
-    
     ret
 
 exit_program:

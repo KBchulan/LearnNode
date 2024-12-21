@@ -1,0 +1,122 @@
+.article-col {
+    padding-left: 20px;
+}
+
+.dsm img {
+    width: 100%;
+}
+
+.article-data .article-title {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.article-data .article-info {
+    padding-top: 10px;
+    color: #999;
+    font-size: 12px;
+}
+
+.article-data .article-author,
+.article-data .article-cat {
+    color: #337aB7;
+    cursor: pointer;
+}
+
+.article-data .seperate {
+    display: inline-block;
+    padding: 0 5px 0 5px;
+}
+
+.article-data .incat {
+    padding-left: 5px;
+}
+
+.article-data h3,
+.article-data h4 {
+    font-size: 22px;
+    font-weight: 700;
+    padding: 10px 0 10px 0;
+}
+
+.article-data h2,
+.article-data h1 {
+    font-size: 24px;
+    font-weight: 700;
+    padding: 10px 0 10px 0;
+}
+
+.article-data .article-content {
+    padding: 10px 0 10px 0;
+}
+
+.article-data p {
+    font-size: 16px
+}
+
+.error-tips {
+    display: none;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.comment-ul-li h3,
+.comment-ul-li h4 {
+    font-size: 20px;
+}
+
+.comment-ul-li h2,
+.comment-ul-li h1 {
+    font-size: 22px;
+}
+
+.article-recommend {
+    padding: 15px 0 5px 0;
+    font-size: 14px;
+}
+
+.recomlove {
+    display: inline-block;
+    padding-right: 10px;
+    font-size: 8px;
+}
+
+.love-recommend-span {
+    font-size: 10px !important;
+    color: #666;
+}
+
+
+/* 当我们进入 超小屏幕的时候 我们 nav 文字会变成14px  */
+
+@media screen and (max-width: 767px) {
+    .comment-ul-li h3,
+    .comment-ul-li h4 {
+        font-size: 18px;
+    }
+    .comment-ul-li h2,
+    .comment-ul-li h1 {
+        font-size: 18px;
+    }
+    .article-data .article-title {
+        font-size: 18px;
+        font-weight: 700;
+    }
+    .article-data h3,
+    .article-data h4 {
+        font-size: 18px;
+        font-weight: 700;
+        padding: 10px 0 10px 0;
+    }
+    .article-data h2,
+    .article-data h1 {
+        font-size: 18px;
+        font-weight: 700;
+        padding: 10px 0 10px 0;
+    }
+    .article-data p {
+        font-size: 14px
+    }
+}

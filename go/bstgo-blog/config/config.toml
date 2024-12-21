@@ -1,0 +1,25 @@
+[mongo]
+    host = "81.68.86.146:27017"
+    user = "admin"
+    passwd = "123456"
+    maxpoolsize = 10
+    contimeout  = "5000"
+    maxconidle = "5000"
+    database = "blog"
+
+[cookie]
+    host = "81.68.86.146"
+    #本地启动请设置host为本地
+    #host = "localhost"
+    alive = 86400
+
+[location]
+    timezone = "Asia/Shanghai"
+
+[redis]
+    host = "81.68.86.146:6379"
+    idlecons = 16
+    poolsize = 1024
+    idletimeout = 300
+    passwd = "123456"
+    db = 0

@@ -1,0 +1,29 @@
+{{ define "home/mask"}}
+<div class="catmask">
+
+</div>
+<div class="mask">
+
+</div>
+<!-- Sidebar -->
+<div class="xs-article-index-wrapper visible-xs">
+    {{ if ne .ActiveId ""}}
+    <ul class="nav sidebar-nav xs-article-index">
+        <div id="min-category-name" hidden>{{.CategoryName}}</div>
+
+        {{range .LeftCatList}}
+        <li class="subcatli"><a data-toggle="collapse" href="#{{.CatId}}" subcat-id="{{.CatId}}" subname="{{.Name}}">{{.Name}}<span class="glyphicon glyphicon-menu-right"></span></a>
+            <div id="{{.CatId}}" class="collapse">
+                <ul class="nav nav-pills nav-stacked sub-sidebar">
+                    {{range .SubArticle}}
+                    <li class="subtitleli"><a href="JavaScript:void(0);" art-id="{{.ArtId}}">{{.ArtSubTitle}}</a></li>
+                    {{end}}
+                </ul>
+            </div>
+        </li>
+        {{end}}
+    </ul>
+    {{end}}
+</div>
+
+{{end}}

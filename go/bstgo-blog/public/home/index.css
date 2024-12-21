@@ -1,0 +1,727 @@
+h1 {
+    display: none;
+}
+
+hr.grey-hr {
+    border-top: 1px solid #c1c1c1;
+}
+
+a:focus {
+    text-decoration: none;
+}
+
+a {
+    word-wrap: break-word;
+}
+
+
+/* 代码行号 */
+
+.hljs-ln-numbers {
+    text-align: center;
+    color: #ccc;
+    border-right: 1px solid #999;
+    vertical-align: top;
+    padding-right: 5px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* 对于代码块 */
+
+.hljs-ln-code {
+    padding-left: 10px;
+}
+
+
+/**************外层布局*****************/
+
+.fix-html {
+    height: 100%;
+    overflow: hidden;
+}
+
+
+/* 祖先节点 */
+
+.ancestor {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* 蒙板 */
+
+.mask {
+    display: none;
+    z-index: 20000;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5 ease;
+}
+
+.ancestor.show .mask {
+    display: block;
+}
+
+
+/* 分类蒙板 */
+
+.catmask {
+    display: none;
+    z-index: 10000;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5 ease;
+}
+
+
+/************************************/
+
+
+/**************小屏幕伸缩侧边栏*****************/
+
+
+/* 标题导航栏 */
+
+.navbar-fixed-top {
+    z-index: 10040;
+}
+
+
+/* 小屏幕下文章索引侧边栏 */
+
+.xs-article-index-wrapper {
+    position: fixed;
+    z-index: 100000;
+    background-color: #222222;
+    width: 0;
+    max-height: 100%;
+    min-height: 100%;
+    overflow-y: auto;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5 ease;
+}
+
+
+/* 默认情况下不显示ul列表 */
+
+.xs-article-index-wrapper .xs-article-index {
+    display: none;
+}
+
+
+/* 点击列表按钮后增加show类，弹出文章列表索引 */
+
+.ancestor.show .xs-article-index-wrapper {
+    width: 60%;
+}
+
+.ancestor.show .xs-article-index-wrapper .xs-article-index {
+    display: block;
+}
+
+
+/*设置小屏幕下侧边栏一级标题点击效果*/
+
+.xs-article-index-wrapper>ul>li.active>a {
+    background-color: #EEEEEE;
+    color: #222222;
+}
+
+
+/* 设置小屏幕下侧边栏一级标题样式 */
+
+.xs-article-index-wrapper>ul>li>a {
+    color: #c9c0c0;
+}
+
+
+/* 小屏幕下侧边栏一级标题右箭头 */
+
+.xs-article-index>li>a>span {
+    position: absolute;
+    right: .625rem;
+    top: 50%;
+    transform: translateY(-50%);
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5 ease;
+}
+
+
+/*小屏幕下侧边栏文章索引选中效果*/
+
+.xs-article-index>.subcatli.active>a {
+    color: #fff;
+    background-color: #337ab7;
+}
+
+
+/************************************/
+
+
+/**************导航栏*****************/
+
+
+/* 导航栏 */
+
+.navbar {
+    padding: 0 6.25rem
+}
+
+.login li a,
+.category li a {
+    font-size: 16px;
+}
+
+.login li,
+.category li {
+    display: inline-block;
+    margin-right: 10px;
+    min-width: 80px;
+    text-align: center;
+}
+
+
+/* 标题栏分类按钮 */
+
+.category-index span {
+    display: block;
+    width: 22px;
+    height: 14px;
+    color: #ffffff;
+}
+
+
+/************************************/
+
+
+/*************容器内容区***************/
+
+.ancestor .container-root {
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5 ease;
+}
+
+.ancestor.show .container-root {
+    transform: translateX(50%);
+}
+
+
+/* 内容区 */
+
+.content {
+    padding-top: 6.25rem;
+    padding-bottom: 1.25rem;
+}
+
+
+/*文章内容区域*/
+
+.contant-col {
+    border-right: #D0D1D6 solid 1px;
+    border-left: #D0D1D6 solid 1px;
+}
+
+
+/* 文章侧边栏索引圆角和背景颜色 */
+
+.sidebar {
+    background-color: #222222;
+    border-radius: 4px;
+}
+
+
+/* 文章侧边栏箭头图标 */
+
+.sidebar li a span {
+    position: absolute;
+    right: .625rem;
+    top: 50%;
+    transform: translateY(-50%);
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5 ease;
+}
+
+
+/* 文章侧边栏索引样式 */
+
+.sidebar>li>a {
+    color: #9D9D9D;
+    overflow: hidden;
+    /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow: ellipsis;
+}
+
+.sidebar>li>a:hover {
+    color: #222222;
+}
+
+
+/* 左侧文章列表 */
+
+#article-navbar-collapse {
+    padding: 0;
+    overflow: hidden;
+    /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow: ellipsis;
+}
+
+
+/*子菜单列表*/
+
+.sub-sidebar li a {
+    padding-left: 30px;
+}
+
+.nav-pills>li>a {
+    color: #c9c0c0;
+}
+
+.nav-pills>li>a:hover {
+    color: #222222;
+}
+
+
+/*文章区域*/
+
+
+/* 浏览量列表 */
+
+.browselist {
+    padding-top: 1.25rem;
+    padding-bottom: .625rem;
+}
+
+.browselist ul {
+    float: right;
+    font-size: x-small;
+}
+
+
+/*footer区域*/
+
+.blog-footer {
+    padding: 40px 0;
+    color: #999;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: 1px solid #e5e5e5;
+}
+
+.blog-footer p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* 浏览量 */
+
+.webbrowser {
+    font-size: x-small;
+}
+
+
+/* 点赞数 */
+
+#love-num {
+    position: relative;
+}
+
+#love-num div {
+    position: absolute;
+    top: -150%;
+    padding: 2px;
+    left: 15%;
+    display: none;
+}
+
+.love-num-li {
+    position: relative;
+}
+
+.love-num-li div {
+    position: absolute;
+    top: -150%;
+    padding: 2px;
+    left: 15%;
+    display: none;
+}
+
+
+/* 评论区 */
+
+.comment-label {
+    font-size: 100%;
+}
+
+.comment-list {
+    margin-top: 30px;
+}
+
+
+/* 评论区头像 */
+
+
+/* 用户头像 */
+
+.comment-head-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.comment-head-icon img:hover {
+    cursor: pointer;
+}
+
+
+/* 用户名 */
+
+.comment-name {
+    padding-bottom: 2px;
+}
+
+.comment-name:hover {
+    cursor: pointer;
+}
+
+
+/* 评论日期 */
+
+.comment-date {
+    font-size: x-small;
+}
+
+
+/* 用户信息浮动并排显示 */
+
+.comment-user,
+.comment-head-icon {
+    float: left;
+}
+
+
+/* 设置用户信息内边距 */
+
+.comment-user {
+    padding-left: 1.25rem;
+    padding-top: .3125rem
+}
+
+
+/* 评论列表下边框和下边距 */
+
+.comment-list-ul {
+    border-bottom: #D0D1D6 solid 1px;
+}
+
+
+/* 评论区内容 */
+
+.comment-content {
+    padding-left: 65px;
+    color: #666666;
+}
+
+.comment-content.p {
+    word-wrap: break-word;
+    word-break: normal;
+}
+
+
+/* 评论区用户信息 */
+
+.comment-info {
+    border-top: #D0D1D6 solid 1px;
+    padding-top: 20px;
+}
+
+
+/* 评论区点赞与回复 */
+
+.comment-love-ul {
+    float: right;
+    font-size: x-small;
+}
+
+.comment-love {
+    padding: 5px 0;
+}
+
+
+/* 评论区回复 */
+
+.comment-replay {
+    padding: 0px 0 0 65px;
+}
+
+.reply-name {
+    padding-bottom: 2px;
+}
+
+.reply-name:hover {
+    cursor: pointer;
+}
+
+.reply-content {
+    color: #666666;
+}
+
+.reply-date {
+    font-size: x-small;
+}
+
+.reply-head-icon,
+.reply-user {
+    float: left;
+}
+
+.reply-user {
+    padding-left: 1.25rem;
+    padding-top: .3125rem
+}
+
+.reply-head-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.reply-content {
+    padding-left: 65px;
+    color: #666666;
+}
+
+.reply-info {
+    border-top: #D0D1D6 solid 1px;
+    padding-top: 20px;
+}
+
+
+/* 文章内容 */
+
+.article-data {
+    color: #606266;
+}
+
+
+/* 评论区点赞与回复 */
+
+.reply-love-ul {
+    float: right;
+    font-size: x-small;
+}
+
+.reply-love {
+    padding: 5px 0;
+}
+
+
+/* 回复编辑框 */
+
+.reply-text {
+    margin: 10px 0 10px 65px;
+    padding: 10px;
+    background-color: #F5F5F5;
+    display: none;
+}
+
+.reply-btn {
+    float: right;
+    font-size: x-small;
+}
+
+
+/* 评论编辑框 */
+
+.comment-wrapper {
+    padding-top: 20px;
+}
+
+.comment-editor {
+    padding-bottom: 20px;
+}
+
+.comment-editor {
+    top: 50px!important;
+}
+
+
+/* 评论按钮 */
+
+.comment-commit-btn {
+    float: right;
+    font-size: x-small;
+}
+
+
+/************************************/
+
+
+/*********************************/
+
+
+/* 右侧边栏 */
+
+.about-div p:hover {
+    cursor: pointer;
+}
+
+.about-div {
+    padding-bottom: 10px;
+}
+
+.archive-div {
+    padding-bottom: 10px;
+}
+
+.elsewhere {
+    padding-bottom: 10px;
+}
+
+
+/* 热门文章列表 */
+
+.article-hot {
+    padding: 15px 0 5px 0;
+}
+
+.love-hot-span {
+    font-size: 8px;
+    color: #666666;
+}
+
+.hot-love,
+.hot-scan {
+    display: inline-block;
+    padding-right: 10px;
+    font-size: 8px;
+}
+
+
+/* 最新评论 */
+
+.new-comments {
+    padding: 15px 0 5px 0;
+}
+
+.com-title {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.com-content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    color: #666666;
+}
+
+
+/* 错误提示框 */
+
+.error-tips {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+
+
+/********************************/
+
+
+/* 当我们进入 超小屏幕的时候 我们 nav 文字会变成14px  */
+
+@media screen and (max-width: 767px) {
+    /* header中a左右15px居中显示 */
+    .navbar-header {
+        padding: 0 1.25rem;
+    }
+    /*分类图标右侧显示*/
+    .navbar-toggle {
+        float: right;
+    }
+    .navbar {
+        padding: 0 0;
+    }
+    /* 索引图标在标题左侧 */
+    .article-index-btn {
+        float: left;
+    }
+    /* 文章索引目录 */
+    /* #article-navbar-collapse {
+        width: auto;
+    } */
+    .content {
+        padding-top: 50px;
+    }
+    .article-col {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .w-e-panel-container {
+        position: fixed !important;
+        width: 90% !important;
+        /* width: 18.75rem!important; */
+        /* margin-left: -18.75rem!important; */
+        left: 50% !important;
+        top: 50px !important;
+        transform: translateX(-50%);
+        margin-left: 0 !important;
+    }
+    .comment-editor {
+        top: 50px!important;
+    }
+    /* 超小屏幕下分类列表并排显示左浮动 */
+    .navbar-nav.category>li {
+        float: left;
+    }
+    /* home主页标题向右偏移一点 */
+    .navbar-header .navbar-brand {
+        padding-left: 70px;
+    }
+    .navbar-nav.category>li>a {
+        font-size: 14px;
+    }
+    .navbar-nav.login>li>a {
+        font-size: 14px;
+    }
+}
+
+
+/* 进入小屏幕以上 */
+
+@media screen and (min-width: 991px) {}
+
+
+/*进入中屏幕以上*/
+
+@media screen and (min-width: 1199px) {}

@@ -1,0 +1,15 @@
+.mini-li {
+    cursor: pointer;
+}
+
+.mini-li:hover {
+    background-color: #EEEEEE;
+}
+
+.mini-li:hover span {
+    color: #428bca;
+}
+
+.mini-li.over {
+    border-top: 2px solid #AAAAAA;
+}

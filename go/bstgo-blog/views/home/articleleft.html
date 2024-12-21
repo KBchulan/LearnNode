@@ -1,0 +1,29 @@
+{{ define "home/articleleft" }}
+<div class="dsm">
+    <h4>交个朋友</h4>
+    <img src="/static/img/wechat.jpg" alt="" width="200px">
+</div>
+<!-- 文章左侧区相关推荐 -->
+<div class="relative-div">
+    <h4>相关推荐</h4>
+    <ol class="list-unstyled">
+        {{range .RecommendList}}
+        <li>
+            <div class="article-recommend">
+                <a href="#" article-id="{{.Id}}">
+                    <p>{{.Title}}</p>
+                </a>
+                <div class="love-recommend-span">
+                    <span class="glyphicon glyphicon-heart-empty"></span><span class="recomlove"> 喜欢({{.LoveNum}})</span>
+                    <span class="glyphicon glyphicon-eye-open browse"></span><span class="recomscan"> 浏览({{.ScanNum}})</span>
+                </div>
+            </div>
+        </li>
+        {{end}}
+    </ol>
+</div>
+
+
+
+
+{{ end }}

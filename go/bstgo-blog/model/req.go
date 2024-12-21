@@ -1,8 +1,8 @@
 package model
 
 type CreateCtgReq struct {
-	Category string `json: "category" `
-	Index    int    `json: "index"`
+	Category string `json:"category"`
+	Index    int    `json:"index"`
 }
 
 type CreateSubCtgReq struct {
@@ -12,17 +12,17 @@ type CreateSubCtgReq struct {
 }
 
 type ArticleParamReq struct {
-	Cat    string `json: "cat"`
-	SubCat string `json: "subcat"`
+	Cat    string `json:"cat"`
+	SubCat string `json:"subcat"`
 }
 
 type ArticlePubReq struct {
-	Cat      string `json: "cat"`
-	Title    string `json: "title"`
-	Content  string `json: "content"`
-	Subcat   string `json: "subcat"`
-	Subtitle string `json: "subtitle"`
-	Author   string `json: "author"`
+	Cat      string `json:"cat"`
+	Title    string `json:"title"`
+	Content  string `json:"content"`
+	Subcat   string `json:"subcat"`
+	Subtitle string `json:"subtitle"`
+	Author   string `json:"author"`
 }
 
 type ArticlePubRsp struct {
@@ -30,9 +30,9 @@ type ArticlePubRsp struct {
 }
 
 type LoginSubReq struct {
-	Pwd   string `json: "pwd"`
-	Email string `json: "email"`
-	Salt  string `json: "salt"`
+	Pwd   string `json:"pwd"`
+	Email string `json:"email"`
+	Salt  string `json:"salt"`
 }
 
 type BaseRsp struct {
@@ -42,8 +42,8 @@ type BaseRsp struct {
 
 type LoginSubRsp struct {
 	BaseRsp
-	Pwd   string `json: "pwd"`
-	Email string `json: "email"`
+	Pwd   string `json:"pwd"`
+	Email string `json:"email"`
 }
 
 type SortMenuReq struct {

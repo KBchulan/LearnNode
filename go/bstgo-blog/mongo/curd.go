@@ -133,10 +133,10 @@ func UpdateLoginFailed(loginfailed *model.LoginFailed) error {
 	//指定连接集合
 	col := MongoDb.Collection("loginfaileds")
 	//设置更新条件
-	filter := bson.D{{"email", loginfailed.Email}}
-	update := bson.D{{"$set",
-		bson.D{
-			{"count", loginfailed.Count},
+	filter := bson.D{{Key: "email", Value: loginfailed.Email}}
+	update := bson.D{{Key: "$set",
+		Value: bson.D{
+			{Key: "count", Value: loginfailed.Count},
 		},
 	}}
 
@@ -170,7 +170,7 @@ func GetMenuListByParent(parent string) ([]*model.CatMenu, error) {
 	//设置查询条件
 	filter := bson.M{"parent": parent}
 
-	SORT := bson.D{{"index", 1}}
+	SORT := bson.D{{Key: "index", Value: 1}}
 	findOptions := options.Find().SetSort(SORT)
 
 	cursor, err := col.Find(ctx, filter, findOptions)
@@ -258,7 +258,7 @@ func SaveArtContent(article *model.ArticleContent) error {
 	return err
 }
 
-//获取文章详情列表
+// 获取文章详情列表
 func GetArticleDetailsByPage(page int) ([]*model.Article_, error) {
 	articles := []*model.Article_{}
 	if page < 1 {
@@ -313,7 +313,7 @@ func GetArticleDetailsByPage(page int) ([]*model.Article_, error) {
 	return articles, nil
 }
 
-//获取文章列表
+// 获取文章列表
 func GetArticlesByPage(page int) ([]*model.ArticleInfo, error) {
 	articles := []*model.ArticleInfo{}
 	if page < 1 {
@@ -351,7 +351,7 @@ func GetArticlesByPage(page int) ([]*model.ArticleInfo, error) {
 	return articles, nil
 }
 
-//获取文章总数
+// 获取文章总数
 func ArticleTotalCount() (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -366,7 +366,7 @@ func ArticleTotalCount() (int, error) {
 	return int(count), nil
 }
 
-//搜索文章
+// 搜索文章
 func SearchArticle(condition *model.SearchArticleReq) ([]*model.ArticleInfo, int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -450,7 +450,7 @@ func SearchArticle(condition *model.SearchArticleReq) ([]*model.ArticleInfo, int
 	return articles, int(count), nil
 }
 
-//通过子分类搜索文章
+// 通过子分类搜索文章
 func SearchArticleBySubCat(category string) ([]*model.ArticleInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -480,7 +480,7 @@ func SearchArticleBySubCat(category string) ([]*model.ArticleInfo, error) {
 	return articles, nil
 }
 
-//批量更新文章列表序列
+// 批量更新文章列表序列
 func UpdateArticleSort(sortArt *model.ArticleSortReq) error {
 	if len(sortArt.ArticleList) == 0 {
 		log.Println("sort article list is empty")
@@ -502,7 +502,7 @@ func UpdateArticleSort(sortArt *model.ArticleSortReq) error {
 	return err
 }
 
-//获取子分类下最大index
+// 获取子分类下最大index
 func GetSubCatMaxIndex(subcat string) (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -539,7 +539,7 @@ func GetSubCatMaxIndex(subcat string) (int, error) {
 	return maxIndex, nil
 }
 
-//删除文章
+// 删除文章
 func DelArticle(title string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -552,7 +552,7 @@ func DelArticle(title string) error {
 	return nil
 }
 
-//通过文章获取文章概要信息
+// 通过文章获取文章概要信息
 func GetArticleInfo(id string) (*model.ArticleInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -568,7 +568,7 @@ func GetArticleInfo(id string) (*model.ArticleInfo, error) {
 	return info, nil
 }
 
-//通过id获取文章
+// 通过id获取文章
 func GetArticleId(id string) (*model.Article_, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -603,7 +603,7 @@ func GetArticleId(id string) (*model.Article_, error) {
 	return article, nil
 }
 
-//根据分类和子分类获取第一篇文章
+// 根据分类和子分类获取第一篇文章
 func GetFirstArtByCat(cat string, subcat string) (*model.Article_, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -646,7 +646,7 @@ func GetFirstArtByCat(cat string, subcat string) (*model.Article_, error) {
 	return article, nil
 }
 
-//更新文章浏览量
+// 更新文章浏览量
 func AddArticleScan(id string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -660,7 +660,7 @@ func AddArticleScan(id string) error {
 	return nil
 }
 
-//更新文章
+// 更新文章
 func UpdateArticle(req *model.UpdateArticleReq) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -694,7 +694,7 @@ func UpdateArticle(req *model.UpdateArticleReq) error {
 	return nil
 }
 
-//获取草稿总数
+// 获取草稿总数
 func DraftTotalCount() (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -709,7 +709,7 @@ func DraftTotalCount() (int, error) {
 	return int(count), nil
 }
 
-//更新文章lovenum
+// 更新文章lovenum
 func UpdateArticleLoveNum(req *model.AddLoveNumReq) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
@@ -721,7 +721,7 @@ func UpdateArticleLoveNum(req *model.AddLoveNumReq) error {
 	return err
 }
 
-//获取评论
+// 获取评论
 func GetCommentByParent(parent string) ([]*model.Comment, error) {
 	comments := []*model.Comment{}
 
@@ -753,7 +753,7 @@ func GetCommentByParent(parent string) ([]*model.Comment, error) {
 	return comments, nil
 }
 
-//获取最新评论
+// 获取最新评论
 func GetNewComments() ([]*model.Comment, error) {
 	comments := []*model.Comment{}
 
@@ -761,7 +761,7 @@ func GetNewComments() ([]*model.Comment, error) {
 	defer cancel()
 
 	pipeline := bson.A{
-		//先按时间排序，再分组取出每一组最新的条目
+		//先按时间排序，再分组取出每一组最新���条目
 		bson.M{"$sort": bson.M{"comtime": -1}},
 		bson.M{
 			"$group": bson.M{
@@ -834,7 +834,7 @@ func GetNewComments() ([]*model.Comment, error) {
 	return comments, nil
 }
 
-//获取访问量
+// 获取访量
 func GetVisitNum() (int64, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -852,7 +852,7 @@ func GetVisitNum() (int64, error) {
 	return visitInfo.VisitNum, nil
 }
 
-//设置访问量
+// 设置访问量
 func SetVisitNum() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -881,7 +881,7 @@ func SetVisitNum() error {
 	return err
 }
 
-//增加访问量
+// 增加访问量
 func AddVisitNum() (int64, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -912,7 +912,7 @@ func AddVisitNum() (int64, error) {
 	return visitinfo.VisitNum, err
 }
 
-//新增评论信息
+// 新增评论信息
 func AddComment(comment *model.Comment) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -921,7 +921,7 @@ func AddComment(comment *model.Comment) error {
 	return err
 }
 
-//增加评论喜欢数
+// 增加评论喜欢数
 func AddComLove(comment *model.ComLoveReq) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -932,7 +932,7 @@ func AddComLove(comment *model.ComLoveReq) error {
 	return err
 }
 
-//增加回复区喜欢数
+// 增加回复区喜欢数
 func AddRplLove(reply *model.RplLoveReq) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -942,7 +942,7 @@ func AddRplLove(reply *model.RplLoveReq) error {
 	return err
 }
 
-//获取相关推荐
+// 获取相关推荐
 func RelRecommend(cat string) ([]*model.ArticleInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -974,7 +974,7 @@ func RelRecommend(cat string) ([]*model.ArticleInfo, error) {
 	return articles, nil
 }
 
-//获取热门文章
+// 获取热门文章
 func HotArticles() ([]*model.ArticleInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -1005,7 +1005,7 @@ func HotArticles() ([]*model.ArticleInfo, error) {
 	return articles, nil
 }
 
-//获取子分类下文章详情列表
+// 获取子分类下文章详情列表
 func SubCatArtInfos(cat string, subcat string) ([]*model.ArticleInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -1036,7 +1036,7 @@ func SubCatArtInfos(cat string, subcat string) ([]*model.ArticleInfo, error) {
 	return articles, nil
 }
 
-//获取一级分类下文章列表
+// 获取一级分类下文章列表
 func CatArtInfos(cat string) ([]*model.ArticleInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()

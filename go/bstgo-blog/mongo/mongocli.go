@@ -17,8 +17,9 @@ var MongoClient *mongo.Client = nil
 var MongoDb *mongo.Database = nil
 
 func MongoInit() (e error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	// 连接uri
 	uri := "mongodb://" + config.TotalCfgData.Mongo.User + ":" + config.TotalCfgData.Mongo.Passwd +
 		"@" + config.TotalCfgData.Mongo.Host + "/?authSource=admin"

@@ -9,32 +9,32 @@ import (
 )
 
 type MongoCfg struct {
-	User        string `toml: "user"`
-	Passwd      string `toml: "passwd"`
-	Host        string `toml: "host"`
-	MaxPoolSize int16  `toml: "maxpoolsize"`
+	User        string `toml:"user"`
+	Passwd      string `toml:"passwd"`
+	Host        string `toml:"host"`
+	MaxPoolSize int16  `toml:"maxpoolsize"`
 	MaxConIdle  string `toml:"maxconidle"`
-	ConTimeOut  string `toml: "contimeout"`
-	Database    string `toml: "database"`
+	ConTimeOut  string `toml:"contimeout"`
+	Database    string `toml:"database"`
 }
 
 type CookieCfg struct {
-	Host  string `toml: "host"`
-	Alive int    `toml: "alive"`
+	Host  string `toml:"host"`
+	Alive int    `toml:"alive"`
 }
 
 type RedisCfg struct {
-	Host        string `toml: "host"`
-	PoolSize    int    `toml: "poolsize"`
-	IdleCons    int    `toml: "idlecons"`
-	IdleTimeout int    `toml: "idletimeout"`
-	Passwd      string `toml: "passwd"`
-	DB          int    `toml: "db"`
+	Host        string `toml:"host"`
+	PoolSize    int    `toml:"poolsize"`
+	IdleCons    int    `toml:"idlecons"`
+	IdleTimeout int    `toml:"idletimeout"`
+	Passwd      string `toml:"passwd"`
+	DB          int    `toml:"db"`
 }
 
 type TotalCfg struct {
-	Mongo     MongoCfg  `toml: "mongo"`
-	Cookie    CookieCfg `toml: "cookie"`
+	Mongo     MongoCfg  `toml:"mongo"`
+	Cookie    CookieCfg `toml:"cookie"`
 	Location_ Location  `toml:"location"`
 	Redis     RedisCfg  `toml:"redis"`
 }

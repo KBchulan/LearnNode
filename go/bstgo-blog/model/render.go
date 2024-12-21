@@ -2,7 +2,7 @@ package model
 
 import "html/template"
 
-//管理主界面
+// 管理主界面
 type AdminIndexR struct {
 	Menus    []*MenuLv1
 	Res      string
@@ -12,27 +12,27 @@ type AdminIndexR struct {
 	VisitNum int64
 }
 
-//一级目录
+// 一级目录
 type MenuLv1 struct {
 	SelfMenu  *CatMenu
 	ChildMenu []*CatMenu
 }
 
-//一级目录模板
+// 一级目录模板
 type MenuLv1R struct {
 	CatName string
 	CatId   string
 	Msg     string
 }
 
-//二级目录模板
+// 二级目录模板
 type MenuLv2R struct {
 	SubCatName string
 	SubCatId   string
 	Msg        string
 }
 
-//文章编辑界面渲染
+// 文章编辑界面渲染
 type ArticleEditR struct {
 	Menu_      []*CatMenu
 	SubMenu_   []*CatMenu
@@ -43,28 +43,28 @@ type ArticleEditR struct {
 	SubCatName string
 }
 
-//文章编辑页面子分类渲染
+// 文章编辑页面子分类渲染
 type SubCatSelectR struct {
 	SubCatMenus_ []*CatMenu
 	Res          string
 }
 
-//文章结构
+// 文章结构
 type ArticleR struct {
 	Id       string `bson:"id"`
-	Cat      string `bson: "cat"`
-	Title    string `bson: "title"`
-	Content  string `bson: "content"`
-	Subcat   string `bson: "subcat"`
-	Subtitle string `bson: "subtitle"`
+	Cat      string `bson:"cat"`
+	Title    string `bson:"title"`
+	Content  string `bson:"content"`
+	Subcat   string `bson:"subcat"`
+	Subtitle string `bson:"subtitle"`
 	ScanNum  int    `bson:"scannum"`
-	LoveNum  int    `bson:"lovenum`
+	LoveNum  int    `bson:"lovenum"`
 	CreateAt string
 	LastEdit string
 	Author   string `bson:"author"`
 }
 
-//admin搜索界面渲染文章列表
+// admin搜索界面渲染文章列表
 type ArticleListR struct {
 	Articles []*ArticleR
 	Res      string
@@ -72,13 +72,13 @@ type ArticleListR struct {
 	Total    int
 }
 
-//点击三级标题渲染文章列表
+// 点击三级标题渲染文章列表
 type AdminCatR struct {
 	Res      string
 	Articles []*ArticleR
 }
 
-//文章修改
+// 文章修改
 type ArticleModifyR struct {
 	Res     string
 	Article *ArticleR
@@ -92,7 +92,7 @@ type ArticleModifyR struct {
 	SubCatName string
 }
 
-//草稿箱
+// 草稿箱
 type DraftBoxR struct {
 	Res      string
 	Articles []*ArticleR
@@ -100,7 +100,7 @@ type DraftBoxR struct {
 	Cur      int
 }
 
-//文章页模板渲染
+// 文章页模板渲染
 type ArticlePageR struct {
 	HomeArticleR
 	RelRecommendR
@@ -109,16 +109,16 @@ type ArticlePageR struct {
 	NavCatListR
 }
 
-//文章页面文章渲染结构
+// 文章页面文章渲染结构
 type HomeArticleR struct {
 	Id         string `bson:"id"`
-	Cat        string `bson: "cat"`
-	Title      string `bson: "title"`
+	Cat        string `bson:"cat"`
+	Title      string `bson:"title"`
 	Content    template.HTML
-	Subcat     string `bson: "subcat"`
-	Subtitle   string `bson: "subtitle"`
+	Subcat     string `bson:"subcat"`
+	Subtitle   string `bson:"subtitle"`
 	ScanNum    int    `bson:"scannum"`
-	LoveNum    int    `bson:"lovenum`
+	LoveNum    int    `bson:"lovenum"`
 	CreateAt   string `bson:"createdAt"`
 	LastEdit   string `bson:"lastedit"`
 	Author     string `bson:"author"`
@@ -128,35 +128,35 @@ type HomeArticleR struct {
 	VisitNum   int64
 }
 
-//顶部分类信息
+// 顶部分类信息
 type NavCatR struct {
 	CatId string
 	Name  string
 	Index int
 }
 
-//顶部菜单列表
+// 顶部菜单列表
 type NavCatListR struct {
 	NavCatList []*NavCatR
 	ActiveId   string
 }
 
-//相关推荐
+// 相关推荐
 type RelRecommendR struct {
 	RecommendList []*HomeArticleR
 }
 
-//热门列表
+// 热门列表
 type HotListR struct {
 	HotList []*HomeArticleR
 }
 
-//最新评论列表
+// 最新评论列表
 type NewCommentR struct {
 	CommentList []*CommentR
 }
 
-//文章评论
+// 文章评论
 type CommentR struct {
 	Id       string        `bson:"id"`
 	UserName string        `bson:"username"`
@@ -206,7 +206,7 @@ type HomeCategoryR struct {
 	NewCommentR
 }
 
-//左侧分类菜单
+// 左侧分类菜单
 type LeftCatMenusR struct {
 	LeftCatList []*LeftCatR
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-//keys
+// keys
 const (
 	STRING_ToTAL_VISIT_NUM_KEY = "total_visit"
 	HSET_LV1_MENU_KEY          = "lv1_menu"
@@ -168,7 +168,7 @@ func SetNewComments(comments []*model.Comment) error {
 	return nil
 }
 
-//home首页文章列表
+// home首页文章列表
 func GetHomeArticleDetails() ([]*model.Article_, error) {
 	articles := []*model.Article_{}
 	artmap, err := rediscli.HGetAll(HSET_HOME_ARTICLES_KEY).Result()
@@ -190,7 +190,7 @@ func GetHomeArticleDetails() ([]*model.Article_, error) {
 	return articles, nil
 }
 
-//home首页文章列表写入redis
+// home首页文章列表写入redis
 func SetHomeArticleDetails(arts []*model.Article_) error {
 	for _, art := range arts {
 		artjs, err := json.Marshal(art)
@@ -206,7 +206,7 @@ func SetHomeArticleDetails(arts []*model.Article_) error {
 	return nil
 }
 
-//获取文章总数
+// 获取文章总数
 func GetTotalArtNum() (int, error) {
 	val, err := rediscli.Get(STRING_TOTAL_ARTICLE_NUM).Result()
 
@@ -226,13 +226,13 @@ func GetTotalArtNum() (int, error) {
 	return valint, nil
 }
 
-//设置文章总数
+// 设置文章总数
 func SetTotalArtNum(total int) error {
 	_, err := rediscli.Set(STRING_TOTAL_ARTICLE_NUM, total, 15*time.Hour).Result()
 	return err
 }
 
-//根据id查找目录
+// 根据id查找目录
 func GetMenuById(catid string) (*model.CatMenu, error) {
 	catmenu := &model.CatMenu{}
 	menujs, err := rediscli.HGet(HSET_MENUS_KEY, catid).Result()
@@ -247,7 +247,7 @@ func GetMenuById(catid string) (*model.CatMenu, error) {
 	return catmenu, nil
 }
 
-//将目录信息写入redis 目录集合
+// 将目录信息写入redis 目录集合
 func SetMenuToSet(menu *model.CatMenu) error {
 	menujs, err := json.Marshal(menu)
 	if err != nil {
@@ -259,7 +259,7 @@ func SetMenuToSet(menu *model.CatMenu) error {
 	return nil
 }
 
-//根据分类查找二级目录
+// 根据分类查找二级目录
 func GetLv2MenusByCatId(cat string) ([]*model.CatMenu, error) {
 	catkey := HSET_LV2_MENU_PREFIX + cat
 	menus := []*model.CatMenu{}
@@ -284,7 +284,7 @@ func GetLv2MenusByCatId(cat string) ([]*model.CatMenu, error) {
 	return menus, nil
 }
 
-//home首页文章列表写入redis
+// home首页文章列表写入redis
 func SetLv2MenusByCatId(cat string, menus []*model.CatMenu) error {
 	catkey := HSET_LV2_MENU_PREFIX + cat
 	for _, menu := range menus {
@@ -301,7 +301,7 @@ func SetLv2MenusByCatId(cat string, menus []*model.CatMenu) error {
 	return nil
 }
 
-//根据分类获取文章信息
+// 根据分类获取文章信息
 func GetArtInfoByCat(cat string) ([]*model.ArticleInfo, error) {
 	artinfos := []*model.ArticleInfo{}
 	catkey := HSET_ARTINFO_PREFIX + cat
@@ -324,7 +324,7 @@ func GetArtInfoByCat(cat string) ([]*model.ArticleInfo, error) {
 	return artinfos, nil
 }
 
-//设置文章信息
+// 设置文章信息
 func SetArtInfoByCat(cat string, infos []*model.ArticleInfo) error {
 	catkey := HSET_ARTINFO_PREFIX + cat
 	for _, info := range infos {
@@ -341,7 +341,7 @@ func SetArtInfoByCat(cat string, infos []*model.ArticleInfo) error {
 	return nil
 }
 
-//获取首篇文章
+// 获取首篇文章
 func GetFirstArtByCat(cat string, subcat string) (*model.Article_, error) {
 	article := &model.Article_{}
 	artjs, err := rediscli.HGet(HSET_FIRSTART, cat+"_"+subcat).Result()
@@ -357,7 +357,7 @@ func GetFirstArtByCat(cat string, subcat string) (*model.Article_, error) {
 	return article, nil
 }
 
-//设置首篇文章
+// 设置首篇文章
 func SetFristArtByCat(cat string, subcat string, art *model.Article_) error {
 	artjs, err := json.Marshal(art)
 	if err != nil {
@@ -372,7 +372,7 @@ func SetFristArtByCat(cat string, subcat string, art *model.Article_) error {
 	return nil
 }
 
-//获取文章的评论
+// 获取文章的评论
 func GetCommentsByParent(pid string) ([]*model.Comment, error) {
 	comments := []*model.Comment{}
 	valmap, err := rediscli.HGetAll(HSET_COM_PREFIX + pid).Result()
@@ -391,7 +391,7 @@ func GetCommentsByParent(pid string) ([]*model.Comment, error) {
 	return comments, nil
 }
 
-//设置文章评论
+// 设置文章评论
 func SetCommentsByParent(pid string, comments []*model.Comment) error {
 	for _, comment := range comments {
 		comjs, err := json.Marshal(comment)
@@ -405,7 +405,7 @@ func SetCommentsByParent(pid string, comments []*model.Comment) error {
 	return nil
 }
 
-//根据评论id获取信息
+// 根据评论id获取信息
 func GetCommentByParent(pid string, id string) (*model.Comment, error) {
 	comment := &model.Comment{}
 	comjs, err := rediscli.HGet(HSET_COM_PREFIX+pid, id).Result()
@@ -419,7 +419,7 @@ func GetCommentByParent(pid string, id string) (*model.Comment, error) {
 	return comment, nil
 }
 
-//设置评论信息
+// 设置评论信息
 func SetCommentByParent(pid string, id string, comment *model.Comment) error {
 	comjs, err := json.Marshal(comment)
 	if err != nil {
@@ -434,7 +434,7 @@ func SetCommentByParent(pid string, id string, comment *model.Comment) error {
 	return nil
 }
 
-//根据id获取文章
+// 根据id获取文章
 func GetArticleById(id string) (*model.Article_, error) {
 	article := &model.Article_{}
 	artjs, err := rediscli.HGet(HSET_ARTICLES_KEY, id).Result()
@@ -450,7 +450,7 @@ func GetArticleById(id string) (*model.Article_, error) {
 	return article, nil
 }
 
-//根据文章id保存文章
+// 根据文章id保存文章
 func SetArticleById(art *model.Article_) error {
 
 	artjs, err := json.Marshal(art)
@@ -466,7 +466,7 @@ func SetArticleById(art *model.Article_) error {
 	return nil
 }
 
-//获取相关推荐
+// 获取相关推荐
 func GetRelcByCat(catId string) ([]*model.ArticleInfo, error) {
 	infos := []*model.ArticleInfo{}
 	valmap, err := rediscli.HGetAll(HSET_RELCOM_PREFIX + catId).Result()
@@ -485,7 +485,7 @@ func GetRelcByCat(catId string) ([]*model.ArticleInfo, error) {
 	return infos, nil
 }
 
-//redis保存相关推荐
+// redis保存相关推荐
 func SetRelcByCat(artId string, arts []*model.ArticleInfo) error {
 	for _, art := range arts {
 		artjs, err := json.Marshal(art)
@@ -499,13 +499,13 @@ func SetRelcByCat(artId string, arts []*model.ArticleInfo) error {
 	return nil
 }
 
-//清除缓存信息
+// 清除缓存信息
 func ClearAll() error {
 	go rediscli.FlushDBAsync().Result()
 	return nil
 }
 
-//获取分类，子分类下的文章列表
+// 获取分类，子分类下的文章列表
 func GetArtsByCatSubCat(cat string, subcat string) ([]*model.ArticleInfo, error) {
 	infos := []*model.ArticleInfo{}
 	mapval, err := rediscli.HGetAll(HSET_ARTSCAT_PREFIX + cat + "_" + subcat).Result()
@@ -526,7 +526,7 @@ func GetArtsByCatSubCat(cat string, subcat string) ([]*model.ArticleInfo, error)
 	return infos, nil
 }
 
-//设置分类，子分类下文章列表
+// 设置分类，子分类下文章列表
 func SetArtByCatSubCat(cat string, subcat string, infos []*model.ArticleInfo) error {
 
 	for _, val := range infos {

@@ -1,11 +1,11 @@
 package model
 
-//cookie 和session
+// cookie 和session
 const (
 	CookieSession = "session_id"
 )
 
-//错误码
+// 错误码
 const (
 	SUCCESS_NO          = 0
 	ERR_NO_EMAIL        = 1001
@@ -25,7 +25,7 @@ const (
 	ERR_COM_LOVE        = 1015
 )
 
-//错误描述
+// 错误描述
 const (
 	MSG_SUCCESS                 = "res-success"
 	MSG_NO_EMAIL                = "email not found"
@@ -48,7 +48,7 @@ const (
 	MSG_ADD_VISITNUM            = "add article scan num failed"
 )
 
-//模板渲染状态
+// 模板渲染状态
 const (
 	RENDER_MSG_SUCCESS = "res-success"
 )

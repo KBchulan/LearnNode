@@ -10,17 +10,17 @@ type Session struct {
 }
 
 type Admin struct {
-	Email string `json: "email" bson:"email"`
-	Pwd   string `json: "pwd" bson:"pwd"`
+	Email string `json:"email" bson:"email"`
+	Pwd   string `json:"pwd" bson:"pwd"`
 }
 
 type LoginFailed struct {
 	CreatedAt time.Time `json:"_" bson:"createdAt"`
-	Email     string    `json: "email" bson:"email"`
-	Count     int       `json: "count" bson:"count"`
+	Email     string    `json:"email" bson:"email"`
+	Count     int       `json:"count" bson:"count"`
 }
 
-//分类目录
+// 分类目录
 type CatMenu struct {
 	CatId  string `bson:"catid" json:"catid"`
 	Name   string `bson:"name" json:"name"`
@@ -28,35 +28,35 @@ type CatMenu struct {
 	Index  int    `bson:"index" json:"index"`
 }
 
-//文章结构
+// 文章结构
 type Article_ struct {
 	ArticleInfo
 	ArticleContent
 }
 
-//文章信息
+// 文章信息
 type ArticleInfo struct {
 	Id    string `bson:"id" json:"infoid"`
-	Cat   string `bson: "cat" json: "cat"`
-	Title string `bson: "title" json: "title"`
+	Cat   string `bson:"cat" json:"cat"`
+	Title string `bson:"title" json:"title"`
 
-	Subcat   string `bson: "subcat" json: "subcat"`
-	Subtitle string `bson: "subtitle" json: "subtitle"`
+	Subcat   string `bson:"subcat" json:"subcat"`
+	Subtitle string `bson:"subtitle" json:"subtitle"`
 	ScanNum  int    `bson:"scannum" json:"scannum"`
-	LoveNum  int    `bson:"lovenum json:"lovenum`
+	LoveNum  int    `bson:"lovenum" json:"lovenum"`
 	CreateAt int64  `bson:"createdAt" json:"createdAt"`
 	LastEdit int64  `bson:"lastedit" json:"lastedit"`
 	Author   string `bson:"author" json:"author"`
 	Index    int    `bson:"index" json:"index"`
 }
 
-//文章内容
+// 文章内容
 type ArticleContent struct {
 	Id      string `bson:"id" json:"conid"`
-	Content string `bson: "content" json: "content"`
+	Content string `bson:"content" json:"content"`
 }
 
-//评论信息
+// 评论信息
 type Comment struct {
 	Id       string `bson:"id" json:"id"`
 	UserName string `bson:"username" json:"username"`
@@ -68,19 +68,19 @@ type Comment struct {
 	ArtId    string `bson:"artid" json:"artid"`
 }
 
-//基础信息
+// 基础信息
 type BaseInfo struct {
 	Id   string `json:"id"  bson:"id"`
 	Type string `json:"type" bson:"type"`
 	Info string `json:"info" bson:"info"`
 }
 
-//访问信息
+// 访问信息
 type VisitInfo struct {
 	VisitNum int64 `json:"visitnum"`
 }
 
-//二级菜单排序信息
+// 二级菜单排序信息
 type MenuSlice []*CatMenu
 
 func (ms MenuSlice) Len() int {
@@ -95,7 +95,7 @@ func (ms MenuSlice) Less(i, j int) bool {
 	return ms[i].Index < ms[j].Index
 }
 
-//评论排序信息
+// 评论排序信息
 type ComSlice []*Comment
 
 func (cs ComSlice) Len() int {
@@ -106,12 +106,12 @@ func (cs ComSlice) Swap(i, j int) {
 	cs[i], cs[j] = cs[j], cs[i]
 }
 
-//从大到小
+// 从大到小
 func (cs ComSlice) Less(i, j int) bool {
 	return cs[i].Time > cs[j].Time
 }
 
-//文章首页排序
+// 文章首页排序
 type HomeArtSlice []*Article_
 
 func (hs HomeArtSlice) Len() int {
@@ -122,7 +122,7 @@ func (cs HomeArtSlice) Swap(i, j int) {
 	cs[i], cs[j] = cs[j], cs[i]
 }
 
-//从大到小
+// 从大到小
 func (cs HomeArtSlice) Less(i, j int) bool {
 	return cs[i].LastEdit > cs[j].LastEdit
 }

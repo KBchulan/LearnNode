@@ -28,3 +28,5 @@
 
 /python/.idea/
 /python/航空航天价值分析/code/__pycache__/*
+
+build/

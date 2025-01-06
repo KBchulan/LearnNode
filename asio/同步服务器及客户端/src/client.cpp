@@ -2,6 +2,7 @@
 // Created by whx on 24-10-25.
 //
 
+#include <thread>
 #include <chrono>
 #include <iostream>
 #include <boost/asio.hpp>
@@ -35,7 +36,7 @@ int main(int argc, char **argv)
         std::cin.getline(request, MAX_LENGTH);
         const size_t request_length = strlen(request);
         boost::asio::write(sock, boost::asio::buffer(request, request_length));
-        
+
         while (true)
         {
             char reply[MAX_LENGTH];

@@ -41,6 +41,7 @@ void AsioIOServicePool::Stop()
 {
     for (auto &work : _works)
     {
+        work->get_io_context().stop();
         work.reset();
     }
 

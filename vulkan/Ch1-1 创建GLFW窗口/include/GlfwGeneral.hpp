@@ -6,6 +6,8 @@
 #define GLFWGENERAL_HPP
 
 #include "VKBase.hpp"
+#include <cstddef>
+#include <cstdint>
 
 // 如果要将GLFW用于Vulkan，这是必须的
 #define GLFW_INCLUDE_VULKAN
@@ -102,6 +104,20 @@ inline bool InitializeWindow(
     // glfwWindowHint是设置窗口属性
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_RESIZABLE, isResizeAble);
+
+    // 获取Vulkan实例所需的扩展
+    std::uint32_t extensionCount = 0;
+    const char **extensionNames = glfwGetRequiredInstanceExtensions(&extensionCount);
+    if(!extensionNames)
+    {
+        fmt::print(fmt::fg(fmt::color::red), R"(Failed to get extension names.)");
+        glfwTerminate();
+        return false;
+    }
+    for (std::size_t i = 0; i < extensionCount; i++)
+    {
+        vulkan::graphicsBase::GetInstance().AddInstanceExtension(extensionNames[i]);
+    }
 
     // window，第四个参数是指定全屏模式下的显示器，空则为窗口，第五个参数则是一个其他窗口的，可用于共享
     if (fullScreen)

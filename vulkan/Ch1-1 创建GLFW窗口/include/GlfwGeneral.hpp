@@ -118,6 +118,7 @@ inline bool InitializeWindow(
     {
         vulkan::graphicsBase::GetInstance().AddInstanceExtension(extensionNames[i]);
     }
+    vulkan::graphicsBase::GetInstance().AddDeviceExtension(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 
     // window，第四个参数是指定全屏模式下的显示器，空则为窗口，第五个参数则是一个其他窗口的，可用于共享
     if (fullScreen)

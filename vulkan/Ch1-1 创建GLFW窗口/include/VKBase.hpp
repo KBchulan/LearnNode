@@ -182,8 +182,24 @@ public:
     // 创建vulkan实例
     VkResult CreateVkInstance(VkInstanceCreateFlags flags = 0)
     {
-        // TODO: 创建Vulkan实例
-        return VkResult();
+    // TODO: 创建Vulkan实例
+    #ifdef NOEBUG
+        AddInstanceLayer("VK_LAYER_KHRONOS_validation");
+        AddInstanceExtension(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+    #endif
+        VkApplicationInfo applicationInfo =
+        {
+            .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
+            .apiVersion = apiVersion
+        };
+        VkInstanceCreateInfo instanceCreateInfo =
+        {
+            .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+            .flags = flags,
+            .pApplicationInfo = &applicationInfo,
+            .enabledLayerCount = std::uint32_t(instanceLayers_.size()),
+
+        };
     }
 
     void AddInstanceLayer(const char *layerName)
@@ -301,24 +317,22 @@ private:
     }
 
 private:
-    // vulkan实例
-    VkInstance instance_{};
+    // api版本
+    std::uint32_t apiVersion = VK_API_VERSION_1_0;
 
-    // 层和扩展
-    std::vector<const char *> instanceLayers_{};
-    std::vector<const char *> instanceExtensions_{};
+    // vulkan实例
+    VkInstance instance_{}; 
 
     // debug messenger
     VkDebugUtilsMessengerEXT debugMessenger_{};
 
-    // 窗口表面，用于Vulkan与窗口系统交互
+    // 窗口表面，用于Vulkan与窗口系统交互，相当于一个画布
     VkSurfaceKHR surface_{};
 
     // 物理设备的获取
     VkPhysicalDevice physicalDevice_{};
     VkPhysicalDeviceProperties physicalDeviceProperties_{};
     VkPhysicalDeviceMemoryProperties physicalDeviceMemoryProperties_{};
-    std::vector<VkPhysicalDevice> availablePhysicalDevices_{};
 
     // 创建逻辑设备
     VkDevice device_{};
@@ -332,15 +346,20 @@ private:
     VkQueue queue_graphics_{};
     VkQueue queue_presentation_{};
     VkQueue queue_compute_{};
-    std::vector<const char *> deviceExtensions_{};
-
-    // 存储物理设备支持的所有表面格式
-    std::vector<VkSurfaceFormatKHR> availableSurfaceFormats_{};
 
     // 创建交换链
     VkSwapchainKHR swapchain_{};
     std::vector<VkImage> swapchainImages_{};
     std::vector<VkImageView> swapchainImageViews_{};
+
+    // vector集合
+    std::vector<const char *> instanceLayers_{};
+    std::vector<const char *> instanceExtensions_{};
+    std::vector<const char *> deviceExtensions_{};
+
+    // 描述表面的格式信息，可用的物理设备
+    std::vector<VkSurfaceFormatKHR> availableSurfaceFormats_{};
+    std::vector<VkPhysicalDevice> availablePhysicalDevices_{};
 };
 
 }

@@ -32,3 +32,5 @@
 build/
 cmake-build-debug/
 .idea/
+
+node_modules/

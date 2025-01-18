@@ -9,8 +9,10 @@
     2. Object
     3. Number, String, Boolean
     4. number, string, boolean
-    5. 4对应的实例字面量
+    5. 4对应的实例字面量，null, undefined
     6. never
+
+    else: Array, Tuple, enum, Map, Set
 */
 
 let anyOrunknown = () => {

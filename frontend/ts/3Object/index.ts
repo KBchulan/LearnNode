@@ -14,7 +14,7 @@ let ObjectTest = () => {
 }
 
 // 2. object（小写）：所有非原始类型
-// 如对象，数组，函数，还有Set，Map一类的，交叉类型和引用类型也可以，只要能引用即可
+// 如对象，数组，函数，还有Set，Map一类的，交叉类型和引用类型也可以
 let objectTest = () => {
     // let a1: object = 123;     // 错误：基本类型不能赋值给 object
     // let a2: object = '123';   // 错误：字符串不能赋值给 object

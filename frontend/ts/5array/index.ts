@@ -1,7 +1,7 @@
 // 数组类型介绍定义以及获取
 
 const ArrayTest = () => {
-    // 通过基本数据类型来定义
+    // 通过基本数据类型来定义，下面为原始数据类型
     let arr1: number[] = [1, 2, 3]
     let arr2: string[] = ['a', 'b', 'c']
     let arr3: boolean[] = [true, false]

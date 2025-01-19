@@ -8,6 +8,8 @@ let ObjectTest = () => {
     let a4: Object = {};         // 对象 ok
     let a5: Object = [];         // 数组 ok
     let a6: Object = () => 213;  // 函数 ok
+    let a7: Object = Symbol()    // 符号 ok
+    let a8: Object = 100n        // BigInt ok
 
     // 但是不能访问具体方法
     // a1.toFixed();  // 错误：Object 类型上不存在属性 'toFixed'

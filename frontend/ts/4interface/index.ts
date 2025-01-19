@@ -112,4 +112,6 @@ function interface6() {
     const func: Func = () => {
         return [1, 2]
     }
+
+    func('')
 }

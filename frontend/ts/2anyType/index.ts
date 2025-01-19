@@ -8,8 +8,8 @@
     1. any，unknown
     2. Object
     3. Number, String, Boolean
-    4. number, string, boolean
-    5. 4对应的实例字面量，null, undefined
+    4. number, string, boolean, null, undefined
+    5. 4对应的实例字面量
     6. never
 
     else: Array, Tuple, enum, Map, Set
@@ -18,13 +18,14 @@
 let anyOrunknown = () => {
     // any和unknown都是可以对应所有类型的
     let a: any = Symbol("huaixi")       // 可以自行了解一下Symbol
+    a = 100n
     a = 14
     a = 'aaa'
     a = true
     a = {}
     a = []
     a = () => { }
-
+    
     // 区别在于
     // 1.unknown只能赋值给unknown和any类型
     // 2.unknown无法读任何属性，也无法调用任何方法

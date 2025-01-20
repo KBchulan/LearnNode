@@ -18,4 +18,17 @@ if (element2) { }
 let elements1: NodeList = document.querySelectorAll('div')
 let elements2: NodeListOf<HTMLDivElement | HTMLCanvasElement> = document.querySelectorAll('div canvas')
 
-// BOM
+// BOM：浏览器或者Window内容
+let local: Storage = localStorage
+let lo: Location = location
+let promise: Promise<string> = new Promise((resolve, reject) => {
+    resolve('successful')
+
+    reject('failed')
+})
+
+promise.then(res => {
+    console.log(res)
+})
+
+let cookie: string = document.cookie

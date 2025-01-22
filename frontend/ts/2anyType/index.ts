@@ -11,7 +11,9 @@
     4. number, string, boolean, null, undefined
     5. 4对应的实例字面量
     6. never
+    以上和symbol，bigint都是原始类型
 
+    此外还有一些引用类型
     else: Array, Tuple, enum, Map, Set
 */
 

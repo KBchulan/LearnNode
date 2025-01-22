@@ -62,5 +62,5 @@ interface Data {
 }
 
 axios.get<Data>('').then(res => {
-    console.log(res.code)
+    console.log(res)
 })

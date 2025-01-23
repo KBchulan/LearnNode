@@ -2,7 +2,7 @@
 
 // 与c++中带有纯虚函数的类一个道理，不过ts有显示的语法
 // abstruct 修饰类则为抽象类，无法实例化
-// abstruct 修饰方法则是抽象方法，不能实现
+// abstruct 修饰方法则是抽象方法，不能实现，且子类必须实现
 
 abstract class Vue {
     name: string

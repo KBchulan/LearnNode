@@ -38,6 +38,7 @@ let obj: Obj = {
     },
 }
 
+// 函数重载
 let user: number[] = [1, 2, 3]
 
 function findNum(): number[];                   // 查询所有的

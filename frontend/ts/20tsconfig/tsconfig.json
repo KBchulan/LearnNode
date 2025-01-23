@@ -1,0 +1,68 @@
+// 本文件只是介绍所有东西的含义
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig to read more about this file */
+
+    /* Projects */
+    "incremental": true,                              /* 增量式编译，ts编译器会生成一个还存文件，第二次编译会在这次基础上再次编译，会加快一些速度 */
+    // "composite": true,                                /* 项目可以被引用且可以被增量编译，开启该配置后会同时开启declaration */
+    // "tsBuildInfoFile": "./.tsbuildinfo",              /* 指定增量编译文件的存储位置 */
+    // "disableSourceOfProjectReferenceRedirect": true,  /* 禁用项目引用时优先使用源文件而不是声明文件 */
+    // "disableSolutionSearching": true,                 /* 编辑时禁用在多项目引用中的自动类型获取 */
+    // "disableReferencedProjectLoad": true,             /* 减少TypeScript自动加载的项目数量 */
+    // "diagnostics": true,                              /* 打印诊断信息 */
+
+    /* Language and Environment */
+    "target": "es2016",                              /* 指定ECMAScript目标版本，将代码编译为指定版本的JavaScript */
+    // "lib": [],                                       /* 指定要包含的库文件，这些库文件描述了目标运行时环境 */
+    // "jsx": "preserve",                               /* 指定生成什么样的JSX代码 */
+    // "experimentalDecorators": true,                  /* 启用对传统实验性装饰器的支持 */
+    // "emitDecoratorMetadata": true,                   /* 为装饰器声明发出设计类型元数据 */
+    // "jsxFactory": "",                                /* 指定React JSX时使用的JSX工厂函数 */
+    // "jsxFragmentFactory": "",                        /* 指定JSX片段引用，如React.Fragment */
+    // "jsxImportSource": "",                           /* 指定使用'jsx: react-jsx*'时导入JSX工厂函数的模块说明符 */
+    // "reactNamespace": "",                            /* 指定createElement调用的对象，仅在目标为'react' JSX时适用 */
+    // "noLib": false,                                  /* 禁止包含任何库文件，包括默认的lib.d.ts */
+    // "useDefineForClassFields": true,                 /* 使用符合ECMAScript标准的类字段 */
+    // "moduleDetection": "auto",                       /* 控制用于检测模块格式JS文件的方法 */
+
+    /* Modules */
+    "module": "AMD",                            /* 指定生成的模块代码类型，如commonjs、es6等 */
+    // "rootDir": "./",                              /* 指定源文件的根目录 */
+    // "moduleResolution": "node10",                 /* 指定TypeScript如何从给定的模块说明符查找文件 */
+    // "baseUrl": "./",                              /* 指定用于解析非相对模块名称的基本目录 */
+    // "paths": {},                                  /* 指定一组将导入重新映射到其他查找位置的条目 */
+    // "rootDirs": [],                               /* 允许将多个目录视为一个目录来解析模块 */
+    // "typeRoots": [],                              /* 指定多个类似于'./node_modules/@types'的文件夹 */
+    // "types": [],                                  /* 指定要包含的类型包名称，无需在源文件中引用 */
+
+    /* JavaScript Support */
+    // "allowJs": true,                              /* 允许JavaScript文件成为程序的一部分 */
+    // "checkJs": true,                              /* 在类型检查的JavaScript文件中启用错误报告 */
+    // "maxNodeModuleJsDepth": 1,                    /* 指定用于检查node_modules中JavaScript文件的最大文件夹深度 */
+
+    /* Emit */
+    // "declaration": true,                          /* 生成.d.ts声明文件 */
+    // "declarationMap": true,                       /* 为.d.ts文件创建源映射 */
+    // "sourceMap": true,                            /* 生成源映射文件 */
+    // "outFile": "./",                              /* 将输出文件捆绑到一个文件中 */
+    // "outDir": "./",                               /* 指定输出文件夹 */
+    // "removeComments": true,                       /* 删除注释 */
+    // "noEmit": true,                               /* 不生成输出文件 */
+
+    /* Interop Constraints */
+    "esModuleInterop": true,                         /* 启用对导入CommonJS模块的额外JavaScript支持 */
+    // "forceConsistentCasingInFileNames": true,        /* 确保导入时文件名大小写正确 */
+
+    /* Type Checking */
+    "strict": true,                                  /* 启用所有严格的类型检查选项 */
+    // "noImplicitAny": true,                           /* 对隐含的any类型报错 */
+    // "strictNullChecks": true,                        /* 在类型检查时考虑null和undefined */
+    // "strictFunctionTypes": true,                     /* 检查函数参数和返回值的子类型兼容性 */
+    // "noUnusedLocals": true,                          /* 报告未使用的局部变量错误 */
+    // "noUnusedParameters": true,                      /* 报告未使用的参数错误 */
+
+    /* Completeness */
+    "skipLibCheck": true                             /* 跳过所有.d.ts文件的类型检查 */
+  }
+}

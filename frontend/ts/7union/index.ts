@@ -30,7 +30,7 @@ fn2({
     sex: 'man'
 })
 
-// 类型断言:即借助as指定类型
+// 类型断言:即借助as指定类型，或者说是起别名
 // 此时若是传入string就会调用length方法，若是number就会返回一个undefined
 // 说明这个as只是帮助我们通过这个编译，但是实际的运行时错误无法避免
 let fn3 = (num: number | string): void => {

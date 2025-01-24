@@ -1,8 +1,8 @@
 const { Configuration } = require('webpack')
 const path = require('node:path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { HtmlWebpackPlugin } = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { MiniCssExtractPlugin } = require('mini-css-extract-plugin')
 /**
  * @type {Configuration}
  */

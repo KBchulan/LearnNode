@@ -42,3 +42,33 @@ const ArrayTest = () => {
     }
     a6(1, true)
 }
+
+// 这里简单介绍一下forEach
+// 1. 数组的 forEach
+const arr = [1, 2, 3];
+arr.forEach((item, index, array) => {
+    console.log(item);   // 当前元素
+    console.log(index);  // 当前索引
+    console.log(array);  // 原数组
+});
+
+
+// 2. Map 的 forEach
+const map = new Map([
+    ['a', 1],
+    ['b', 2]
+]);
+map.forEach((value, key, map) => {
+    console.log(value);  // 值
+    console.log(key);    // 键
+    console.log(map);    // 原 Map
+});
+
+
+// 3. Set 的 forEach
+const set = new Set([1, 2, 3]);
+set.forEach((value, key, set) => {
+    console.log(value);  // 当前值
+    console.log(key);    // 同值（Set 中值就是键）
+    console.log(set);    // 原 Set
+});

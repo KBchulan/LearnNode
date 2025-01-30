@@ -56,7 +56,7 @@ for (let value of map) {
 // for...in：遍历键（对象的所有可枚举属性）
 // 总结就是for in遍历key，for of是所有的值（若有key则是key与value的集合）
 
-// 此处再说一下解构
+// 此处再说一下解构，其实和c++17的结构化绑定是一样的
 let [a, b, c] = [1, 2, 3]
 console.log(a, b, c)
 // 这是很简单的用法，但实际上不管是这种简单的结构还是参数包的底层都是调用iterator的

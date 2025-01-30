@@ -13,6 +13,6 @@ int main()
         return myFunc;
     };
 
-    auto newFunc = func();
+    auto newFunc = func();  // 此时test的生命周期已经结束，就访问不到了，因为c++并没有闭包这个概念
     newFunc();
 }

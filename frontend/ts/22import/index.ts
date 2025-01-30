@@ -15,7 +15,7 @@ console.log(a, arr2)
 import * as api from './test'
 console.log(api)
 
-// 动态引入(Promise对象)
+// 动态引入(类似Promise对象)
 if (true) {
     import('./test').then(res => {
         console.log(res)

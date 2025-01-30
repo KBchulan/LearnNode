@@ -11,7 +11,7 @@ const huaixi = <Type>(a: Type, b: Type): Array<Type> => {
 }
 
 console.log(huaixi(1, 2))
-console.log(huaixi<string>('1', '2'))
+console.log(huaixi<number>(1, 2))
 
 // 这里也可以看出，ts是只存在值传递的，没有引用传递的概念
 function swap<Type>(a: Type, b: Type): void {

@@ -14,6 +14,10 @@ function add3(a: number = 3, b: number = 5): number {
     return a + b
 }
 
+function add3else(a: number = 3, b?: number): number {
+    return a + (b ?? 0)
+}
+
 // 参数为对象时
 interface Person {
     name: string,

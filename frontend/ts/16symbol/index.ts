@@ -6,11 +6,11 @@ let a2: symbol = Symbol(1)
 
 console.log(a1 === a2)  // false
 
-// for会找全局有没有注册过某个key值，普通symbol则只会直接注册
+// for会找全局有没有注册过某个key值，普通Symbol则只会直接注册
 console.log(Symbol.for('huaixi') === Symbol.for('huaixi'))  // true
 
 // 实际场景
-// 如下列所示，a1和a2理论上是一样的，但是是symbol类型，我们就可以对同一个东西取到不同的名字，这是
+// 如下列所示，a1和a2看起来上是一样的，但是是symbol类型，我们就可以对同一个东西取到不同的名字，这是
 // 十分有用的
 let obj = {
     [a1]: 111,

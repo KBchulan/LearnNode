@@ -16,7 +16,7 @@ let ObjectTest = () => {
 }
 
 // 2. object（小写）：所有非原始类型
-// 如对象，数组，函数，还有Set，Map一类的，交叉类型和引用类型也可以
+// 如对象，数组，函数，还有Set，Map一类的，交叉类型和引用类型也可以gkx
 let objectTest = () => {
     // let a1: object = 123;     // 错误：基本类型不能赋值给 object
     // let a2: object = '123';   // 错误：字符串不能赋值给 object
@@ -52,5 +52,5 @@ let EmptyObjectTest = () => {
     // obj.age = 20;  // 错误：类型 '{}' 上不存在属性 'age'
 
     // 也不能访问除了 Object 原型链上的方法之外的其他方法
-    // obj.name;  // 错误：类型 '{}' 上不存在属性 'name'
+    // obj.name;      // 错误：类型 '{}' 上不存在属性 'name'
 }

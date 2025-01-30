@@ -4,7 +4,7 @@
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */
-    "incremental": true,                              /* 增量式编译，ts编译器会生成一个还存文件，第二次编译会在这次基础上再次编译，会加快一些速度 */
+    "incremental": true,                                 /* 增量式编译，ts编译器会生成一个还存文件，第二次编译会在这次基础上再次编译，会加快一些速度 */
     // "composite": true,                                /* 项目可以被引用且可以被增量编译，开启该配置后会同时开启declaration */
     // "tsBuildInfoFile": "./.tsbuildinfo",              /* 指定增量编译文件的存储位置 */
     // "disableSourceOfProjectReferenceRedirect": true,  /* 禁用项目引用时优先使用源文件而不是声明文件 */
@@ -27,7 +27,7 @@
     // "moduleDetection": "auto",                       /* 控制用于检测模块格式JS文件的方法 */
 
     /* Modules */
-    "module": "AMD",                            /* 指定生成的模块代码类型，如commonjs、es6等 */
+    "module": "AMD",                                 /* 指定生成的模块代码类型，如commonjs、es6等 */
     // "rootDir": "./",                              /* 指定源文件的根目录 */
     // "moduleResolution": "node10",                 /* 指定TypeScript如何从给定的模块说明符查找文件 */
     // "baseUrl": "./",                              /* 指定用于解析非相对模块名称的基本目录 */
@@ -51,11 +51,11 @@
     // "noEmit": true,                               /* 不生成输出文件 */
 
     /* Interop Constraints */
-    "esModuleInterop": true,                         /* 启用对导入CommonJS模块的额外JavaScript支持 */
+    "esModuleInterop": true,                            /* 启用对导入CommonJS模块的额外JavaScript支持 */
     // "forceConsistentCasingInFileNames": true,        /* 确保导入时文件名大小写正确 */
 
     /* Type Checking */
-    "strict": true,                                  /* 启用所有严格的类型检查选项 */
+    "strict": true,                                     /* 启用所有严格的类型检查选项 */
     // "noImplicitAny": true,                           /* 对隐含的any类型报错 */
     // "strictNullChecks": true,                        /* 在类型检查时考虑null和undefined */
     // "strictFunctionTypes": true,                     /* 检查函数参数和返回值的子类型兼容性 */

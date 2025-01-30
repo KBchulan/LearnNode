@@ -35,7 +35,7 @@ fn2({
 // 说明这个as只是帮助我们通过这个编译，但是实际的运行时错误无法避免
 let fn3 = (num: number | string): void => {
     console.log((num as string).length)
-    console.log((<number>num))  // 不推荐
+    console.log((<string>num).length)   // 不推荐，毕竟这种写法不好
 }
 // 类型断言本质上只是为了通过编译，实际上没有任何转换，下面的例子，输入什么就输出什么
 let fn4 = (type: any): boolean => {

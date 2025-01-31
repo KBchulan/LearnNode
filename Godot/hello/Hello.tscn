@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dpx5c0m4ju7em"]
-
-[ext_resource type="Script" path="res://helloWorld.gd" id="1_durkh"]
-
-[node name="Node2D" type="Node2D"]
-script = ExtResource("1_durkh")

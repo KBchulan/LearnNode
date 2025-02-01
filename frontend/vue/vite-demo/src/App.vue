@@ -57,7 +57,7 @@
     {{ index }} - {{ item }}
   </div>
 
-  <!-- 这里写一下v-once，用于只渲染一次，也就是缓存 -->
+  <!-- 这里写一下v-once，用于只渲染一次的场景 -->
   <button v-once>
     {{ num1 }}
   </button>

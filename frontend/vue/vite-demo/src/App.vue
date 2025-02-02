@@ -128,4 +128,17 @@ let count = ref(0)
   size: 20px;
   color: blue;
 }
+
+.c{
+  color: green;
+  font-size: 20px;
+  background-color: rgba(210, 210, 210, 0.5);
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  cursor: pointer;
+  
+}
 </style>

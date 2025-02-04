@@ -8,6 +8,26 @@
 
     我们在浏览器控制台尝试打印DOM的所有key，会知道一个DOM其实是有非常多属性的，那么采用一个对象的方式是比较愚蠢的，那么如果我们需要的属性被单独描述为树呢，是不是在性能上就比较良好了，也就是我们虚拟DOM的由来--js描述的AST。
 
+```
+<!-- 真实 DOM -->
+<div class="user">
+  <span>张三</span>
+</div>
+
+<!-- 对应的 VNode（简化表示） -->
+{
+  type: 'div',
+  props: { class: 'user' },
+  children: [
+    {
+      type: 'span',
+      props: {},
+      children: '张三'
+    }
+  ]
+}
+```
+
 ### Diff算法
 
     请参考src/APP.vue的内容

@@ -23,5 +23,8 @@
 ### 3.Ref
 
 ```
-1.
+1.ref
+2.shallowRef
+3.triggerRef
+4.customRef
 ```

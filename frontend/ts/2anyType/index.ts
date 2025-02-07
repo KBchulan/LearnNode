@@ -13,8 +13,8 @@
     6. never
     以上和symbol，bigint都是原始类型
 
-    此外还有一些引用类型
-    else: Array, Tuple, enum, Map, Set, WeekMap, WeekSet
+    此外引用类型包括
+    else: Array, Object, Function, Tuple, enum, Map, Set, WeekMap, WeekSet
 */
 
 let anyOrunknown = () => {

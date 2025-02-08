@@ -27,6 +27,13 @@ const ArrayTest = () => {
     let a5 = (...args: number[]) => { console.log(args) }
     a5(1, 2, 3)
 
+    // 这里我说一下...args参数包的作用
+    // ...为展开/收集运算符，args则是所有传入参数的一个数组，因此args方法都是数组方法
+    // 做参数时可以表示收集，但是若是调用加上...则表示展开
+    let tmp1: number[] = [1, 2, 3]
+    let tmp2: number[] = [...tmp1, 4, 5]
+    console.log(tmp2);
+
     // 此处讲一下arguments的使用
     // arguments其实是一个包含所有函数参数的数组，但又不完全是一个数组
     function a6(...args: any[]) {

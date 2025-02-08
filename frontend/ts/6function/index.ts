@@ -15,12 +15,12 @@ function add3(a: number = 3, b: number = 5): number {
 }
 
 function add3else(a: number = 3, b?: number): number {
-    return a + (b ?? 0)
+    return a + (b ?? 0)     // 空值合并运算符，如果b为null或undefined返回0,其他返回具体的值
 }
 
 // 参数为对象时
 interface Person {
-    name: string,
+    name: string
     age: number
 }
 
@@ -30,6 +30,14 @@ function add4(person1: Person = { name: 'a', age: 5 },
 }
 
 // this类型
+// 若是类内：
+// 1.默认指向类的实例
+// 2.可以在类方法参数中声明 this 的类型
+// 3.箭头函数会保持定义时的 this 上下文
+
+// 作参数时
+// 1.必须是第一个参数
+// 2.仅用于类型检查，运行时不会传入
 interface Obj {
     user: Array<number>,
     add: (this: Obj, num: number) => void

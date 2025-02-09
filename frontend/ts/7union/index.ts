@@ -2,7 +2,7 @@
 
 // 联合类型就是对同一个东西支持多种类型
 let phone: number | string = 18737519552
-phone = 'trued'
+phone = '+86-18737519552'
 
 // 输入为数字或者bool类型都会返回实际的布尔类型
 let fn = (type: number | boolean): boolean => {

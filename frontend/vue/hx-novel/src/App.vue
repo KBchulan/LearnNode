@@ -16,7 +16,6 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
-  background-attachment: fixed;
   overflow-x: hidden;
 }
 

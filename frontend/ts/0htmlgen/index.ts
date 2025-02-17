@@ -51,7 +51,7 @@ function fn2(...args: number[]): void {
 const arr: number[] = [1, 2, 3, 4, 5]
 arr.forEach(value => console.log(value))
 
-// 这里写一下Promise：Promise的本质是一个函数返回对象，
+// 这里写一下Promise：Promise的本质是一个函数返回的对象，
 // 我们可以在它上面绑定回调函数，这样我们就不需要在一开始把回调函数作为参数传入这个函数了
 const p: Promise<string>/* 这个类型为result为true的返回类型(resolve的结果) */ = new Promise((resolve, reject) => {
   // 一些异步的操作

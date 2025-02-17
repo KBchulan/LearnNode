@@ -2,13 +2,13 @@
 
 /**
  * Prototype 原型 | 原型对象
- *  1. Prototype是{函数}的一个属性
- *  2. Prototype是一个对象
+ *  1. Prototype是{函数（也可以说是类）}的一个属性
+ *  2. Prototype是一个对象，这个对象有很多方法，如：toString、apply、call等
  *  3. 当我们创建一个函数时，会默认加上Prototype这个属性
  * 
  * __proto__ 隐式原型
  *  1. {对象}的属性
- *  2. 指向函数的prototype
+ *  2. 指向上一级函数的prototype
  * 
  * 顶层：Object.prototype.__proto__ === null
  */

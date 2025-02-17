@@ -2,24 +2,22 @@
 // npm i @types/node -D 是引入nodejs里的ts类型定义包，-D则保证只会影响开发环境包
 // 其实只需要ts --init 就可以用 ts-node index.ts 直接运行了
 
-import { on } from "events"
-
 // 本文件主要介绍 any 和 unknown 两种顶级类型
 /*
 类型共有6个级别，从上到下依次是：
   1. any，unknown
   2. Object
   3. Number, String, Boolean
-  4. number, string, boolean, null, undefined
-  5. 4对应的实例字面量
+  4. number, string, boolean
+  5. 1, 'string', true
   6. never
   
-  原始类型：string, number, boolean, null, undefined, void, never, symbol, bigint, any, unknown
-  此外引用类型包括：Array, Object, Function, Tuple, enum, Map, Set, WeekMap, WeekSet
+  原始类型：string, number, boolean, null, undefined, void, symbol, bigint, any, unknown, never
+  此外引用类型包括：Array, Object, Function, interface, class, tuple, enum, Map, Set, WeekMap, WeekSet, Promise
 */
 
 let anyOrunknown = () => {
-  // any和unknown都是可以对应所有类型的
+  // any和unknown都是可以对应所有类型的, 其实是高级类型可以对应所有比自己等级低的
   let a: any = Symbol("huaixi")       // 可以自行了解一下Symbol
   a = 100n
   a = 14

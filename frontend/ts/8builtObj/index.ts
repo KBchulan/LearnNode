@@ -22,13 +22,13 @@ let elements2: NodeListOf<HTMLDivElement | HTMLCanvasElement> = document.querySe
 let local: Storage = localStorage
 let lo: Location = location
 let promise: Promise<string> = new Promise((resolve, reject) => {
-    resolve('successful')
+  resolve('successful')
 
-    reject('failed')
+  reject('failed')
 })
 
 promise.then(res => {
-    console.log(res)
+  console.log(res)
 })
 
 let cookie: string = document.cookie

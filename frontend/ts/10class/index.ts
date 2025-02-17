@@ -9,100 +9,100 @@
 // implements用于约束
 // extends用于继承
 interface Options {
-    el: string | HTMLElement
+  el: string | HTMLElement
 }
 
 interface VueClass {
-    options: Options
-    init(): void
+  options: Options
+  init(): void
 }
 
 interface Vnode {
-    tag: string,
-    text?: string,
-    children?: Vnode[]
+  tag: string,
+  text?: string,
+  children?: Vnode[]
 }
 
 class Dom {
-    // 创建节点
-    createElement(el: string) {
-        return document.createElement(el)
+  // 创建节点
+  createElement(el: string) {
+    return document.createElement(el)
+  }
+
+  // 设置文本
+  setText(el: HTMLElement, text: string | null) {
+    el.textContent = text
+  }
+
+  // 渲染函数
+  protected render(data: Vnode) {
+    let root = this.createElement(data.tag)
+    if (data.children && Array.isArray(data.children)) {
+      data.children.forEach(item => {
+        let child = this.render(item)
+        root.appendChild(child)
+      })
+    } else {
+      this.setText(root, (data.text) as string)
     }
 
-    // 设置文本
-    setText(el: HTMLElement, text: string | null) {
-        el.textContent = text
-    }
-
-    // 渲染函数
-    protected render(data: Vnode) {
-        let root = this.createElement(data.tag)
-        if (data.children && Array.isArray(data.children)) {
-            data.children.forEach(item => {
-                let child = this.render(item)
-                root.appendChild(child)
-            })
-        } else {
-            this.setText(root, (data.text) as string)
-        }
-
-        return root
-    }
+    return root
+  }
 }
 
 class Vue extends Dom implements VueClass { // extends必须写在implements前面
-    readonly options: Options
+  readonly options: Options
 
-    // 构造函数
-    constructor(options: Options) {
-        super()     // 初始化父类，写在子类前面
-        this.options = options
-        this.init()
-    }
+  // 构造函数
+  constructor(options: Options) {
+    super()     // 初始化父类，写在子类前面
+    this.options = options
+    this.init()
+  }
 
-    static version(): string {
-        return 'v1.01'
-    }
+  static version(): string {
+    return 'v1.01'
+  }
 
-    init(): void {
-        // 虚拟dom就是通过js去渲染我们这个真实的dom
-        let data: Vnode = {
-            tag: "div",
-            children: [
-                {
-                    tag: "section",
-                    text: "1"
-                },
-                {
-                    tag: "section",
-                    text: "2",
-                }
-            ]
+  init(): void {
+    // 虚拟dom就是通过js去渲染我们这个真实的dom
+    let data: Vnode = {
+      tag: "div",
+      children: [
+        {
+          tag: "section",
+          text: "1"
+        },
+        {
+          tag: "section",
+          text: "2",
         }
-        let app = (typeof this.options.el == 'string' ?
-            document.querySelector(this.options.el) : this.options.el)!
-        app.appendChild(this.render(data))
+      ]
     }
+    let app = (typeof this.options.el == 'string' ?
+      document.querySelector(this.options.el) : this.options.el)!
+    app.appendChild(this.render(data))
+  }
 }
 
 console.log(Vue.version)
 new Vue({
-    el: "#app"
+  el: "#app"
 })
 
 class Ref {
-    _value: any
-    constructor(value: any) {
-        this._value = value
-    }
+  _value: any
+  constructor(value: any) {
+    this._value = value
+  }
 
-    get value() {
-        return this._value + 'bbb'
-    }
+  get value() {
+    return this._value + 'bbb'
+  }
 
-    set value(value: any) {
-        this._value = value + 'ccc'
-    }
+  set value(value: any) {
+    this._value = value + 'ccc'
+  }
 }
 
 // get和set会做拦截操作，和c++不太一样

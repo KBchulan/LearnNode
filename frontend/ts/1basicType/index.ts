@@ -4,6 +4,9 @@
 // 初始化
 // tsc --init
 
+// 编译
+// tsc index.ts
+
 // 监听
 // tsc --watch index.ts
 // 或 tsc -w index.ts
@@ -33,6 +36,7 @@ let declarationsTest = () => {
     console.log(x)
   }
   // 因此，var允许重复声明，所以我们应该优先使用const和let
+  // 特别推荐是，函数参数使用const，函数体使用let，for循环使用let
 
   varTest()
   letTest()
@@ -56,7 +60,7 @@ let dataTypeTest = () => {
   let n2: undefined = undefined
 
   // void
-  // 在严格模式下只能赋给undefined,宽松模式下才可以是null
+  // 在严格模式下只能被undefined赋值,宽松模式下才可以是null(严格模式修改tsconfig.json)
   let v1: void = undefined
   // let v2: void = null
 

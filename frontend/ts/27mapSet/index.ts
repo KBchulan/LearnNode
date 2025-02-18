@@ -22,7 +22,7 @@ set.clear()                 // 清空
 // 接着是Map
 // map的key可以是引用类型
 let obj2 = {
-    name: 'huaixi'
+  name: 'huaixi'
 }
 let map: Map<object, any> = new Map()
 map.set(obj2, 'hhh')     // 其他方法点一下基本都知道是干什么的就ok
@@ -36,7 +36,6 @@ weakMap.get(obj);
 weakMap.has(obj);
 weakMap.delete(obj);
 // 不能遍历，没有size
-
 
 // 4. WeakSet: 弱引用对象集合
 const weakSet = new WeakSet();

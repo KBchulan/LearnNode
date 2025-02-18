@@ -7,12 +7,12 @@
     3.浅拷贝，后面覆盖前面
 */
 const obj1 = {
-    a: 1,
-    b: 2
+  a: 1,
+  b: 2
 }
 const obj2 = {
-    b: 3,
-    c: 4
+  b: 3,
+  c: 4
 }
 
 // 这两种混入方式有什么区别呢，你可以看到obj3返回的是一个新对象类型，但是obj4则是一个交叉类型
@@ -27,41 +27,41 @@ console.log(structuredClone(obj1))
 // 类混入，说白了就是再写一个类，含有所有方法
 // 插件类型的混入
 class App {
-    run() {
-        console.log('run')
-    }
+  run() {
+    console.log('run')
+  }
 }
 
 class Logger {
-    log(msg: string) {
-        console.log(msg)
-    }
+  log(msg: string) {
+    console.log(msg)
+  }
 }
 
 class Html {
-    render() {
-        console.log('render')
-    }
+  render() {
+    console.log('render')
+  }
 }
 
 // 我现在想给这个app装上几个插件
 type Custructor<T> = new (...args: any[]) => T
 function pluginMinxins<T extends Custructor<App>>(Base: T) {
-    return class extends Base {
-        private Logger = new Logger()
-        private Html = new Html()
+  return class extends Base {
+    private Logger = new Logger()
+    private Html = new Html()
 
-        constructor(...args: any[]) {
-            super(...args)
-            this.Logger = new Logger()
-            this.Html = new Html()
-        }
-
-        // 此时就能混入了
-        run() {
-            this.Logger.log('run2')
-        }
+    constructor(...args: any[]) {
+      super(...args)
+      this.Logger = new Logger()
+      this.Html = new Html()
     }
+
+    // 此时就能混入了
+    run() {
+      this.Logger.log('run2')
+    }
+  }
 }
 
 const mixins = pluginMinxins(App)

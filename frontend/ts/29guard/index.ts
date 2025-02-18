@@ -6,34 +6,33 @@ const isString = (value: any): boolean => typeof value === 'string'
 // 因此有instanceof
 const isArr = (arr: any): boolean => arr instanceof Array
 
-
 const isObj = (arg: any) => Object.prototype.toString.call(arg) === '[object Object]'
 const isNum = (num: any) => typeof num === 'number'
 const isStr = (str: any) => typeof str === 'string'
 const isFunc = (func: any) => typeof func === 'function'
 const fn = (data: any) => {
-    if (isObj(data)) {
-        let val;
-        Object.keys(data).forEach(key => {
-            val = data[key]
-            if (isNum(val)) {
-                data[key] = val.toFixed(2)
-            }
-            if (isStr(val)) {
-                data[key] = val.trim()
-            }
-            if (isFunc(val)) {
-                val()
-            }
-        })
-    }
+  if (isObj(data)) {
+    let val;
+    Object.keys(data).forEach(key => {
+      val = data[key]
+      if (isNum(val)) {
+        data[key] = val.toFixed(2)
+      }
+      if (isStr(val)) {
+        data[key] = val.trim()
+      }
+      if (isFunc(val)) {
+        val()
+      }
+    })
+  }
 }
 
 let obj = {
-    name: 'huaixi',
-    age: 19,
-    fn: () => {
-        console.log('fn')
-    }
+  name: 'huaixi',
+  age: 19,
+  fn: () => {
+    console.log('fn')
+  }
 }
 fn(obj)

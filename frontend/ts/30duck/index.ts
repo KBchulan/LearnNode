@@ -11,26 +11,26 @@
 
 // main
 interface A {
-    name: string
-    age: number
+  name: string
+  age: number
 }
 
 // son
 interface B {
-    name: string
-    age: number
-    sex: string
+  name: string
+  age: number
+  sex: string
 }
 
 let a: A = {
-    name: 'huaixi',
-    age: 19
+  name: 'huaixi',
+  age: 19
 }
 
 let b: B = {
-    name: 'aaa',
-    age: 19,
-    sex: 'man'
+  name: 'aaa',
+  age: 19,
+  sex: 'man'
 }
 
 a = b           // 协变：子类型 B 可以赋值给父类型 A

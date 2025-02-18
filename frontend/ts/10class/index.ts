@@ -90,8 +90,9 @@ new Vue({
   el: "#app"
 })
 
+// 这里有一个约定俗成的规矩，私有成员命名前面要加一个_，对应get，set方法去掉这个_即可
 class Ref {
-  _value: any
+  private _value: any
   constructor(value: any) {
     this._value = value
   }

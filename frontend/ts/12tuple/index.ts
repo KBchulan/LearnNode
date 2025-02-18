@@ -12,10 +12,10 @@ const arr3: readonly [x: number, y?: string] = [123]    //这样就都不能改�
 
 // 实例，如excel的二维表格
 const excel: [string, string, number][] = [
-    ['huaixi', 'man', 19],
-    ['huaixi', 'man', 19],
-    ['huaixi', 'man', 19],
-    ['huaixi', 'man', 19]
+  ['huaixi', 'man', 19],
+  ['huaixi', 'man', 19],
+  ['huaixi', 'man', 19],
+  ['huaixi', 'man', 19]
 ]
 
 let num: number = 123

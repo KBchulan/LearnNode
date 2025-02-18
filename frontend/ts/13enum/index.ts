@@ -5,30 +5,30 @@
 
 // 包括数字枚举，字符串枚举，异构枚举（两者混用）
 enum Color {
-    Red = 3,    // 自动递增
-    Green,
-    Blue,
-    Error = 'black' // c++中不可以
+  Red = 3,    // 自动递增
+  Green,
+  Blue,
+  Error = 'black' // c++中不可以
 }
 
 // 反向映射
 console.log(Color[4])       // 通过value访问key，这和c++十分不同
 console.log(Color.Green)    // 通过key访问value
-console.log(Color.Error)  
+console.log(Color.Error)
 
 // 接口枚举
 interface Obj {
-    red: Color.Red
+  red: Color.Red
 }
 
 let obj: Obj = {
-    red: 3  // 不能为3以外的值(Color.Red可以)
+  red: 3  // 不能为3以外的值(Color.Red可以)
 }
 
 // const枚举
 const enum Types {
-    success,
-    fail
+  success,
+  fail
 }
 
 let code: number = 0

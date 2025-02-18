@@ -2,8 +2,8 @@
 
 // 生成器
 function* gen() {
-    yield 'huaixi'  // 同步
-    yield Promise.resolve('hauixi') //异步
+  yield 'huaixi'  // 同步
+  yield Promise.resolve('hauixi') //异步
 }
 
 const xi = gen()
@@ -14,14 +14,17 @@ console.log(xi.next())  // { value: Promise { 'hauixi' }, done: false }
 
 // yieldType, returnTtpe, nextType
 function* dialogue(): Generator<string, void, string> {
-    const response1 = yield '你好吗?'
-    console.log(response1)
+  const response1 = yield '你好吗?'
+  console.log(response1)
 }
 const dia = dialogue()
 console.log(dia.next().value)
 
 // 迭代器
-// 此处以set(非重复集合，与c++不同的是这个没有自动升序)
+// 迭代器的本质是一个具有 next() 方法的对象，它维护一个内部指针（或状态），
+// 通过 next() 方法依次返回序列中的每个元素，并跟踪遍历的进度，直到遍历完成。
+
+// 此处是set(非重复集合，与c++不同的是这个没有自动升序)
 let set: Set<number> = new Set([1, 2, 6, 2, 1])
 console.log(set)
 
@@ -29,26 +32,27 @@ console.log(set)
 let map: Map<number, string> = new Map()
 map.set(1, 'aaa')
 let iterator = map[Symbol.iterator]()
+let it = map.entries() // 与上一行等价
 console.log(iterator.next().value)
 
 // 此外还有许多如arguments,querySelectorAll等伪数组，那有没有一种统一的格式支持所有的遍历
 // 有的兄弟，有的，就是我们的iterator
 const each = (value: any) => {
-    let it: any = value[Symbol.iterator]()
-    let next: any = { done: false }
-    while (!next.done) {
-        next = it.next()
-        if (!next.done) {
-            console.log(next.value)
-        }
+  let it: any = value[Symbol.iterator]()
+  let next: any = { done: false }
+  while (!next.done) {
+    next = it.next()
+    if (!next.done) {
+      console.log(next.value)
     }
+  }
 }
 each(map)
 
 // 迭代器的语法糖
 // 但是for of不能使用对象的遍历
 for (let value of map) {
-    console.log(value)
+  console.log(value)
 }
 
 // 这里说一下for of和for in的区别
@@ -62,32 +66,32 @@ console.log(a, b, c)
 // 这是很简单的用法，但实际上不管是这种简单的结构还是参数包的底层都是调用iterator的
 
 let obj = {
-    max: 5,
-    current: 0,
-    [Symbol.iterator]() {
-        return {
-            max: this.max,
-            current: this.current,
-            next() {
-                if (this.current === this.max) {
-                    return {
-                        value: undefined,
-                        done: true
-                    }
-                }
-                else {
-                    return {
-                        value: this.current++,
-                        done: false
-                    }
-                }
-            }
+  max: 5,
+  current: 0,
+  [Symbol.iterator]() {
+    return {
+      max: this.max,
+      current: this.current,
+      next() {
+        if (this.current === this.max) {
+          return {
+            value: undefined,
+            done: true
+          }
         }
+        else {
+          return {
+            value: this.current++,
+            done: false
+          }
+        }
+      }
     }
+  }
 }
 
 for (let value of obj) {
-    console.log(value)
+  console.log(value)
 }
 
 // 后话：

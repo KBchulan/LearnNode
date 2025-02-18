@@ -13,15 +13,16 @@ console.log(Symbol.for('huaixi') === Symbol.for('huaixi'))  // true
 // 如下列所示，a1和a2看起来上是一样的，但是是symbol类型，我们就可以对同一个东西取到不同的名字，这是
 // 十分有用的
 let obj = {
-    [a1]: 111,
-    [a2]: 222,   // 此处[]表示计算属性名
-    example: 'test'
+  [a1]: 111,
+  [a2]: 222,   // 此处[]表示计算属性名
+  example: 'test'
 }
 console.log(obj)
+console.log(obj[a1])  // []来访问
 
 // for in读不到symbol
 for (let key in obj) {
-    console.log(key)
+  console.log(key)
 }
 
 // 这些都是读不到这个symbol属性的

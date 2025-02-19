@@ -5,11 +5,11 @@ class Person {
     this._num = num
   }
 
-  get num(){
+  get num() {
     return this._num + 3
   }
 
-  set num(num: number){
+  set num(num: number) {
     this._num = num
   }
 }

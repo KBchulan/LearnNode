@@ -64,7 +64,7 @@ namespace Operation {
       }
     }
   }
-  // console.log(Operation.obj1?.first?.second?.finally) // 这样是正常访问
+  console.log(Operation.obj1?.first?.second?.finally) // 这样是正常访问
   // 但是如果过程中间有名字写错了，或者其他未知错误(比如null或者undefined)，
   // 是不会直接抛出异常的，而是返回undefined
 

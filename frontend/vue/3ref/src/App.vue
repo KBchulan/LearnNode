@@ -86,14 +86,14 @@ const MyRef = <T>(value: T) => {
   return customRef((track, trigger) => {
     return {
       get() {
-        track()
+        track()       // 收集依赖
         return value
       },
       set(newValue: T) {
         clearTimeout(timer)
         timer = setTimeout(() => {
           value = newValue
-          trigger()
+          trigger()           // 触发依赖
           console.log('set')
           timer = null
         }, 1000)

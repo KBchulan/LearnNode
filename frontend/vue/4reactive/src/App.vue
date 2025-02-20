@@ -68,7 +68,7 @@ const submit = () => {
 
 const add = () => {
   setTimeout(() => {
-    formReactiveArray.push({
+    formReactiveArray.push({  // 这里不能直接赋值
       name: 'lumingfei',
       age: 19
     })
@@ -87,7 +87,7 @@ let ObjShallowReactive = shallowReactive({
 })
 
 const edit = () => {
-  ObjShallowReactive.foo = { bar: { num: 2 } }
+  ObjShallowReactive.foo = { bar: { num: 2 } }    // 只到第一层,也就是.foo这里
   console.log(ObjShallowReactive)
 }
 

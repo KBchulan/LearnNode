@@ -43,12 +43,16 @@
 
 7. 表格
   <table>
+    <thead>
       <tr>  <!-- 表格行 -->
           <th>表头</th>
       </tr>
+    </thead>
+    <tbody>
       <tr>
           <td>单元格</td>
       </tr>
+    </tbody>
   </table>
 
 8. 视频

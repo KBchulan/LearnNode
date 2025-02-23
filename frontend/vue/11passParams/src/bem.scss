@@ -8,29 +8,29 @@ $modifier-sel: '--' !default;
   overflow: hidden;
 }
 
-@mixin block($b) {
-  $Block: #{$namespace +  $block-sel + $b};
+@mixin block($bl) {
+  $Block: #{$namespace + $block-sel + $bl};
 
   .#{$Block} {
     @content
   }
-}
+};
 
-@mixin element($e) {
+@mixin element($el) {
   $selector: &;
 
   @at-root {
-    #{$selector + $element-sel + $e} {
+    #{$selector + $element-sel + $el} {
       @content
     }
   }
-}
+};
 
-@mixin modifier($m) {
+@mixin modifier($mod) {
   $selector: &;
 
   @at-root {
-    #{$selector + $modifier-sel + $m} {
+    #{$selector + $modifier-sel + $mod} {
       @content
     }
   }

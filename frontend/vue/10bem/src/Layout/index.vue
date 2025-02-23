@@ -7,7 +7,7 @@ import Menu from './Menu/index.vue'
 
 <template>
   <div class="hx-box">
-    <div>
+    <div class="hx-box__left">
       <Menu></Menu>
     </div>
     <div class="hx-box__right">
@@ -21,6 +21,9 @@ import Menu from './Menu/index.vue'
 @include block(box) {
   @include bfc;
   display: flex;
+
+  @include element(left) {
+  }
 
   @include element(right) {
     display: flex;

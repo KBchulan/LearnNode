@@ -10,5 +10,6 @@ import Layout from './Layout/index.vue'
 <style lang="scss">
 #app {
   @include bfc;
+  background-color: bisque;
 }
 </style>

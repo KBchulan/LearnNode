@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import Layout from './Layout/index.vue'
+
 </script>
 
 <template>
-  <div class="hx-test">
-    hello
-  </div>
+  <Layout></Layout>
 </template>
 
 <style lang="scss">
-@include b(test) {
-  color: red;
+#app {
+  @include bfc;
 }
 </style>

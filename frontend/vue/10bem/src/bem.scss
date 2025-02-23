@@ -1,32 +1,41 @@
-$namespace: "hx" !default;
-$block-sel: "-" !default;
-$elem-sel: "__" !default;
-$mod-sel: "--" !default;
+$namespace: 'hx' !default;
+$block-sel: '-' !default;
+$element-sel: '__' !default;
+$modifier-sel: '--' !default;
 
-@mixin b($block) {
-  $B: #{ $namespace + $block-sel + $block };
+@mixin bfc {
+  height: 100%;
+  overflow: hidden;
+};
 
-  .#{$B} {
-    @content;
+@mixin block($b) {
+  $Block: #{$namespace +  $block-sel + $b};
+
+  .#{$Block} {
+    @content
   }
 }
 
-@mixin e($el) {
+;
+
+@mixin element($e) {
   $selector: &;
 
   @at-root {
-    #{$selector + $elem-sel + $el} {
-      @content;
+    #{$selector + $element-sel + $e} {
+      @content
     }
   }
 }
 
-@mixin m($m) {
+;
+
+@mixin modifier($m) {
   $selector: &;
 
   @at-root {
-    #{$selector + $mod-sel + $m} {
-      @content;
+    #{$selector + $modifier-sel + $m} {
+      @content
     }
   }
 }

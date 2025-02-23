@@ -6,7 +6,9 @@ $modifier-sel: '--' !default;
 @mixin bfc {
   height: 100%;
   overflow: hidden;
-};
+}
+
+;
 
 @mixin block($b) {
   $Block: #{$namespace +  $block-sel + $b};
@@ -15,8 +17,6 @@ $modifier-sel: '--' !default;
     @content
   }
 }
-
-;
 
 @mixin element($e) {
   $selector: &;
@@ -27,8 +27,6 @@ $modifier-sel: '--' !default;
     }
   }
 }
-
-;
 
 @mixin modifier($m) {
   $selector: &;

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// 本文件为父子组件传参
 import { ref } from 'vue'
 import waterFall from './components/water-fall.vue'
 
@@ -20,8 +21,7 @@ const getPropsFromSonComponents = (pros: any[]) => {
   </div>
   <hr>
   <waterFall ref="son" @on-click="getPropsFromSonComponents" :name="name" :arr="[1, 2, 3, 4, 5]" :sex="'man'">
-  </waterFall>
-  <!-- 我们可以通过v-bind为这个组件绑定一个属性，名字随便起 -->
+  </waterFall> <!-- 我们可以通过v-bind为这个组件绑定一个属性，名字随便起 -->
 </template>
 
 <style lang="scss">

@@ -34,9 +34,9 @@ const names = reactive<Name[]>([
       <!-- :updata="'it just a test for name header'" -->
     </header>
 
-    <main class="hx-comain__main"> <!-- 匿名插槽 -->
+    <main class="hx-comain__main">
       <div v-for="(item, index) in names">
-        <slot :index="index" :data="item"></slot>
+        <slot :index="index" :data="item"></slot> <!-- 匿名插槽 -->
       </div>
     </main>
 

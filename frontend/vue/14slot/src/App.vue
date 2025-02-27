@@ -35,6 +35,13 @@ let name = ref<string>('header')
       </template>
     </Slot>
   </div>
+  <div>
+    <Slot>
+      <template v-slot:header>
+        <div></div>
+      </template>
+    </Slot>
+  </div>
 </template>
 
 <style lang="scss">

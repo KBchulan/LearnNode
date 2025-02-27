@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
-const Sync = defineAsyncComponent(()=> import('./components/sync.vue'))
+const Sync = defineAsyncComponent(() => import('./components/sync.vue'))
 
 // in this section, we will introduce the asyncComponent
 //    first, we should define a syncComponent(we can use await in the target component) and use defineAsyncComponent to 
@@ -12,7 +12,7 @@ const Sync = defineAsyncComponent(()=> import('./components/sync.vue'))
 </script>
 
 <template>
-  <Suspense>  <!-- 异步组件必须这样展示 -->
+  <Suspense> <!-- 异步组件必须这样展示 -->
     <template #default>
       <Sync></Sync>
     </template>

@@ -9,8 +9,8 @@ const sendToB = (): void => {
   emit('on-AbuttonClick', flag.value)
 }
 
-let str:string = '我是A组件的属性'
-const sendByBus = ()=>{
+let str: string = '我是A组件的属性'
+const sendByBus = () => {
   Bus.emit('on-click-bus', str)
 }
 </script>

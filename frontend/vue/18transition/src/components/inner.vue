@@ -52,9 +52,6 @@ let value = ref<number>(0)
 
 <style scoped lang="scss">
 @include block(content) {
-  display: flex;
-  flex-direction: column;
-
   .box-enter-from,
   .first-leave-to {
     opacity: 0;

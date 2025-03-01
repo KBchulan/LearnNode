@@ -3,14 +3,19 @@
     <h1>
       app.vue
     </h1>
-    <button @click="change">change</button>
+    <button @click="changed">change</button>
     <button @click="flag = !flag">unmount</button>
-    <did v-if="flag" v-hx:aaa.huaixi="{ background: color }"></did>
+    <div class="hx-sons">
+      <did v-if="flag" v-hx:aaa.huaixi="{ background: color }"></did>
+      <simble></simble>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, Directive, DirectiveBinding } from 'vue'
+// 本节我们介绍自定义组件
+import { ref } from 'vue'
+import type { Directive, DirectiveBinding } from 'vue'
 
 function generateRandomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -26,7 +31,7 @@ let colors = ref<string[]>([
 ])
 
 let flag = ref<boolean>(true)
-let color = colors.value[generateRandomNumber(0, 2)]
+let color = ref(colors.value[generateRandomNumber(0, 2)])
 
 const vHx: Directive = {
   created() {
@@ -43,8 +48,9 @@ const vHx: Directive = {
   beforeUpdate() {
     console.log('=====>beforeUpdate')
   },
-  updated() {
+  updated(el: HTMLElement, dir: DirectiveBinding<Dir>) {
     console.log('=====>updated')
+    el.style.background = dir.value.background
   },
   beforeUnmount() {
     console.log('=====>beforeUnmount')
@@ -54,8 +60,9 @@ const vHx: Directive = {
   }
 }
 
-const change = () => {
-  color = colors.value[generateRandomNumber(0, 2) + 1]
+const changed = () => {
+  const num = generateRandomNumber(0, 2)
+  color.value = colors.value[num]
 }
 
 </script>
@@ -65,5 +72,9 @@ const change = () => {
   @include bfc;
   padding-top: 20px;
   padding-left: 20px;
+}
+
+@include block(sons) {
+  display: flex;
 }
 </style>

@@ -68,6 +68,7 @@ const list = [
     background: 'yellowgreen'
   }
 ]
+
 </script>
 
 <template>

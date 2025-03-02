@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/node": "^22.13.5",
+    "hx-resize": "^0.0.2",
     "sass": "^1.85.0",
     "scss": "^0.2.4",
     "vue": "^3.5.13"

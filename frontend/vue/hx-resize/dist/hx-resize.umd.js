@@ -1,0 +1,1 @@
+(function(e,i){typeof exports=="object"&&typeof module<"u"?module.exports=i():typeof define=="function"&&define.amd?define(i):(e=typeof globalThis<"u"?globalThis:e||self,e.useResize=i())})(this,function(){"use strict";function e(n,t){new ResizeObserver(o=>{t(o[0].contentRect)}).observe(n)}const i=n=>{n.directive("resize",{mounted(t,s){e(t,s.value)}})};return e.install=i,e});

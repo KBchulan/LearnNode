@@ -5,7 +5,7 @@
     {{ isShow }}
     {{ text }}
     <hr>
-    <model v-model="isShow" v-model:text="text"></model>
+    <model v-model="isShow" v-model:text="text"></model> <!-- 等于号是默认的 -->
   </div>
 </template>
 

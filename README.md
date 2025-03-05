@@ -8,6 +8,8 @@ c++17
 c++20  
 thread  
 设计模式  
+typescript  
+vue 
 CS-Base(xiaolin)  
 
 #### 语言学习:  

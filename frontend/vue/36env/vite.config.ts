@@ -13,7 +13,13 @@ console.log(path.resolve(__dirname, '.'))
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.includes('hx-'),  // 此时单文件组件需要命名为.ce.vue，否则会报错，被命名的文件都会被识别为自定义元素
+        },
+      },
+    }),
     vueDevTools(),
   ],
   css: {

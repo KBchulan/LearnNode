@@ -1,133 +1,58 @@
-#### 总述：
+# 我的编程学习笔记 🚀
 
-已完成的笔记：  
-asio  
-c++11  
-c++14  
-c++17  
-c++20  
-thread  
-设计模式  
-typescript  
-vue  
-CS-Base(xiaolin)  
+这是我在学习各种编程语言、框架和技术时整理的个人笔记仓库。这里记录了我的学习历程、有用的资源链接和代码示例。OpenGL
 
-#### 语言学习:  
+## 实用学习资源 📚
 
-c++：https://zh.cppreference.com/w/cpp  
+### 语言学习
 
-cpp：https://cplusplus.com/reference/iolibrary/
+- **C++**: [cppreference](https://zh.cppreference.com/w/cpp) | [cplusplus](https://cplusplus.com/reference/iolibrary/)
+- **Python**: [FreeCodeCamp教程](https://www.freecodecamp.org/chinese/news/python-code-examples-sample-script-coding-tutorial-for-beginners/)
+- **Rust**: [Rust程序设计语言](https://kaisery.github.io/trpl-zh-cn/title-page.html) | [半小时学Rust](https://fasterthanli.me/articles/a-half-hour-to-learn-rust)
+- **JavaScript**: [MDN文档](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- **汇编**: [汇编语言教程](https://www.cnblogs.com/wingsummer/p/16305622.html)
 
-c++函数：https://www.w3cschool.cn/doc_cpp/cpp-error-bad_exception.html?lang=en  
+### 图形库
 
-python：https://www.freecodecamp.org/chinese/news/python-code-examples-sample-script-coding-tutorial-for-beginners/  
+- **Vulkan**: [EasyVulkan](https://easyvulkan.github.io/)
+- **SDL2**: [API文档](https://wiki.libsdl.org/SDL2/CategoryAPI)
+  - [SDL2_mixer](https://wiki.libsdl.org/SDL2_mixer/CategoryAPI)
+  - [SDL2_image](https://wiki.libsdl.org/SDL2_image/CategoryAPI)
+  - [SDL2_ttf](https://wiki.libsdl.org/SDL2_ttf/CategoryAPI)
 
-rust：https://kaisery.github.io/trpl-zh-cn/title-page.html
+### 算法
 
-js：https://developer.mozilla.org/en-US/docs/Web/JavaScript  
+- **LeetCode**: [题解](https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/medium)
+- **OI Wiki**: [算法百科](https://en.oi-wiki.org/)
+- **Hello算法**: [图解算法](https://www.hello-algo.com/chapter_preface/about_the_book/)
 
-汇编：https://www.cnblogs.com/wingsummer/p/16305622.html  
+### 常用库
 
-简单rust：https://fasterthanli.me/articles/a-half-hour-to-learn-rust
+- **Boost**: [文档](https://www.boost.org/doc/libs/1_86_0/)
+- **Asio**: [视频教程](https://www.bilibili.com/video/BV1FY4y1S7QW/)
+- **JsonCpp**: [文档](http://jsoncpp.sourceforge.net/old.html)
+- **OpenCV**: [官方文档](https://docs.opencv.org/4.x/)
+- **cpp-httplib**: [GitHub](https://github.com/yhirose/cpp-httplib)
+- **Protobuf**: [指南](https://protobuf.dev/programming-guides/proto3/)
 
-#### 图形库：
+### C++进阶知
 
-vulkan：https://easyvulkan.github.io/  
 
-​SDL2：		https://wiki.libsdl.org/SDL2/CategoryAPI  
+- **模板**: [教程](https://juejin.cn/post/7078530622527897631) | [GitHub教程](https://github.com/wuye9036/CppTemplateTutorial)
+- **智能指针**: [视频教程](https://www.bilibili.com/video/BV18B4y187uL/)
+- **并发编程**: [教程](https://juejin.cn/post/7129130891011457037) | [现代C++并发编程](https://mq-b.github.io/ModernCpp-ConcurrentProgramming-Tutorial/)
+- **C++14/17/20新特性**: [C++14](https://zh.wikipedia.org/wiki/C%2B%2B14) | [C++17/20](https://stibel.icu/md/c++/features/c17/c++-features-c17.html)
+- **Modern C++**: [视频教程](https://www.bilibili.com/video/BV1D84y1t76J/)
+- **STL**: [教程](https://docs.oldtimes.me/c.biancheng.net/stl/index.html)
 
-​SDL2_mixer：    https://wiki.libsdl.org/SDL2_mixer/CategoryAPI  
+### Web开发
 
-​SDL2_image:       https://wiki.libsdl.org/SDL2_image/CategoryAPI  
+- **Node.js**: [小满zs教程](https://www.bilibili.com/video/BV1cV4y1B7P4/)
+- **MongoDB**: [教程](https://github.com/nummy/pymongo-tutorial-cn)
+- **SQL**: [W3School教程](https://www.w3school.com.cn/sql/sql_syntax.asp)
 
-​SDL2_ttf:	      https://wiki.libsdl.org/SDL2_ttf/CategoryAPI  
+## 个人笔记
 
-#### 算法：  
+这个仓库主要是为了方便我自己查阅和复习，如果对你也有帮助，那就更好了！😊
 
-leetcode：https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/medium  
-
-oi_wiki：https://en.oi-wiki.org/  
-
-Hello算法：https://www.hello-algo.com/chapter_preface/about_the_book/
-
-#### 一些算法的实现博客：
-
-​	a星寻路：	https://cloud.tencent.com/developer/article/2391442
-
-​	流场寻路：      https://yimicgh.top/%E7%AC%94%E8%AE%B0/Flow-field-pathfinding-01/
-
-#### 一些库的学习：
-
-  boost：https://www.boost.org/doc/libs/1_86_0/
-
-  asio：https://www.bilibili.com/video/BV1FY4y1S7QW/
-
-  jsoncpp：http://jsoncpp.sourceforge.net/old.html
-
-  OpenCV：https://docs.opencv.org/4.x/
-
-  cpp-httplib：https://github.com/yhirose/cpp-httplib  
-
-  protobuf：https://protobuf.dev/programming-guides/proto3/  
-
-#### 一些知识的学习：
-
-  模板：https://juejin.cn/post/7078530622527897631  
-  
-  模板git：https://github.com/wuye9036/CppTemplateTutorial  
-
-  柏林噪声：https://www.cnblogs.com/hggzhang/p/17432947.html
-
-  命名空间：https://www.bilibili.com/video/BV1Va411T7TJ/
-
-  智能指针：https://www.bilibili.com/video/BV18B4y187uL/
-
-  友元：https://docs.oldtimes.me/c.biancheng.net/view/169.html
-
-  sql：https://www.w3school.com.cn/sql/sql_syntax.asp
-
-  static：https://www.cnblogs.com/biyeymyhjob/archive/2012/07/19/2598815.html
-
-  继承和多态：https://blog.lyh543.cn/notes/cpp/cpp-grammar/cpp-inheritance-derive-polymorphism.html
-
-  大丙tag：https://subingwen.cn/tags/
-
-  小满zs-node.js：https://www.bilibili.com/video/BV1cV4y1B7P4/
-
-  modern c++ teach: https://www.bilibili.com/video/BV1D84y1t76J/
-
-  mongoDB：https://github.com/nummy/pymongo-tutorial-cn
-
-  STL：https://docs.oldtimes.me/c.biancheng.net/stl/index.html
-
-  并发：https://juejin.cn/post/7129130891011457037  
-
-  c++14：https://zh.wikipedia.org/wiki/C%2B%2B14
-
-  c++17，20：https://stibel.icu/md/c++/features/c17/c++-features-c17.html  
-
-  折叠表达式：https://xuchengpeng.cn/posts/2024/07/cpp-fold-expressions.html  
-
-  variant：https://cloud.tencent.com/developer/article/2414270
-
-  optional：https://juejin.cn/post/7247848854438461477  
-
-  any：https://hedzr.com/c++/variant/any-in-c++17/  
-
-  as_const：https://blog.csdn.net/jiemashizhen/article/details/125561668  
-
-  tuple：https://www.w3cschool.cn/article/37883024.html  
-
-  concept：https://uint128.com/2020/11/20/C-20%E6%96%B0%E7%89%B9%E6%80%A7%E4%B9%8Bconcept/  
-
-  SFINAE：https://www.luozhiyun.com/archives/744  
-
-  菜鸟：https://www.cainiaoya.com/
-
-  协程：https://www.cnblogs.com/blizzard8204/p/17563217.html  
-
-  重载决议：https://c-cpp.com/cpp/language/overload_resolution
-
-  rust实现编译器：https://rust-hosted-langs.github.io/book/  
-
-  并发：https://mq-b.github.io/ModernCpp-ConcurrentProgramming-Tutorial/  
+> 持续学习，不断进步！💪

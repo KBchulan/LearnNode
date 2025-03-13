@@ -2,9 +2,9 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
 // StatelessWidget
 // StatefulWidget
@@ -18,7 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
+
       create: (context) => MyAppState(),
+
       child: MaterialApp(
         title: 'Namer App',
         theme: ThemeData(
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
         ),
         home: MyHomePage(),
       ),
+      
     );
   }
 }

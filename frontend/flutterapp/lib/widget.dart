@@ -1,5 +1,7 @@
 // https://docs.flutter.dev/ui
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,26 +23,51 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => MyAppState(), // create a global context
+      create: (context) => MyAppState(), // create a global context
 
-        child: MaterialApp(home: MyHomePage()));
+      child: MaterialApp(
+        home: MyCounter()
+      )
+    );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class MyCounter extends StatefulWidget{
+  const MyCounter({super.key});
+
+  @override
+  State<MyCounter> createState() => _MyCounterState();
+}
+
+class _MyCounterState extends State<MyCounter> {
+  int num = 0;
 
   @override
   Widget build(BuildContext context) {
-    var strs = context.watch<MyAppState>().strs;
+    
 
     return Scaffold(
-        body: ListView.builder(
-      itemCount: strs.length,
-      itemBuilder: (context, index) {
-        return Text(strs[index]);
-      },
-    )
+      body: Container(
+        alignment: Alignment.center,
+        // 简单的美化设置
+        decoration: BoxDecoration(
+          color: Colors.lightBlue
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  num++;
+                  print(num);
+                });
+              },  
+              child: Text('当前计数: $num'),
+            )
+          ],
+        )
+      ),
     );
   }
 }

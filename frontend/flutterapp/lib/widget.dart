@@ -1,20 +1,10 @@
 // https://docs.flutter.dev/ui
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MyAppState extends ChangeNotifier {
-  var strs = <String>[
-    '我是字符串1',
-    '我是字符串2',
-    '我是字符串3',
-    '我是字符串4',
-    '我是字符串5',
-    '我是字符串6',
-    '我是字符串7',
-  ];
+  var num = 0;
 }
 
 class MyApp extends StatelessWidget {
@@ -23,52 +13,40 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MyAppState(), // create a global context
-
-      child: MaterialApp(
-        home: MyCounter()
-      )
-    );
+        create: (context) => MyAppState(),
+        child: MaterialApp(
+          home: MyHomePage(),
+          theme: ThemeData.from(
+              colorScheme: ColorScheme.fromSeed(
+                  seedColor: Color.fromARGB(255, 129, 196, 170))),
+        ));
   }
 }
 
-class MyCounter extends StatefulWidget{
-  const MyCounter({super.key});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
 
   @override
-  State<MyCounter> createState() => _MyCounterState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyCounterState extends State<MyCounter> {
-  int num = 0;
+class _MyHomePageState extends State<MyHomePage> {
+  var num = 0;
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        // 简单的美化设置
-        decoration: BoxDecoration(
-          color: Colors.lightBlue
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  num++;
-                  print(num);
-                });
-              },  
-              child: Text('当前计数: $num'),
-            )
-          ],
-        )
+        body: Center(
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            num++;
+            print(num);
+          });
+        },
+        child: Text('$num'),
       ),
-    );
+    ));
   }
 }
 

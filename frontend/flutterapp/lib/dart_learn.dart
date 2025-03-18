@@ -14,18 +14,18 @@ class Package {
   }
 }
 
-void main() async {
-  final httpPackageUrl = Uri.https('dart.dev', '/f/packages/http.json');
-  final httpPackageResponse = await http.get(httpPackageUrl);
-  if (httpPackageResponse.statusCode != 200) {
-    print('Failed to retrieve the http package!');
-    return;
-  }
-  final json = jsonDecode(httpPackageResponse.body);
-  final package = Package(
-    json['name'],
-    json['latestVersion'],
-    description: json['description'],
-  );
-  print(package);
-}
+// void main() async {
+//   final httpPackageUrl = Uri.https('dart.dev', '/f/packages/http.json');
+//   final httpPackageResponse = await http.get(httpPackageUrl);
+//   if (httpPackageResponse.statusCode != 200) {
+//     print('Failed to retrieve the http package!');
+//     return;
+//   }
+//   final json = jsonDecode(httpPackageResponse.body);
+//   final package = Package(
+//     json['name'],
+//     json['latestVersion'],
+//     description: json['description'],
+//   );
+//   print(package);
+// }

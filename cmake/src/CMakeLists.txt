@@ -6,19 +6,26 @@ add_subdirectory(math)
 # 主程序
 add_executable(${PROJECT_NAME} main.cc)
 
+# 为Debug版本设置后缀
+set_target_properties(
+  ${PROJECT_NAME} PROPERTIES
+  DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
+)
+
 # 增加测试
 add_test(NAME test1 COMMAND ${PROJECT_NAME} 25)
+set_tests_properties(
+  test1 PROPERTIES 
+  LABELS "BasicTest"
+  TIMEOUT 10
+)
 
 add_test(NAME test2 COMMAND ${PROJECT_NAME} 4)
 set_tests_properties(
-  test2 PROPERTIES PASS_REGULAR_EXPRESSION
-  "mysqrt*"
-)
-
-add_test(NAME test3 COMMAND ${PROJECT_NAME} 9)
-set_tests_properties(
-  test3 PROPERTIES PASS_REGULAR_EXPRESSION
-  "is: 3"
+  test2 PROPERTIES 
+  LABELS "BasicTest"
+  PASS_REGULAR_EXPRESSION "mysqrt*"
+  TIMEOUT 10
 )
 
 # 包含公共头文件

@@ -6,6 +6,8 @@
 #include <type_traits>
 #include <concepts>
 
+#include "Table.hpp"
+
 namespace math
 {
   template <typename T>
@@ -21,6 +23,12 @@ namespace math
     if (x == 0 || x == 1)
     {
       return static_cast<ResultType>(x);
+    }
+
+    if (x > 1 && x < 100)
+    {
+      std::puts("Using table lookup for initial value: ");
+      return static_cast<ResultType>(sqrtTable[static_cast<int>(x)]);
     }
 
     ResultType guess = static_cast<ResultType>(x) / 2;

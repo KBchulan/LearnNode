@@ -33,9 +33,16 @@ int main(int argc, char *argv[])
 
       // sqrt
       #ifdef USE_MYMATH
-        std::cout << "mysqrt result is: " << math::MySqrt(std::stoi(argv[1])) << '\n';
+        std::cout << "mysqrt result is: " << math::MySqrt(argc > 1 ? std::stoi(argv[1]) : 9) << '\n';
       #else
-        std::cout << "sqrt result is: " << std::sqrt(std::stoi(argv[1])) << '\n';
+        std::cout << "sqrt result is: " << std::sqrt(argc > 1 ? std::stoi(argv[1]) : 9) << '\n';
+      #endif
+
+      // log
+      #if defined(HAVE_LOG)
+        std::puts("this system has log func");
+      #else
+        std::puts("this system doesn't has log func");
       #endif
 
       // after thread

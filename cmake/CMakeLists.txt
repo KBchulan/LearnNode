@@ -1,4 +1,10 @@
 # https://cmake.org/cmake/help/latest/guide/tutorial/index.html
+# 正常make后现在支持的有：
+# ctest 
+# ctest -D Experimental(CDash)
+# custom command
+# cpack
+# make install
 
 # 指定版本
 cmake_minimum_required(VERSION 3.25)
@@ -9,6 +15,17 @@ project(
   VERSION 1.0
 )
 
+# 为Debug版本的库设置'd'后缀
+set(CMAKE_DEBUG_POSTFIX d)
+
+# 设置静态库和动态库的选择
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+
+# 设置RPATH(给打包以后的库设置RPATH)
+set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 # 生成配置文件
 configure_file(
   ${PROJECT_SOURCE_DIR}/include/config/config.hpp.in
@@ -17,7 +34,11 @@ configure_file(
 )
 
 # 启用测试
+include(CTest)
 enable_testing()
+
+# 增加系统自省功能
+include(CheckCXXSourceCompiles)
 
 # 设置警告标志函数
 function(set_warning_flags target)
@@ -80,3 +101,45 @@ install(
 
 # 包含子目录
 add_subdirectory(src)
+
+# 安装导出目标
+install(
+  EXPORT CMakeLearnTargets
+  FILE CMakeLearnTargets.cmake
+  DESTINATION lib/cmake/CMakeLearn
+)
+
+# 包配置帮助器
+include(CMakePackageConfigHelpers)
+
+# 配置包文件
+configure_package_config_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/CMakeLearnConfig.cmake
+  INSTALL_DESTINATION lib/cmake/CMakeLearn
+  NO_SET_AND_CHECK_MACRO
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO
+)
+
+# 写入版本文件
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/CMakeLearnConfigVersion.cmake"
+  VERSION "${PROJECT_VERSION}"
+  COMPATIBILITY AnyNewerVersion
+)
+
+# 安装配置文件
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/CMakeLearnConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/CMakeLearnConfigVersion.cmake
+  DESTINATION lib/cmake/CMakeLearn
+)
+
+# 打包配置
+include(InstallRequiredSystemLibraries)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/License.txt")
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_GENERATOR "TGZ")        # 可以打包为deb格式的
+set(CPACK_SOURCE_GENERATOR "TGZ")
+include(CPack)

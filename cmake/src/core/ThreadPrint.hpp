@@ -6,9 +6,11 @@
 #include <vector>
 #include <thread>
 
+#include "core_export.hpp"
+
 namespace core
 {
-  class ThreadPrint
+  class CORE_EXPORT ThreadPrint
   {
   public:
     explicit ThreadPrint();

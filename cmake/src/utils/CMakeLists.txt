@@ -1,23 +1,33 @@
-# 生成导出文件的module
+# 引入module
 include(GenerateExportHeader)
 
-# 生成库文件
+# 获取所有utils文件
+file(GLOB_RECURSE SRC_UTILS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cc)
+
+# 生成库
 add_library(
-  utils SHARED
-  Defer.cc
+  utils
+  ${SRC_UTILS_FILES}
 )
 
-# 生成导出头文件
+# 生成导出的头文件
 generate_export_header(
-  utils BASE_NAME UTILS
-  EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/utils_export.hpp
+  utils 
+  BASE_NAME UTILS
+  EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/UtilsExport.hpp
 )
 
-# 设置动态库位置无关
+# 设置位置无关
 set_target_properties(
   utils PROPERTIES
   DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
   POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS}
+)
+
+# 指定编译特性
+target_compile_features(
+  utils PUBLIC 
+  cxx_std_20
 )
 
 # 包含头文件
@@ -25,21 +35,22 @@ target_include_directories(
   utils PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<INSTALL_INTERFACE:include>
+  $<INSTALL_INTERFACE:include/utils>
 )
 
-# 安装库文件
+# 安装库文件和头文件
 install(
   TARGETS utils
-  EXPORT CMakeLearnTargets
+  EXPORT CMakeTemplateTargets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
 )
 
-# 安装头文件
 install(
-  FILES
-  ${CMAKE_CURRENT_SOURCE_DIR}/Defer.hpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/utils_export.hpp 
-  DESTINATION include/utils
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  DESTINATION include
+  FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h"
 )
+
+# 增加配置选项
+option(USE_UTILS "Use utils" ON)

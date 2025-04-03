@@ -1,63 +1,58 @@
-# 包含各个模块
+# 各个子模块
 add_subdirectory(core)
-add_subdirectory(utils)
 add_subdirectory(math)
+add_subdirectory(utils)
 
 # 主程序
 add_executable(${PROJECT_NAME} main.cc)
+set_warning_flags(${PROJECT_NAME})
 
-# 为Debug版本设置后缀
+# 增加测试
+add_test(
+  NAME ${PROJECT_NAME}
+  COMMAND ${PROJECT_NAME}
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+# Debug版本设置后缀
 set_target_properties(
   ${PROJECT_NAME} PROPERTIES
   DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
 )
 
-# 增加测试
-add_test(NAME test1 COMMAND ${PROJECT_NAME} 25)
-set_tests_properties(
-  test1 PROPERTIES 
-  LABELS "BasicTest"
-  TIMEOUT 10
-)
-
-add_test(NAME test2 COMMAND ${PROJECT_NAME} 4)
-set_tests_properties(
-  test2 PROPERTIES 
-  LABELS "BasicTest"
-  PASS_REGULAR_EXPRESSION "mysqrt*"
-  TIMEOUT 10
-)
-
-# 包含公共头文件
+# 头文件
 target_include_directories(
   ${PROJECT_NAME} PRIVATE
-  ${PROJECT_SOURCE_DIR}/include
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
 )
 
-# 动态链接子库
-target_link_libraries(
-  ${PROJECT_NAME} PRIVATE
-  core utils
-)
-
-# 根据宏定义处理math_lib
-if(USE_MYMATH)
-  target_link_libraries(
-    ${PROJECT_NAME} PRIVATE
-    math_lib
-  )
-
-  set_warning_flags(math_lib)
+# core库
+if(USE_CORE)
+  set_warning_flags(core)
+  target_link_libraries(${PROJECT_NAME} PRIVATE core)
 endif()
 
-# 启动警告选项
-set_warning_flags(${PROJECT_NAME})
-set_warning_flags(core)
-set_warning_flags(utils)
+# math库
+if(USE_MATH)
+  set_warning_flags(math)
+  target_link_libraries(${PROJECT_NAME} PRIVATE math)
+endif()
+
+# utils库
+if(USE_UTILS)
+  set_warning_flags(utils)
+  target_link_libraries(${PROJECT_NAME} PRIVATE utils)
+endif()
+
+# 第三方库
+target_link_libraries(
+  ${PROJECT_NAME} PRIVATE 
+  ${FMT_LIBRARIES}
+)
 
 # 安装可执行文件
 install(
-  TARGETS
-  ${PROJECT_NAME}
+  TARGETS ${PROJECT_NAME}
   DESTINATION bin
 )

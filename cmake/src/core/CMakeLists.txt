@@ -1,23 +1,33 @@
-# 包含生成导出头文件的module
+# 引入module
 include(GenerateExportHeader)
+
+# 获取所有core文件
+file(GLOB_RECURSE SRC_CORE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cc)
 
 # 生成库
 add_library(
-  core SHARED
-  ThreadPrint.cc
+  core
+  ${SRC_CORE_FILES}
 )
 
 # 生成导出的头文件
 generate_export_header(
-  core BASE_NAME CORE
-  EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/core_export.hpp
+  core 
+  BASE_NAME CORE
+  EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/CoreExport.hpp
 )
 
-# 动态库可能被多个程序使用，因此需要位置无关声明，静态库则不需要
+# 设置位置无关
 set_target_properties(
   core PROPERTIES
   DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
   POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS}
+)
+
+# 指定编译特性
+target_compile_features(
+  core PUBLIC 
+  cxx_std_20
 )
 
 # 包含头文件
@@ -25,27 +35,22 @@ target_include_directories(
   core PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<INSTALL_INTERFACE:include>
+  $<INSTALL_INTERFACE:include/core>
 )
 
-# 指定c++20
-target_compile_features(
-  core PUBLIC
-  cxx_std_20
-)
-
-# 安装库文件
+# 安装库文件和头文件
 install(
   TARGETS core
-  EXPORT CMakeLearnTargets
+  EXPORT CMakeTemplateTargets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
 )
 
-# 安装头文件
 install(
-  FILES
-  ${CMAKE_CURRENT_SOURCE_DIR}/ThreadPrint.hpp 
-  ${CMAKE_CURRENT_SOURCE_DIR}/core_export.hpp 
-  DESTINATION include/core
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  DESTINATION include
+  FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h"
 )
+
+# 增加配置选项
+option(USE_CORE "Use core" ON)

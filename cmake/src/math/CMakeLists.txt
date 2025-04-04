@@ -12,7 +12,7 @@ target_include_directories(
   math INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include/math>
+  $<INSTALL_INTERFACE:include>
 )
 
 # 安装库文件和头文件

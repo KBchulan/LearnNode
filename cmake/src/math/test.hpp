@@ -1,7 +1,7 @@
 #ifndef MATH_TEST_HPP
 #define MATH_TEST_HPP
 
-#include "../../include/middleware/Logger.hpp"
+#include <middleware/Logger.hpp>
 
 namespace math
 {

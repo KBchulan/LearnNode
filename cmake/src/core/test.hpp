@@ -3,7 +3,7 @@
 
 #include "CoreExport.hpp"
 
-#include "../../include/middleware/Logger.hpp"
+#include <middleware/Logger.hpp>
 
 namespace core
 {

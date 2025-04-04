@@ -31,7 +31,7 @@ configure_file(
 include(CTest)
 enable_testing()
 
-# 系统自省配置
+# 系统自省配置(check_cxx_source_compiles)
 include(CheckCXXSourceCompiles)
 
 # 包配置帮助器
@@ -92,19 +92,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-# 安装公共头文件
-install(
-  DIRECTORY ${PROJECT_SOURCE_DIR}/include
-  DESTINATION include
-  FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h"
-)
-
 # 第三方库
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(FMT REQUIRED fmt)
 
 # 主入口
 add_subdirectory(src)
+
+# 安装公共头文件
+install(
+  DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+  DESTINATION include
+  FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h"
+)
 
 # 安装导出目标
 install(

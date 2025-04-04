@@ -11,7 +11,8 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include "../global/Singleton.hpp"
+#include <global/Singleton.hpp>
+
 #include <fmt/core.h>
 #include <fmt/color.h>
 #include <string>

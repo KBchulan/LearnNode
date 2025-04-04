@@ -9,15 +9,15 @@
 #  ifndef CORE_EXPORT
 #    ifdef core_EXPORTS
         /* We are building this library */
-#      define CORE_EXPORT __attribute__((visibility("default")))
+#      define CORE_EXPORT 
 #    else
         /* We are using this library */
-#      define CORE_EXPORT __attribute__((visibility("default")))
+#      define CORE_EXPORT 
 #    endif
 #  endif
 
 #  ifndef CORE_NO_EXPORT
-#    define CORE_NO_EXPORT __attribute__((visibility("hidden")))
+#    define CORE_NO_EXPORT 
 #  endif
 #endif
 

@@ -9,15 +9,15 @@
 #  ifndef UTILS_EXPORT
 #    ifdef utils_EXPORTS
         /* We are building this library */
-#      define UTILS_EXPORT __attribute__((visibility("default")))
+#      define UTILS_EXPORT 
 #    else
         /* We are using this library */
-#      define UTILS_EXPORT __attribute__((visibility("default")))
+#      define UTILS_EXPORT 
 #    endif
 #  endif
 
 #  ifndef UTILS_NO_EXPORT
-#    define UTILS_NO_EXPORT __attribute__((visibility("hidden")))
+#    define UTILS_NO_EXPORT 
 #  endif
 #endif
 

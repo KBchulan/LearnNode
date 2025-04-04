@@ -35,7 +35,7 @@ target_include_directories(
   utils PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<INSTALL_INTERFACE:include/utils>
+  $<INSTALL_INTERFACE:include>
 )
 
 # 安装库文件和头文件

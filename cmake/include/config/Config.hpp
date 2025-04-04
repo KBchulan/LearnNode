@@ -5,9 +5,8 @@
  *
  * @author     KBchulan
  * @date       2025/04/03
- * @history    
+ * @history
  ******************************************************************************/
-
 
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
@@ -15,4 +14,4 @@
 #define PROJECT_NAME "CMakeTemplate"
 #define PROJECT_VERSION "1.0.0"
 
-#endif // CONFIG_HPP
+#endif  // CONFIG_HPP

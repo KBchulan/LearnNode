@@ -24,9 +24,9 @@ set_target_properties(
   POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS}
 )
 
-# 指定编译特性
+# 指定c++20
 target_compile_features(
-  core PUBLIC 
+  core PUBLIC
   cxx_std_20
 )
 

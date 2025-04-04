@@ -5,36 +5,33 @@
  *
  * @author     KBchulan
  * @date       2025/04/03
- * @history    
+ * @history
  ******************************************************************************/
-
 
 #ifndef SINGLETON_HPP
 #define SINGLETON_HPP
 
-#include <mutex>
-#include <memory>
-#include <iostream>
+namespace global {
 
-namespace global
-{
-  template <typename T>
-  class Singleton
-  {
-  public:
-    static T &GetInstance()
-    {
-      static T instance;
-      return instance;
-    }
+template <typename T>
+class Singleton {
+ public:
+  static T &getInstance() noexcept {
+    static T instance;
+    return instance;
+  }
 
-    Singleton(const Singleton &) = delete;
-    Singleton &operator=(const Singleton &) = delete;
+  Singleton(const Singleton &) = delete;
+  Singleton &operator=(const Singleton &) = delete;
 
-  protected:
-    Singleton() = default;
-    ~Singleton() = default;
-  };
-} // namespace global
+  Singleton(const Singleton &&) = delete;
+  Singleton &operator=(const Singleton &&) = delete;
 
-#endif // SINGLETON_HPP
+ protected:
+  Singleton() = default;
+  ~Singleton() = default;
+};
+
+}  // namespace global
+
+#endif  // SINGLETON_HPP

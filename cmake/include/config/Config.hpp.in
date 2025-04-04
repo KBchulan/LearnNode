@@ -5,9 +5,8 @@
  *
  * @author     KBchulan
  * @date       2025/04/03
- * @history    
+ * @history
  ******************************************************************************/
-
 
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
@@ -15,4 +14,4 @@
 #define PROJECT_NAME "@PROJECT_NAME@"
 #define PROJECT_VERSION "@PROJECT_VERSION@"
 
-#endif // CONFIG_HPP
+#endif  // CONFIG_HPP

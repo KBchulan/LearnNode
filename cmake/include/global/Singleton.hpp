@@ -13,9 +13,9 @@
 
 namespace global {
 
-template <typename T>
+template <typename T> 
 class Singleton {
- public:
+public:
   static T &getInstance() noexcept {
     static T instance;
     return instance;
@@ -27,11 +27,11 @@ class Singleton {
   Singleton(const Singleton &&) = delete;
   Singleton &operator=(const Singleton &&) = delete;
 
- protected:
+protected:
   Singleton() = default;
   ~Singleton() = default;
 };
 
-}  // namespace global
+} // namespace global
 
-#endif  // SINGLETON_HPP
+#endif // SINGLETON_HPP

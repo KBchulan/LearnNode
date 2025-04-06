@@ -17,8 +17,8 @@ namespace middleware {
 
 class Cache final : public global::Singleton<Cache> {};
 
-}  // namespace middleware
+} // namespace middleware
 
 #define cache middleware::Cache::getInstance()
 
-#endif  // CACHE_HPP
+#endif // CACHE_HPP

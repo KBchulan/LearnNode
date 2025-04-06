@@ -17,16 +17,17 @@
 namespace global {
 
 class GlobalVariable final : public Singleton<GlobalVariable> {
- public:
+public:
   model::RedisConfig redis_config_ = {
-    .host = "localhost",
-    .port = 6379,
+    .host = "localhost", 
+    .port = 6379, 
     .password = "whx051021"
   };
+  
 };
 
-}  // namespace global
+} // namespace global
 
 #define globalVariable global::GlobalVariable::getInstance()
 
-#endif  // GLOBAL_HPP
+#endif // GLOBAL_HPP

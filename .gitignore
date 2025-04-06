@@ -36,3 +36,4 @@ cmake-build-debug/
 node_modules/
 .vscode/
 build
+.cache/

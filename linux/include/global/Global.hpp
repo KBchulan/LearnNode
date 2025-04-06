@@ -1,0 +1,33 @@
+/******************************************************************************
+ *
+ * @file       Global.hpp
+ * @brief      这里写全局的声明配置
+ *
+ * @author     KBchulan
+ * @date       2025/04/03
+ * @history
+ ******************************************************************************/
+
+#ifndef GLOBAL_HPP
+#define GLOBAL_HPP
+
+#include <global/Singleton.hpp>
+#include <model/Model.hpp>
+
+namespace global {
+
+class GlobalVariable final : public Singleton<GlobalVariable> {
+public:
+  model::RedisConfig redis_config_ = {
+    .host = "localhost", 
+    .port = 6379, 
+    .password = "whx051021"
+  };
+  
+};
+
+} // namespace global
+
+#define globalVariable global::GlobalVariable::getInstance()
+
+#endif // GLOBAL_HPP

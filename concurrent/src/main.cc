@@ -1,5 +1,5 @@
-#include <middleware/Logger.hpp>
+#include <ThreadBasic/ThreadBasic.hpp>
 
 int main() { 
-  logger.info("hello, world");
+  core::ThreadBasic::basic();
 }

@@ -24,6 +24,8 @@ public:
     .password = "whx051021"
   };
   
+
+  std::string prefix_ = "--";
 };
 
 } // namespace global

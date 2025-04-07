@@ -45,7 +45,7 @@ void Memory::brkCall() noexcept {
   mmap: Linux提供的将文件映射在内存中，使得对内存区域的访问会被转化为对文件的访问
    - 调用：void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
    - 介绍：
-     - addr：映射区域的首地址，建议设置为空给用户进行选择
+     - addr：映射区域的首地址，建议设置为空给系统进行选择
      - length：映射区域的字节数
      - prot：指定内存区域的访问权限，如PROT_READ，PROT_WRITE, PROT_EXEC
      - flags：映射类型，如MAP_SHARED(共享，修改会被写回文件), MAP_PRIVATE(私有，不影响源文件), MAP_ANONYMOUS(不映射文件，仅分配内存)

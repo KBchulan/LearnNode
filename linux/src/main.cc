@@ -9,12 +9,12 @@
     - fork(): 创建一个新的进程
     - sched_yield(): 让出CPU时间片
     - exit(), wait()等系列函数见Process.md
-  
+
   文件系统：
     - open(), read(), write(), close()
-  
+
   设备管理：
-    
+
   网络管理：
     - socket(), bind(), listen(), accept(), connect(), send(), recv()：网络基础api
     - socketpair(): 创建一对匿名管道
@@ -22,11 +22,12 @@
 
 #include <Memory/Memory.hpp>
 #include <Process/Process.hpp>
-#include <Vector2.hpp>
+#include <Socket/Socket.hpp>
+
 #include <global/Global.hpp>
 #include <middleware/Logger.hpp>
 
-int main() {
+int main(int argc, char* argv[]) {
   {
     // globalVariable
     // logger.info("globalVariable: {}", globalVariable.redis_config_.host);
@@ -47,4 +48,13 @@ int main() {
     // core::Process::shmCall();
   }
 
+  {
+    // socket
+    if (argv[argc - 1] == globalVariable.prefix_ + "client") {
+      core::SocketCall::socketClientCall();
+    }
+    else if(argv[argc - 1] == globalVariable.prefix_ + "server") {
+      core::SocketCall::socketServerCall();
+    }
+  }
 }

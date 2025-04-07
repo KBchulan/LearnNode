@@ -16,13 +16,16 @@
 
 namespace core {
 
-class CORE_EXPORT Socket final : public global::Singleton<Socket> {
+class CORE_EXPORT SocketCall final : public global::Singleton<SocketCall> {
 public:
-  static void socketCall() noexcept;
+  static void CORE_EXPORT socketClientCall() noexcept;
+
+  static void CORE_EXPORT socketServerCall() noexcept;
+
 };
 
 }  // namespace core
 
-#define socket core::Socket::getInstance()
+#define socketCall core::SocketCall::getInstance()
 
 #endif  // SOCKET_HPP

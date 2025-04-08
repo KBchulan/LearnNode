@@ -17,7 +17,7 @@
 
   网络管理：
     - socket(), bind(), listen(), accept(), connect(), send(), recv()：网络基础api
-    - socketpair(): 创建一对匿名管道
+    - socketpair(): 创建一对匿名管道, 用于进程间通信
 */
 
 #include <Memory/Memory.hpp>

@@ -22,6 +22,8 @@ public:
 
   static void CORE_EXPORT socketServerCall() noexcept;
 
+  static void CORE_EXPORT socketpairCall() noexcept;
+
 };
 
 }  // namespace core

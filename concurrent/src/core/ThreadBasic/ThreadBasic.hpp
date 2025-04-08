@@ -11,18 +11,35 @@
 #ifndef THREAD_BASIC_HPP
 #define THREAD_BASIC_HPP
 
-#include <string>
 #include <CoreExport.hpp>
 #include <global/Singleton.hpp>
+#include <string>
 
 namespace core {
 
 class CORE_EXPORT ThreadBasic final : public global::Singleton<ThreadBasic> {
  public:
-  static void CORE_EXPORT basic() noexcept;
+  static void basic() noexcept;
 
  private:
-  static void CORE_NO_EXPORT thread_work_1(std::string &&) noexcept;
+  static void thread_work_1(std::string &&) noexcept;
+
+  static void oops() noexcept;
+
+  static void catch_exception();
+
+  class background_tast {
+   public:
+    void operator()(std::string &&str);
+  };
+
+
+  struct func {
+    std::uint32_t &num_;
+    func(std::uint32_t &num);
+
+    void operator()() noexcept;
+  };
 };
 
 }  // namespace core

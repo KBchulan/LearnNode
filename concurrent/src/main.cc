@@ -1,5 +1,5 @@
 #include <ThreadBasic/ThreadBasic.hpp>
 
-int main() { 
+int main() {
   core::ThreadBasic::basic();
 }

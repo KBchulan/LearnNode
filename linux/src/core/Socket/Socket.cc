@@ -3,12 +3,12 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #include <array>
 #include <cstdio>
 #include <cstring>
-
 #include <middleware/Logger.hpp>
 
 namespace core {
@@ -59,7 +59,8 @@ void SocketCall::socketServerCall() noexcept {
     return;
   }
 
-  if ((setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) < 0) {
+  if ((setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt,
+                  sizeof(opt))) < 0) {
     logger.error("setsockopt设置失败");
     return;
   }
@@ -80,7 +81,8 @@ void SocketCall::socketServerCall() noexcept {
 
   logger.info("等待客户端连接...");
 
-  if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0) {
+  if ((new_socket = accept(server_fd, (struct sockaddr *)&address,
+                           (socklen_t *)&addrlen)) < 0) {
     logger.error("accept失败");
     return;
   }
@@ -94,6 +96,19 @@ void SocketCall::socketServerCall() noexcept {
 
   close(new_socket);
   close(server_fd);
+}
+
+void SocketCall::socketpairCall() noexcept {
+  std::array<int, 2> socket_pair;
+
+  int ret = socketpair(AF_UNIX, SOCK_STREAM, 0, socket_pair.data());
+  if (ret < 0) {
+    logger.error("socketpair创建失败");
+    return;
+  }  
+
+  // 在fork()之前需要打开socketpair()
+  // pid_t cpid = fork();
 }
 
 }  // namespace core

@@ -34,6 +34,8 @@ target_compile_features(
 target_include_directories(
   core PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/utils>
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/math>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<INSTALL_INTERFACE:include>
 )

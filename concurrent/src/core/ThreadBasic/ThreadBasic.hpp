@@ -1,7 +1,7 @@
 /******************************************************************************
  *
- * @file       threadBasic.hpp
- * @brief      XXXX Function
+ * @file       ThreadBasic.hpp
+ * @brief      线程相关的基础知识
  *
  * @author     KBchulan
  * @date       2025/04/06
@@ -32,7 +32,6 @@ class CORE_EXPORT ThreadBasic final : public global::Singleton<ThreadBasic> {
    public:
     void operator()(std::string &&str);
   };
-
 
   struct func {
     std::uint32_t &num_;

@@ -8,6 +8,8 @@
 #include <string_view>
 #include <thread>
 
+#include <guard/ThreadGuard.hpp>
+
 namespace core {
 
 void ThreadBasic::basic() noexcept {
@@ -53,6 +55,9 @@ void ThreadBasic::basic() noexcept {
 
   // 异常处理，当我们的主线程出现异常时，不应该直接抛出异常通知主进程回收资源，而是应该阻塞等待各个子线程任务结束后再回收资源(比如充值模块)
   catch_exception();
+
+
+  // 使用ThreadGuard来管理线程
 }
 
 }  // namespace core
@@ -75,7 +80,7 @@ void ThreadBasic::catch_exception() {
   std::thread sonThread{func(local_variable)};
 
   try {
-    logger.error("i am main thread, and i throw a error");
+    logger.error("i am main thread, and i happen a error");
   } catch (const std::exception &e) {
     sonThread.join();
     throw;

@@ -13,7 +13,6 @@ class UTILS_EXPORT Defer {
 
   ~Defer() noexcept;
 
-  // 禁止拷贝
   Defer(const Defer &) = delete;
   Defer &operator=(const Defer &) = delete;
 

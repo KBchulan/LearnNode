@@ -8,7 +8,7 @@
 #include <string_view>
 #include <thread>
 
-#include <guard/ThreadGuard.hpp>
+#include <utils/guard/ThreadGuard.hpp>
 
 namespace core {
 
@@ -53,11 +53,16 @@ void ThreadBasic::basic() noexcept {
   // 那如何解决这个问题，1.局部变量用shared_ptr包装，这样在存在计数的情况下就不会被回收 2.改为join() 3.拷贝传递
 
 
-  // 异常处理，当我们的主线程出现异常时，不应该直接抛出异常通知主进程回收资源，而是应该阻塞等待各个子线程任务结束后再回收资源(比如充值模块)
+  // 异常处理，当我们的主线程出现异常时，不应该直接抛出异常通知主进程回收资源，而是应该阻塞等待各个子线程任务结束后再回收资源，即在catch模块先join后throw
   catch_exception();
 
 
-  // 使用ThreadGuard来管理线程
+  // 使用ThreadGuard来管理线程(简单的RAII)
+  auto_guard();
+
+
+  // 当然, c++20后我们可以使用jthread来替代我们这个简单的ThreadGuard实现
+  jthreadDemo();
 }
 
 }  // namespace core
@@ -87,6 +92,21 @@ void ThreadBasic::catch_exception() {
   }
 
   sonThread.join();
+}
+
+void ThreadBasic::auto_guard() noexcept {
+  std::uint32_t local_variable = 0;
+  std::thread guardThread{ func(local_variable) };
+  utils::ThreadGuard recu(guardThread);
+  logger.info("the guard func has finished");
+}
+
+void ThreadBasic::jthreadDemo() noexcept{
+  std::jthread joinThread([](std::string_view &&str) -> void
+  {
+    logger.info("this is jthread(c++20), and the print str is: {}", str);
+  }, "hello, jthread");
+  std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 
 void ThreadBasic::background_tast::operator()(std::string&& str = "") {

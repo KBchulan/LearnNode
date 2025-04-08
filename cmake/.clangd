@@ -1,5 +1,5 @@
 CompileFlags:
-  Add: [-Wall, -Wextra, -std=c++20]
+  Add: [-Wall, -Wextra, -std=c++23]
   Remove: [-W*deprecated-declarations]
 
 Diagnostics:

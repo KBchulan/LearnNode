@@ -11,7 +11,7 @@
 #ifndef THREAD_BASIC_HPP
 #define THREAD_BASIC_HPP
 
-#include <CoreExport.hpp>
+#include <core/CoreExport.hpp>
 #include <global/Singleton.hpp>
 #include <string>
 
@@ -27,6 +27,10 @@ class CORE_EXPORT ThreadBasic final : public global::Singleton<ThreadBasic> {
   static void oops() noexcept;
 
   static void catch_exception();
+
+  static void auto_guard() noexcept;
+
+  static void jthreadDemo() noexcept;
 
   class background_tast {
    public:

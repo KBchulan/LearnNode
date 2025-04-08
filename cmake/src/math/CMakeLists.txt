@@ -1,16 +1,16 @@
 # 生成库
 add_library(math INTERFACE)
 
-# 指定c++20
+# 指定c++23
 target_compile_features(
   math INTERFACE
-  cxx_std_20
+  cxx_std_23
 )
 
 # 包含头文件
 target_include_directories(
   math INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )

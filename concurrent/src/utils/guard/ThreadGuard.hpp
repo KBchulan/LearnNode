@@ -12,10 +12,11 @@
 #define THREADGUARD_HPP
 
 #include <thread>
+#include <utils/UtilsExport.hpp>
 
 namespace utils {
 
-class ThreadGuard {
+class UTILS_EXPORT ThreadGuard {
  public:
   explicit ThreadGuard(std::thread &thread);
 

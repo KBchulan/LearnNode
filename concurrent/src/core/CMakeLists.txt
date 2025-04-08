@@ -24,19 +24,17 @@ set_target_properties(
   POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS}
 )
 
-# 指定c++20
+# 指定c++23
 target_compile_features(
   core PUBLIC
-  cxx_std_20
+  cxx_std_23
 )
 
 # 包含头文件
 target_include_directories(
   core PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/utils>
-  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/math>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
   $<INSTALL_INTERFACE:include>
 )
 

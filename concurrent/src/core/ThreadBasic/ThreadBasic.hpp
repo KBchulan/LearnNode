@@ -12,6 +12,7 @@
 #define THREAD_BASIC_HPP
 
 #include <core/CoreExport.hpp>
+#include <cstdint>
 #include <global/Singleton.hpp>
 #include <string>
 
@@ -32,6 +33,16 @@ class CORE_EXPORT ThreadBasic final : public global::Singleton<ThreadBasic> {
 
   static void jthreadDemo() noexcept;
 
+  static void danger_oops(std::uint32_t params) noexcept;
+
+  static void safe_oops(std::uint32_t params) noexcept;
+
+  static void ref_oops(std::uint32_t &params) noexcept;
+
+  static void class_oops() noexcept;
+
+  static void unique_oops() noexcept;
+
   class background_tast {
    public:
     void operator()(std::string &&str);
@@ -42,6 +53,14 @@ class CORE_EXPORT ThreadBasic final : public global::Singleton<ThreadBasic> {
     func(std::uint32_t &num);
 
     void operator()() noexcept;
+  };
+
+  class test {
+   public:
+    void ppp(int &num) noexcept;
+    static void print() noexcept;
+   private:
+    int num_ = 6;
   };
 };
 

@@ -1,8 +1,18 @@
 #include <cstddef>
-#include <middleware/Logger.hpp>
 #include <thread>
 #include <utility>
 #include <vector>
+#include <middleware/Logger.hpp>
+#include <sstream>
+
+template <>
+struct fmt::formatter<std::thread::id> : fmt::formatter<std::string> {
+  auto format(const std::thread::id& tid, fmt::format_context& ctx) const {
+    std::ostringstream oss;
+    oss << tid;
+    return formatter<std::string>::format(oss.str(), ctx);
+  }
+};
 
 #include "ThreadManage.hpp"
 
@@ -30,6 +40,10 @@ void ThreadManage::enterFunc() noexcept {
 
   // 这里介绍一个并行计算的
   accUse();
+
+
+  // 线程识别
+  threadInfo();
 }
 
 void ThreadManage::dangerousUse() noexcept {
@@ -80,6 +94,13 @@ void ThreadManage::vectorUse() noexcept {
   for (auto &thread : threads) {
     thread.join();
   }
+}
+
+void ThreadManage::threadInfo() noexcept {
+  std::thread::id tid = std::this_thread::get_id();
+  std::ostringstream oss;
+  oss << tid;
+  logger.info("current thread id is: {}", oss.str());
 }
 
 void ThreadManage::accUse() noexcept {

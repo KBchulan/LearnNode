@@ -33,6 +33,8 @@ class CORE_EXPORT ThreadManage final : public global::Singleton<ThreadManage> {
 
   static void accUse() noexcept;
 
+  static void threadInfo() noexcept;
+
   template <typename Iterator, typename T>
   static T parrelAcc(Iterator first, Iterator last, T init) noexcept {
     const auto length = std::distance(first, last);

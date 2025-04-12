@@ -2,6 +2,7 @@
  *
  * @file       ThreadBasic.hpp
  * @brief      线程相关的基础知识
+ * @note       创建，join, detach, 异常处理，auto_guard, jthread， 传入的为仿函数， 引用， unique_ptr, 类的成员函数， 静态成员函数
  *
  * @author     KBchulan
  * @date       2025/04/06
@@ -11,16 +12,17 @@
 #ifndef THREAD_BASIC_HPP
 #define THREAD_BASIC_HPP
 
-#include <core/CoreExport.hpp>
-#include <cstdint>
-#include <global/Singleton.hpp>
 #include <string>
+#include <cstdint>
+
+#include <core/CoreExport.hpp>
+#include <global/Singleton.hpp>
 
 namespace core {
 
 class CORE_EXPORT ThreadBasic final : public global::Singleton<ThreadBasic> {
  public:
-  static void basic() noexcept;
+  static void enterFunc() noexcept;
 
  private:
   static void thread_work_1(std::string &&) noexcept;

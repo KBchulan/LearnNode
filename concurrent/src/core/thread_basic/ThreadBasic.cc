@@ -16,7 +16,7 @@
 
 namespace core {
 
-void ThreadBasic::basic() noexcept {
+void ThreadBasic::enterFunc() noexcept {
   // 启动一个线程，传入一个函数的地址和参数，线程启动后会直接执行这个回调
   std::thread thr_1(thread_work_1, "hello, thread");
 
@@ -50,7 +50,7 @@ void ThreadBasic::basic() noexcept {
 
   // 上述四个线程都是使用join，但是thread源码我们会发现线程也可以使用detach()分离线程，但是需要注意的是，如果分离的子线程依赖于一些局部变量
   // 如主进程的local或者子线程自己的，可能出现一个问题：主进程退出回收资源，导致子线程访问的这个局部变量被回收，那就可能出现一些未定义行为，比如
-  // 下面的oops，我们的主进程只会休眠1000ms，因此子进程并没有完全执行完就会退出，综上，在使用detach时，如果使用局部变量或指针，需要考虑资源的回收
+  // 下面的oops，我们的主进程只会休眠1000ms，因此子进程并没有完全执行完就会退出，综上，在使用detach时，如果使用局部变量或指针，需要考虑资源的生命周期
   oops();
   std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
@@ -76,7 +76,7 @@ void ThreadBasic::basic() noexcept {
   */
   danger_oops(4);
 
-  // 因此比较安全的做法就是显示进行类型转化，直接存入转换后的数据
+  // 因此比较安全的做法就是显示进行类型转化，直接存入转换后的数据，其实此时传入的会是一个副本，这样就比较安全
   safe_oops(4);
 
 

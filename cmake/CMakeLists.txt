@@ -15,6 +15,12 @@ set(CMAKE_DEBUG_POSTFIX d)
 # 静/动态库选择
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
+# 设置构建类型
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
+endif()
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+
 # 各种情况的RunTimePath
 set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)

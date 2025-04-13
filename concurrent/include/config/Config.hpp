@@ -14,4 +14,4 @@
 #define PROJECT_NAME "ConCurrent"
 #define PROJECT_VERSION "1.0.0"
 
-#endif // CONFIG_HPP
+#endif  // CONFIG_HPP

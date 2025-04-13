@@ -11,23 +11,20 @@
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
+#include <functional>
 #include <global/Singleton.hpp>
 #include <model/Model.hpp>
+#include <thread>
 
 namespace global {
 
 class GlobalVariable final : public Singleton<GlobalVariable> {
-public:
-  model::RedisConfig redis_config_ = {
-    .host = "localhost", 
-    .port = 6379, 
-    .password = "whx051021"
-  };
-  
+ public:
+  std::hash<std::thread::id> hasher;
 };
 
-} // namespace global
+}  // namespace global
 
 #define globalVariable global::GlobalVariable::getInstance()
 
-#endif // GLOBAL_HPP
+#endif  // GLOBAL_HPP

@@ -2,17 +2,9 @@
 #include <thread>
 #include <utility>
 #include <vector>
-#include <middleware/Logger.hpp>
-#include <sstream>
 
-template <>
-struct fmt::formatter<std::thread::id> : fmt::formatter<std::string> {
-  auto format(const std::thread::id& tid, fmt::format_context& ctx) const {
-    std::ostringstream oss;
-    oss << tid;
-    return formatter<std::string>::format(oss.str(), ctx);
-  }
-};
+#include <global/Global.hpp>
+#include <middleware/Logger.hpp>
 
 #include "ThreadManage.hpp"
 
@@ -97,10 +89,7 @@ void ThreadManage::vectorUse() noexcept {
 }
 
 void ThreadManage::threadInfo() noexcept {
-  std::thread::id tid = std::this_thread::get_id();
-  std::ostringstream oss;
-  oss << tid;
-  logger.info("current thread id is: {}", oss.str());
+  logger.info("current thread id is: {}", globalVariable.hasher(std::this_thread::get_id()));
 }
 
 void ThreadManage::accUse() noexcept {

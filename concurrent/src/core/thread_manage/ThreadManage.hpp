@@ -8,6 +8,9 @@
  * @history
  ******************************************************************************/
 
+#ifndef THREAD_MANAGE_HPP
+#define THREAD_MANAGE_HPP
+
 #include <algorithm>
 #include <core/CoreExport.hpp>
 #include <global/Singleton.hpp>
@@ -65,8 +68,7 @@ class CORE_EXPORT ThreadManage final : public global::Singleton<ThreadManage> {
       auto chunk_end = chunk_begin;
       std::advance(chunk_end, chunk_size + extra);
 
-      threads.emplace_back(process_chunk, chunk_begin, chunk_end,
-                           std::ref(results[i]));
+      threads.emplace_back(process_chunk, chunk_begin, chunk_end, std::ref(results[i]));
       chunk_begin = chunk_end;
     }
     for(auto& thread: threads) {
@@ -82,3 +84,7 @@ class CORE_EXPORT ThreadManage final : public global::Singleton<ThreadManage> {
 };
 
 }  // namespace core
+
+#define threadManage core::ThreadManage::getInstance()
+
+#endif  // THREAD_MANAGE_HPP

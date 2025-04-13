@@ -30,7 +30,7 @@ enum class LogLevel : std::uint8_t {
 };
 
 class Logger final : public global::Singleton<Logger> {
-public:
+ public:
   // 标准打印
   template <typename... Args>
   void print(std::string_view format, Args &&...args) const noexcept {
@@ -95,7 +95,7 @@ public:
     fatal("This is a fatal message");
   }
 
-private:
+ private:
   static std::string_view getLevelString(LogLevel level) noexcept {
     switch (level) {
       case LogLevel::TRACE:   return "TRACE";

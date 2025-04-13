@@ -20,7 +20,7 @@ namespace global {
 
 class GlobalVariable final : public Singleton<GlobalVariable> {
  public:
-  std::hash<std::thread::id> hasher;
+  std::hash<std::thread::id> hasher{};
 };
 
 }  // namespace global

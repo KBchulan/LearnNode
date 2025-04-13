@@ -12,15 +12,16 @@
 #define GLOBAL_HPP
 
 #include <functional>
+#include <thread>
+
 #include <global/Singleton.hpp>
 #include <model/Model.hpp>
-#include <thread>
 
 namespace global {
 
 class GlobalVariable final : public Singleton<GlobalVariable> {
  public:
-  std::hash<std::thread::id> hasher;
+  std::hash<std::thread::id> hasher{};
 };
 
 }  // namespace global

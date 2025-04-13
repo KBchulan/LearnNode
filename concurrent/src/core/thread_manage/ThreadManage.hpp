@@ -12,12 +12,13 @@
 #define THREAD_MANAGE_HPP
 
 #include <algorithm>
-#include <core/CoreExport.hpp>
-#include <global/Singleton.hpp>
 #include <iterator>
 #include <numeric>
 #include <thread>
 #include <vector>
+
+#include <core/CoreExport.hpp>
+#include <global/Singleton.hpp>
 
 namespace core {
 

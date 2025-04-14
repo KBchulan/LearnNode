@@ -21,13 +21,19 @@ class CORE_EXPORT MutexDeadLock final : public global::Singleton<MutexDeadLock> 
   static void enterFunc() noexcept;
 
 private:
-  static void mutexCall() noexcept;
+  static void CORE_NO_EXPORT mutexCall() noexcept;
 
-  static void lockGuardCall() noexcept;
+  static void CORE_NO_EXPORT rwmutexCall() noexcept;
 
-  static void uniqueLockCall() noexcept;
+  static void CORE_NO_EXPORT recursivemutexCall() noexcept;
 
-  static void scopedLockCall() noexcept;
+  static void CORE_NO_EXPORT lockGuardCall() noexcept;
+
+  static void CORE_NO_EXPORT uniqueLockCall() noexcept;
+
+  static void CORE_NO_EXPORT scopedLockCall() noexcept;
+
+  static void CORE_NO_EXPORT sharedLockCall() noexcept;
 };
 
 }  // namespace core

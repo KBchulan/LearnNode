@@ -27,20 +27,20 @@ class CORE_EXPORT ThreadManage final : public global::Singleton<ThreadManage> {
   static void enterFunc() noexcept;
 
  private:
-  static void dangerousUse() noexcept;
+  static void CORE_NO_EXPORT dangerousUse() noexcept;
 
-  static std::thread rvoAndnrvoUse() noexcept;
+  static std::thread CORE_NO_EXPORT rvoAndnrvoUse() noexcept;
 
-  static void jthreadUse() noexcept;
+  static void CORE_NO_EXPORT jthreadUse() noexcept;
 
-  static void vectorUse() noexcept;
+  static void CORE_NO_EXPORT vectorUse() noexcept;
 
-  static void accUse() noexcept;
+  static void CORE_NO_EXPORT accUse() noexcept;
 
-  static void threadInfo() noexcept;
+  static void CORE_NO_EXPORT threadInfo() noexcept;
 
   template <typename Iterator, typename T>
-  static T parrelAcc(Iterator first, Iterator last, T init) noexcept {
+  static T CORE_NO_EXPORT parrelAcc(Iterator first, Iterator last, T init) noexcept {
     const auto length = std::distance(first, last);
     if (length == 0) {
       return init;

@@ -25,39 +25,39 @@ class CORE_EXPORT ThreadBasic final : public global::Singleton<ThreadBasic> {
   static void enterFunc() noexcept;
 
  private:
-  static void thread_work_1(std::string &&) noexcept;
+  static void CORE_NO_EXPORT thread_work_1(std::string &&) noexcept;
 
-  static void oops() noexcept;
+  static void CORE_NO_EXPORT oops() noexcept;
 
-  static void catch_exception();
+  static void CORE_NO_EXPORT catch_exception();
 
-  static void auto_guard() noexcept;
+  static void CORE_NO_EXPORT auto_guard() noexcept;
 
-  static void jthreadDemo() noexcept;
+  static void CORE_NO_EXPORT jthreadDemo() noexcept;
 
-  static void danger_oops(std::uint32_t params) noexcept;
+  static void CORE_NO_EXPORT danger_oops(std::uint32_t params) noexcept;
 
-  static void safe_oops(std::uint32_t params) noexcept;
+  static void CORE_NO_EXPORT safe_oops(std::uint32_t params) noexcept;
 
-  static void ref_oops(std::uint32_t &params) noexcept;
+  static void CORE_NO_EXPORT ref_oops(std::uint32_t &params) noexcept;
 
-  static void class_oops() noexcept;
+  static void CORE_NO_EXPORT class_oops() noexcept;
 
-  static void unique_oops() noexcept;
+  static void CORE_NO_EXPORT unique_oops() noexcept;
 
-  class background_tast {
+  class CORE_NO_EXPORT background_tast {
    public:
     void operator()(std::string &&str);
   };
 
-  struct func {
+  struct CORE_NO_EXPORT func {
     std::uint32_t &num_;
     func(std::uint32_t &num);
 
     void operator()() noexcept;
   };
 
-  class test {
+  class CORE_NO_EXPORT test {
    public:
     void ppp(int &num) noexcept;
     static void print() noexcept;

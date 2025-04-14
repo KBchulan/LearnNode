@@ -22,6 +22,12 @@ class CORE_EXPORT MutexDeadLock final : public global::Singleton<MutexDeadLock> 
 
 private:
   static void mutexCall() noexcept;
+
+  static void lockGuardCall() noexcept;
+
+  static void uniqueLockCall() noexcept;
+
+  static void scopedLockCall() noexcept;
 };
 
 }  // namespace core

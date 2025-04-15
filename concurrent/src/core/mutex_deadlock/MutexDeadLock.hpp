@@ -27,6 +27,8 @@ private:
 
   static void CORE_NO_EXPORT recursivemutexCall() noexcept;
 
+  static void CORE_NO_EXPORT conditionVariableCall() noexcept;
+
   static void CORE_NO_EXPORT lockGuardCall() noexcept;
 
   static void CORE_NO_EXPORT uniqueLockCall() noexcept;
@@ -34,6 +36,7 @@ private:
   static void CORE_NO_EXPORT scopedLockCall() noexcept;
 
   static void CORE_NO_EXPORT sharedLockCall() noexcept;
+
 };
 
 }  // namespace core

@@ -1,12 +1,19 @@
 #include "MutexDeadLock.hpp"
 
 #include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <cstddef>
 #include <cstdint>
+#include <exception>
 #include <functional>
 #include <global/Global.hpp>
 #include <middleware/Logger.hpp>
 #include <mutex>
+#include <queue>
+#include <random>
 #include <shared_mutex>
+#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <thread>
@@ -37,7 +44,8 @@ void MutexDeadLock::enterFunc() noexcept {
     // 所有的锁
     // mutexCall();
     // rwmutexCall();
-    recursivemutexCall();
+    // recursivemutexCall();
+    conditionVariableCall();
 
     // 锁包装器
     // lockGuardCall();
@@ -155,6 +163,100 @@ void MutexDeadLock::recursivemutexCall() noexcept {
   for (size_t i = 0; i < 3; i++) {
     threads.emplace_back(fib, std::ref(input));
   }
+}
+
+void MutexDeadLock::conditionVariableCall() noexcept {
+  /*
+    cppreference: https://en.cppreference.com/w/cpp/thread/condition_variable
+    条件变量一般和互斥锁一起使用，用于阻塞一个或多个线程，同时通知一个或多个线程
+
+    wait操作会在一个原子操作的时间内解锁并进入等待队列，进入休眠状态(这个状态是完全不消耗CPU资源的)，
+    notify后进入就绪态，会尝试获取到锁，获取到锁后可以继续执行
+  */
+  std::mutex mtx;
+
+  std::condition_variable data_cond;   // 通知有新数据
+  std::condition_variable space_cond;  // 通知队列没有满
+  // 传统的条件变量只能与std::mutex合作使用，这个any的可以与任何其他的锁联动使用
+  // std::condition_variable_any
+
+  std::queue<int> queue;
+  size_t capacity = 10;
+  bool done = false;
+
+  auto push = [&](int num) -> void {
+    std::unique_lock<std::mutex> lock(mtx, std::defer_lock);
+
+    lock.lock();
+    // 当队列不满或者已经已经关闭时都可以继续执行，前者为了增加元素，后者为了回收资源
+    space_cond.wait(lock,
+                    [&]() -> bool { return queue.size() < capacity || done; });
+
+    if (done) {
+      throw std::runtime_error("Queue is closed!");
+    }
+
+    queue.push(num);
+    lock.unlock();
+
+    data_cond.notify_one();
+  };
+
+  auto pop = [&](int& num) -> bool {
+    std::unique_lock<std::mutex> lock(mtx, std::defer_lock);
+    lock.lock();
+
+    data_cond.wait(lock, [&]() -> bool { return done || !queue.empty(); });
+
+    if (done && queue.empty()) {
+      lock.unlock();
+      return false;
+    }
+
+    num = queue.front();
+    queue.pop();
+
+    lock.unlock();
+    space_cond.notify_one();
+    return true;
+  };
+
+  std::jthread producer([&]() -> void {
+    std::random_device randie;
+    std::mt19937_64 gen(randie());
+    std::uniform_int_distribution<int> dist(1, 200);
+
+    try {
+      for(int i = 0; i < 20; i++){
+        int value = dist(gen);
+        logger.info("produce num is: {}", value);
+        push(value);
+
+        std::this_thread::sleep_for(std::chrono::microseconds(dist(gen)));
+      }
+    } catch (const std::exception& e) {
+      logger.info("produce error, the error is: {}", e.what());
+    }
+
+    logger.info("produce success");
+  });
+
+  std::jthread consumer([&]() -> void{
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    int value = 0;
+    while (pop(value)) {
+      logger.info("consumer value is: {}", value);
+
+      std::this_thread::sleep_for(std::chrono::microseconds(200));
+    }
+    logger.info("consume success");
+  });
+
+  producer.join();
+  done = true;
+  data_cond.notify_all();
+  space_cond.notify_all();  
 }
 
 void MutexDeadLock::lockGuardCall() noexcept {

@@ -847,7 +847,7 @@ int main() {
                 int value = dist(gen);
                 std::cout << "生产: " << value << std::endl;
                 queue.push(value);
-          
+        
                 // 随机休眠一段时间
                 std::this_thread::sleep_for(
                     std::chrono::milliseconds(dist(gen)));
@@ -867,7 +867,7 @@ int main() {
         int value;
         while (queue.pop(value)) {
             std::cout << "消费: " << value << std::endl;
-      
+    
             // 模拟处理时间
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(200));
@@ -882,7 +882,7 @@ int main() {
         while (true) {
             bool got_item = queue.try_pop_for(
                 value, std::chrono::milliseconds(300));
-      
+    
             if (got_item) {
                 std::cout << "定时消费者取出: " << value << std::endl;
             } else if (queue.empty()) {
@@ -991,21 +991,30 @@ const int THREAD_COUNT = 10;
 
 自旋锁的实现比互斥锁简单得多，主要基于原子操作：
 
-1. **基本实现**：
 
-   - 使用一个原子变量(通常是布尔值或整数)表示锁状态
-   - 使用原子的"测试并设置"(Test-and-Set)或"比较并交换"(Compare-and-Swap, CAS)操作尝试获取锁
-   - 在无法获取锁时，线程持续尝试原子操作，直到成功
-2. **优化策略**：
+**基本实现**：
 
-   - **简单自旋**：不断尝试获取锁，不做任何其他操作
-   - **带退避的自旋**：在连续失败后增加尝试间隔，减少内存总线竞争
-   - **有限自旋**：限制自旋次数，超过后转为阻塞等待
-   - **暂停指令**：在循环中使用 `PAUSE`(x86)或 `YIELD`(ARM)指令，优化CPU性能
-3. **硬件支持**：
+* 使用一个原子变量(通常是布尔值或整数)表示锁状态
+* 使用原子的"测试并设置"(Test-and-Set)或"比较并交换"(Compare-and-Swap, CAS)操作尝试获取锁
 
-   - 现代CPU提供特殊指令支持原子操作
-   - 缓存一致性协议确保多核环境下锁状态对所有线程都可见
+* 在无法获取锁时，线程持续尝试原子操作，直到成功
+
+
+
+**优化策略**：
+
+- **简单自旋**：不断尝试获取锁，不做任何其他操作
+- **带退避的自旋**：在连续失败后增加尝试间隔，减少内存总线竞争
+- **有限自旋**：限制自旋次数，超过后转为阻塞等待
+- **暂停指令**：在循环中使用 `PAUSE`(x86)或 `YIELD`(ARM)指令，优化CPU性能
+
+
+
+**硬件支持**：
+
+- 现代CPU提供特殊指令支持原子操作
+- 缓存一致性协议确保多核环境下锁状态对所有线程都可见
+
 
 ### 5.3 在C++中实现自旋锁
 
@@ -1047,7 +1056,7 @@ public:
             if (!flag.exchange(true, std::memory_order_acquire)) {
                 return;
             }
-      
+    
             // 指数退避策略
             for (int i = 0; i < backoff; ++i) {
                 // 使用编译器内置函数提示CPU我们在自旋
@@ -1060,7 +1069,7 @@ public:
                     std::this_thread::yield();
                 #endif
             }
-      
+    
             // 增加退避时间，但设置上限
             backoff = std::min(backoff * 2, 1024);
         }
@@ -1091,7 +1100,7 @@ public:
             if (!flag.exchange(true, std::memory_order_acquire)) {
                 return;
             }
-      
+    
             // 添加CPU提示
             #if defined(__x86_64__) || defined(__i386__)
                 __builtin_ia32_pause();
@@ -1157,13 +1166,13 @@ public:
             if (!flag.exchange(true, std::memory_order_acquire)) {
                 return;
             }
-      
+    
             // 指数退避
             for (int i = 0; i < backoff; ++i) {
                 // 提示CPU我们在自旋
                 std::this_thread::yield();
             }
-      
+    
             // 增加退避时间，但设置上限
             backoff = std::min(backoff * 2, 1024);
         }
@@ -1195,29 +1204,29 @@ double benchmark(int num_threads, WorkMode mode, int operations_per_thread) {
   
         for (int i = 0; i < operations_per_thread; ++i) {
             lock.lock();
-      
+    
             // 执行临界区工作
             ++counter;
-      
+    
             // 模拟不同长度的临界区
             switch (mode) {
                 case WorkMode::ShortCriticalSection:
                     // 非常短的临界区
                     break;
-              
+            
                 case WorkMode::MediumCriticalSection:
                     // 中等长度的临界区 - 一些CPU指令
                     for (volatile int j = 0; j < 100; ++j);
                     break;
-              
+            
                 case WorkMode::LongCriticalSection:
                     // 长临界区 - 包括一些计算
                     for (volatile int j = 0; j < 1000; ++j);
                     break;
             }
-      
+    
             lock.unlock();
-      
+    
             // 临界区外的工作
             for (volatile int j = 0; j < 10; ++j);
         }
@@ -1275,35 +1284,35 @@ int main() {
                     mode_name = "长临界区";
                     break;
             }
-      
+    
             std::cout << "模式: " << mode_name << std::endl;
-      
+    
             // 重复多次取平均值
             std::vector<double> spin_times;
             std::vector<double> backoff_times;
             std::vector<double> mutex_times;
-      
+    
             for (int i = 0; i < REPEAT; ++i) {
                 spin_times.push_back(benchmark<SpinLock>(
                     num_threads, mode, OPERATIONS / num_threads));
-              
+            
                 backoff_times.push_back(benchmark<BackoffSpinLock>(
                     num_threads, mode, OPERATIONS / num_threads));
-              
+            
                 mutex_times.push_back(benchmark<std::mutex>(
                     num_threads, mode, OPERATIONS / num_threads));
             }
-      
+    
             // 计算平均耗时
             double spin_avg = std::accumulate(
                 spin_times.begin(), spin_times.end(), 0.0) / REPEAT;
-          
+        
             double backoff_avg = std::accumulate(
                 backoff_times.begin(), backoff_times.end(), 0.0) / REPEAT;
-          
+        
             double mutex_avg = std::accumulate(
                 mutex_times.begin(), mutex_times.end(), 0.0) / REPEAT;
-          
+        
             std::cout << "简单自旋锁: " << spin_avg << " ms\n";
             std::cout << "退避自旋锁: " << backoff_avg << " ms\n";
             std::cout << "互斥锁: " << mutex_avg << " ms\n";
@@ -1427,7 +1436,7 @@ public:
         if (predecessor != nullptr) {
             // 队列不为空，需要等待
             predecessor->next = &my_node;
-      
+    
             // 自旋等待前一个节点通知
             while (my_node.locked) {
                 std::this_thread::yield();
@@ -1443,7 +1452,7 @@ public:
                 // 成功删除，队列现在为空
                 return;
             }
-      
+    
             // 有新节点加入，等待它完成链接
             while (my_node.next == nullptr) {
                 std::this_thread::yield();
@@ -1777,7 +1786,7 @@ public:
   
         std::cout << "借出连接 #" << (idx + 1) << ", 剩余可用: " 
                   << available_indices_.size() << std::endl;
-            
+          
         return connections_[idx].get();
     }
   
@@ -1794,7 +1803,7 @@ public:
   
         std::cout << "非阻塞借出连接 #" << (idx + 1) << ", 剩余可用: " 
                   << available_indices_.size() << std::endl;
-            
+          
         return connections_[idx].get();
     }
   
@@ -1811,7 +1820,7 @@ public:
   
         std::cout << "超时借出连接 #" << (idx + 1) << ", 剩余可用: " 
                   << available_indices_.size() << std::endl;
-            
+          
         return connections_[idx].get();
     }
   
@@ -1859,11 +1868,11 @@ int main() {
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<> delay_dist(100, 500);
-      
+    
             // 每个线程尝试执行3次查询
             for (int j = 0; j < 3; ++j) {
                 std::cout << "线程 " << i << " 尝试获取连接..." << std::endl;
-          
+        
                 // 不同线程使用不同的连接获取策略
                 DBConnection* conn = nullptr;
                 if (i % 3 == 0) {
@@ -1884,16 +1893,16 @@ int main() {
                     }
                     std::cout << "线程 " << i << " 超时模式获取连接成功" << std::endl;
                 }
-          
+        
                 // 使用连接执行查询
                 std::string query = "SELECT * FROM table_" + std::to_string(i) + 
                                     " WHERE id = " + std::to_string(j);
                 conn->query(query);
-          
+        
                 // 随机延迟一段时间后归还连接
                 std::this_thread::sleep_for(std::chrono::milliseconds(delay_dist(gen)));
                 pool.return_connection(conn);
-          
+        
                 // 线程工作间隔
                 std::this_thread::sleep_for(std::chrono::milliseconds(delay_dist(gen)));
             }
@@ -2152,7 +2161,7 @@ void init() {
         if (!initialized.load(std::memory_order_relaxed)) {
             // 进行复杂初始化
             data = "大量数据...";
-      
+    
             // 确保初始化对其他线程可见
             initialized.store(true, std::memory_order_release);
         }
@@ -2746,17 +2755,17 @@ public:
         if (resource_mutex_.try_lock_for(timeout)) {
             // 获取锁成功
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取资源锁，执行: " 
                       << operation << std::endl;
-      
+    
             // 模拟工作负载 - 根据线程ID变化工作时间
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(50 + thread_id * 20));
-      
+    
             std::cout << "线程 " << thread_id << " 完成操作: " 
                       << operation << std::endl;
-      
+    
             // 释放锁
             resource_mutex_.unlock();
             return true;
@@ -2779,17 +2788,17 @@ public:
         // 尝试在指定时间内获取锁
         if (lock.try_lock_for(timeout)) {
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取数据锁，处理: " 
                       << data_name << std::endl;
-      
+    
             // 模拟数据处理
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(100));
-      
+    
             std::cout << "线程 " << thread_id << " 完成数据处理: " 
                       << data_name << std::endl;
-      
+    
             // lock会在作用域结束时自动释放
             return true;
         } else {
@@ -2812,17 +2821,17 @@ public:
         // 尝试在截止时间前获取锁
         if (resource_mutex_.try_lock_until(deadline)) {
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取调度锁，执行任务: " 
                       << task_name << std::endl;
-      
+    
             // 模拟任务执行
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(75));
-      
+    
             std::cout << "线程 " << thread_id << " 完成任务: " 
                       << task_name << std::endl;
-      
+    
             resource_mutex_.unlock();
             return true;
         } else {
@@ -2853,20 +2862,20 @@ int main() {
     for (int i = 0; i < 10; ++i) {
         threads.push_back(std::thread([&resource_manager, i]() {
             // 模拟不同类型的资源访问
-      
+    
             // 情况1: 短超时
             resource_manager.useResource(
                 i, "操作-" + std::to_string(i), 
                 std::chrono::milliseconds(200));
-      
+    
             // 让线程错开执行
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-      
+    
             // 情况2: 使用unique_lock的超时锁定
             resource_manager.processData(
                 i, "数据-" + std::to_string(i), 
                 std::chrono::milliseconds(150));
-          
+        
             // 情况3: 使用截止时间点
             auto deadline = std::chrono::system_clock::now() + 
                             std::chrono::milliseconds(180);
@@ -2997,7 +3006,7 @@ public:
                     return resources_[i].get();
                 }
             }
-      
+    
             // 没有可用资源
             mutex_.unlock();
         }
@@ -3028,15 +3037,15 @@ bool acquire_with_priority(std::timed_mutex& mutex, LockPriority priority) {
         case LockPriority::High:
             // 高优先级：长时间尝试获取锁
             return mutex.try_lock_for(std::chrono::seconds(10));
-      
+    
         case LockPriority::Medium:
             // 中优先级：中等时间尝试
             return mutex.try_lock_for(std::chrono::seconds(5));
-      
+    
         case LockPriority::Low:
             // 低优先级：短时间尝试，或只尝试一次
             return mutex.try_lock_for(std::chrono::milliseconds(500));
-      
+    
         default:
             return false;
     }
@@ -3854,7 +3863,7 @@ public:
                 if (conflicts >= 3) {
                     // 更新冲突统计
                     updateConflictRate(true);
-              
+            
                     // 切换到悲观锁
                     std::lock_guard<std::mutex> lock(mutex_);
                     ++value_;
@@ -3862,7 +3871,7 @@ public:
                 }
                 expected = value_.load();
             }
-      
+    
             // 成功，无冲突
             updateConflictRate(false);
         } else {
@@ -4096,10 +4105,10 @@ private:
         if (lock.owns_lock()) {
             std::cout << "处理函数获得了线程 #" << thread_id 
                       << " 转移的锁" << std::endl;
-      
+    
             // 使用受保护的资源
             std::cout << "安全访问标题: " << title_ << std::endl;
-      
+    
             // 锁会在函数结束时自动释放
         }
     }
@@ -4119,7 +4128,7 @@ int main() {
             // 每个线程读取几次文档
             for (int j = 0; j < 3; ++j) {
                 std::string content = doc.read(i);
-          
+        
                 // 线程间隔
                 std::this_thread::sleep_for(std::chrono::milliseconds(50));
             }
@@ -4131,10 +4140,10 @@ int main() {
         threads.push_back(std::thread([&doc, i]() {
             // 更新文档内容
             doc.write(i, "这是写入者 #" + std::to_string(i) + " 修改的新内容。");
-      
+    
             // 线程间隔
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
-      
+    
             // 更新文档标题
             doc.updateTitle(i, "写入者 #" + std::to_string(i) + " 的标题");
         }));
@@ -4527,17 +4536,17 @@ public:
         if (resource_mutex_.try_lock_for(timeout)) {
             // 获取锁成功
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取资源锁，执行: " 
                       << operation << std::endl;
-      
+    
             // 模拟工作负载 - 根据线程ID变化工作时间
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(50 + thread_id * 20));
-      
+    
             std::cout << "线程 " << thread_id << " 完成操作: " 
                       << operation << std::endl;
-      
+    
             // 释放锁
             resource_mutex_.unlock();
             return true;
@@ -4560,17 +4569,17 @@ public:
         // 尝试在指定时间内获取锁
         if (lock.try_lock_for(timeout)) {
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取数据锁，处理: " 
                       << data_name << std::endl;
-      
+    
             // 模拟数据处理
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(100));
-      
+    
             std::cout << "线程 " << thread_id << " 完成数据处理: " 
                       << data_name << std::endl;
-      
+    
             // lock会在作用域结束时自动释放
             return true;
         } else {
@@ -4593,17 +4602,17 @@ public:
         // 尝试在截止时间前获取锁
         if (resource_mutex_.try_lock_until(deadline)) {
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取调度锁，执行任务: " 
                       << task_name << std::endl;
-      
+    
             // 模拟任务执行
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(75));
-      
+    
             std::cout << "线程 " << thread_id << " 完成任务: " 
                       << task_name << std::endl;
-      
+    
             resource_mutex_.unlock();
             return true;
         } else {
@@ -4634,20 +4643,20 @@ int main() {
     for (int i = 0; i < 10; ++i) {
         threads.push_back(std::thread([&resource_manager, i]() {
             // 模拟不同类型的资源访问
-      
+    
             // 情况1: 短超时
             resource_manager.useResource(
                 i, "操作-" + std::to_string(i), 
                 std::chrono::milliseconds(200));
-      
+    
             // 让线程错开执行
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-      
+    
             // 情况2: 使用unique_lock的超时锁定
             resource_manager.processData(
                 i, "数据-" + std::to_string(i), 
                 std::chrono::milliseconds(150));
-          
+        
             // 情况3: 使用截止时间点
             auto deadline = std::chrono::system_clock::now() + 
                             std::chrono::milliseconds(180);
@@ -4749,17 +4758,17 @@ public:
         if (resource_mutex_.try_lock_for(timeout)) {
             // 获取锁成功
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取资源锁，执行: " 
                       << operation << std::endl;
-      
+    
             // 模拟工作负载 - 根据线程ID变化工作时间
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(50 + thread_id * 20));
-      
+    
             std::cout << "线程 " << thread_id << " 完成操作: " 
                       << operation << std::endl;
-      
+    
             // 释放锁
             resource_mutex_.unlock();
             return true;
@@ -4782,17 +4791,17 @@ public:
         // 尝试在指定时间内获取锁
         if (lock.try_lock_for(timeout)) {
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取数据锁，处理: " 
                       << data_name << std::endl;
-      
+    
             // 模拟数据处理
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(100));
-      
+    
             std::cout << "线程 " << thread_id << " 完成数据处理: " 
                       << data_name << std::endl;
-      
+    
             // lock会在作用域结束时自动释放
             return true;
         } else {
@@ -4815,17 +4824,17 @@ public:
         // 尝试在截止时间前获取锁
         if (resource_mutex_.try_lock_until(deadline)) {
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取调度锁，执行任务: " 
                       << task_name << std::endl;
-      
+    
             // 模拟任务执行
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(75));
-      
+    
             std::cout << "线程 " << thread_id << " 完成任务: " 
                       << task_name << std::endl;
-      
+    
             resource_mutex_.unlock();
             return true;
         } else {
@@ -4856,20 +4865,20 @@ int main() {
     for (int i = 0; i < 10; ++i) {
         threads.push_back(std::thread([&resource_manager, i]() {
             // 模拟不同类型的资源访问
-      
+    
             // 情况1: 短超时
             resource_manager.useResource(
                 i, "操作-" + std::to_string(i), 
                 std::chrono::milliseconds(200));
-      
+    
             // 让线程错开执行
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-      
+    
             // 情况2: 使用unique_lock的超时锁定
             resource_manager.processData(
                 i, "数据-" + std::to_string(i), 
                 std::chrono::milliseconds(150));
-          
+        
             // 情况3: 使用截止时间点
             auto deadline = std::chrono::system_clock::now() + 
                             std::chrono::milliseconds(180);
@@ -4971,17 +4980,17 @@ public:
         if (resource_mutex_.try_lock_for(timeout)) {
             // 获取锁成功
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取资源锁，执行: " 
                       << operation << std::endl;
-      
+    
             // 模拟工作负载 - 根据线程ID变化工作时间
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(50 + thread_id * 20));
-      
+    
             std::cout << "线程 " << thread_id << " 完成操作: " 
                       << operation << std::endl;
-      
+    
             // 释放锁
             resource_mutex_.unlock();
             return true;
@@ -5004,17 +5013,17 @@ public:
         // 尝试在指定时间内获取锁
         if (lock.try_lock_for(timeout)) {
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取数据锁，处理: " 
                       << data_name << std::endl;
-      
+    
             // 模拟数据处理
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(100));
-      
+    
             std::cout << "线程 " << thread_id << " 完成数据处理: " 
                       << data_name << std::endl;
-      
+    
             // lock会在作用域结束时自动释放
             return true;
         } else {
@@ -5037,17 +5046,17 @@ public:
         // 尝试在截止时间前获取锁
         if (resource_mutex_.try_lock_until(deadline)) {
             ++access_count_;
-      
+    
             std::cout << "线程 " << thread_id << " 成功获取调度锁，执行任务: " 
                       << task_name << std::endl;
-      
+    
             // 模拟任务执行
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(75));
-      
+    
             std::cout << "线程 " << thread_id << " 完成任务: " 
                       << task_name << std::endl;
-      
+    
             resource_mutex_.unlock();
             return true;
         } else {
@@ -5078,20 +5087,20 @@ int main() {
     for (int i = 0; i < 10; ++i) {
         threads.push_back(std::thread([&resource_manager, i]() {
             // 模拟不同类型的资源访问
-      
+    
             // 情况1: 短超时
             resource_manager.useResource(
                 i, "操作-" + std::to_string(i), 
                 std::chrono::milliseconds(200));
-      
+    
             // 让线程错开执行
             std::this_thread::sleep_for(std::chrono::milliseconds(20));
-      
+    
             // 情况2: 使用unique_lock的超时锁定
             resource_manager.processData(
                 i, "数据-" + std::to_string(i), 
                 std::chrono::milliseconds(150));
-          
+        
             // 情况3: 使用截止时间点
             auto deadline = std::chrono::system_clock::now() + 
                             std::chrono::milliseconds(180);

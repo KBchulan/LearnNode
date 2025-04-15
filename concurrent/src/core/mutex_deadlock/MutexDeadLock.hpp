@@ -16,11 +16,12 @@
 
 namespace core {
 
-class CORE_EXPORT MutexDeadLock final : public global::Singleton<MutexDeadLock> {
+class CORE_EXPORT MutexDeadLock final
+    : public global::Singleton<MutexDeadLock> {
  public:
   static void enterFunc() noexcept;
 
-private:
+ private:
   static void CORE_NO_EXPORT mutexCall() noexcept;
 
   static void CORE_NO_EXPORT rwmutexCall() noexcept;
@@ -29,6 +30,8 @@ private:
 
   static void CORE_NO_EXPORT conditionVariableCall() noexcept;
 
+  static void CORE_NO_EXPORT spinlockCall() noexcept;
+
   static void CORE_NO_EXPORT lockGuardCall() noexcept;
 
   static void CORE_NO_EXPORT uniqueLockCall() noexcept;
@@ -36,7 +39,6 @@ private:
   static void CORE_NO_EXPORT scopedLockCall() noexcept;
 
   static void CORE_NO_EXPORT sharedLockCall() noexcept;
-
 };
 
 }  // namespace core

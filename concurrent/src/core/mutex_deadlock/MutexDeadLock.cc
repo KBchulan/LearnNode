@@ -1,10 +1,10 @@
 #include "MutexDeadLock.hpp"
 
+#include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <cstddef>
-#include <cstdint>
 #include <exception>
 #include <functional>
 #include <global/Global.hpp>
@@ -12,6 +12,7 @@
 #include <mutex>
 #include <queue>
 #include <random>
+#include <ratio>
 #include <shared_mutex>
 #include <stdexcept>
 #include <string>
@@ -21,6 +22,66 @@
 #include <vector>
 
 namespace core {
+
+enum class WorkMode : std::uint8_t {
+  ShortCriticalSection,
+  MediumCriticalSection,
+  LongCriticalSection
+};
+
+template <typename LockType>
+double benchmark(int num_threads, WorkMode mode, int operations_per_thread) {
+  LockType lock;
+  int counter = 0;
+  std::vector<std::thread> threads;
+  std::atomic_bool start{false};
+
+  auto thread_func = [&](int) {
+    while (!start.load()) {}
+
+    for (int i = 0; i < operations_per_thread; i++) {
+      lock.lock();
+
+      ++counter;
+
+      switch (mode) {
+        case WorkMode::ShortCriticalSection:
+          // 比较短的临界区
+          break;
+        case WorkMode::MediumCriticalSection:
+          for (int j = 0; j < 100; ++j) {
+          }
+          break;
+        case WorkMode::LongCriticalSection:
+          for (int j = 0; j < 1000; ++j) {
+          }
+          break;
+      }
+
+      lock.unlock();
+    }
+  };
+
+  threads.reserve(static_cast<size_t>(num_threads));
+  for (int i = 0; i < num_threads; ++i) {
+    threads.emplace_back(thread_func, i);
+  }
+
+  auto start_time = std::chrono::system_clock::now();
+  start.store(true);
+
+  for (auto& thr : threads) {
+    thr.join();
+  }
+
+  auto end_time = std::chrono::system_clock::now();
+  std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
+
+  logger.info("the last counter is: {}(it should be {})", counter,
+              operations_per_thread * num_threads);
+
+  return elapsed.count();
+}
 
 void MutexDeadLock::enterFunc() noexcept {
   /*
@@ -45,7 +106,8 @@ void MutexDeadLock::enterFunc() noexcept {
     // mutexCall();
     // rwmutexCall();
     // recursivemutexCall();
-    conditionVariableCall();
+    // conditionVariableCall();
+    spinlockCall();
 
     // 锁包装器
     // lockGuardCall();
@@ -257,6 +319,106 @@ void MutexDeadLock::conditionVariableCall() noexcept {
   done = true;
   data_cond.notify_all();
   space_cond.notify_all();  
+}
+
+void MutexDeadLock::spinlockCall() noexcept {
+  /*
+    自旋锁：当线程尝试获取已被其他线程持有的锁时，它不会被挂起，而是在一个循环中不断检查锁是否可用，也就是一个忙等待的东西
+  */
+
+  // 普通的自旋锁
+  class SpinLock {
+   public:
+    // test_and_set可以设置标志位为true，并返回之前的值，这样就实现了自旋
+    void lock() { while (flag.test_and_set(std::memory_order_acquire)) {} }
+
+    void unlock() { flag.clear(std::memory_order_release); }
+
+    bool try_lock() { return !flag.test_and_set(std::memory_order_acquire); }
+
+   private:
+    std::atomic_flag flag = ATOMIC_FLAG_INIT;
+  };
+
+  // 退避的自旋锁，防止自旋次数过多
+  class BackoffSpinLock {
+   public:
+    void lock() {
+      int backoff = 1;
+
+      while (true) {
+        if (!flag.exchange(true, std::memory_order_acquire)) {
+          return;
+        }
+
+        // 退避策略
+        for (int i = 0; i < backoff; ++i) {
+          #if defined(__x86_64__) || defined(__i386__)
+                    __builtin_ia32_pause();
+          #elif defined(__arm__) || defined(__aarch64__)
+                    __asm__ volatile("yield")
+          #else
+                    std::this_thread::yield();
+          #endif
+        }
+        backoff = std::min(backoff * 2, 1024);
+      }
+    }
+
+    void unlock() { flag.store(false, std::memory_order_release); }
+
+    bool try_lock() { return !flag.exchange(true, std::memory_order_acquire); }
+
+   private:
+    std::atomic_bool flag{false};
+  };
+
+  constexpr int OPERATIONS = 100000;
+  constexpr int REPEAT = 3;
+
+  logger.info("测试不同类型锁在各种工作负载下的性能\n");
+  logger.info("=======================================\n");
+
+  for (int num_threads : {1, 2, 4, 8, 16}) {
+    logger.info("\n线程数: {}", num_threads);
+    logger.info("---------------------------------------\n");
+
+    for (auto mode : {WorkMode::ShortCriticalSection, WorkMode::MediumCriticalSection, WorkMode::LongCriticalSection}) {
+      std::string mode_name;
+      switch (mode) {
+        case WorkMode::ShortCriticalSection:
+          mode_name = "短临界区";
+          break;
+        case WorkMode::MediumCriticalSection:
+          mode_name = "中等临界区";
+          break;
+        case WorkMode::LongCriticalSection:
+          mode_name = "长临界区";
+          break;
+      }
+
+      logger.info("模式: {}", mode_name);
+
+      std::vector<double> spin_times;
+      std::vector<double> backoff_times;
+      std::vector<double> mutex_times;
+
+      for (int i = 0; i < REPEAT; ++i) {
+        spin_times.push_back(benchmark<SpinLock>(num_threads, mode, OPERATIONS));
+        backoff_times.push_back(benchmark<BackoffSpinLock>(num_threads, mode, OPERATIONS));
+        mutex_times.push_back(benchmark<std::mutex>(num_threads, mode, OPERATIONS));
+      }
+
+      double spin_avg = std::accumulate(spin_times.begin(), spin_times.end(), 0.0) / REPEAT;
+      double backoff_avg = std::accumulate(backoff_times.begin(), backoff_times.end(), 0.0) / REPEAT;
+      double mutex_avg = std::accumulate(mutex_times.begin(), mutex_times.end(), 0.0) / REPEAT;
+
+      logger.info("简单自旋锁: {}", spin_avg);
+      logger.info("退避自旋锁: {}", backoff_avg);
+      logger.info("互斥锁: {}", mutex_avg);
+      logger.info("---------------------------------------\n");
+    }
+  }
 }
 
 void MutexDeadLock::lockGuardCall() noexcept {

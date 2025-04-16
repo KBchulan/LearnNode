@@ -32,6 +32,8 @@ class CORE_EXPORT MutexDeadLock final
 
   static void CORE_NO_EXPORT spinlockCall() noexcept;
 
+  static void CORE_NO_EXPORT semaphoreCall() noexcept;
+
   static void CORE_NO_EXPORT lockGuardCall() noexcept;
 
   static void CORE_NO_EXPORT uniqueLockCall() noexcept;

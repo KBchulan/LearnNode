@@ -421,6 +421,10 @@ void MutexDeadLock::spinlockCall() noexcept {
   }
 }
 
+void MutexDeadLock::semaphoreCall() noexcept {
+  
+}
+
 void MutexDeadLock::lockGuardCall() noexcept {
   // 简单的锁包装器，源码也是非常简单，利用RAII实现的自动加锁和解锁，没有任何实际的函数
     

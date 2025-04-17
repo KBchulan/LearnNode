@@ -13,6 +13,7 @@
 #include <queue>
 #include <random>
 #include <ratio>
+#include <semaphore>
 #include <shared_mutex>
 #include <stdexcept>
 #include <string>
@@ -107,7 +108,10 @@ void MutexDeadLock::enterFunc() noexcept {
     // rwmutexCall();
     // recursivemutexCall();
     // conditionVariableCall();
-    spinlockCall();
+    // spinlockCall();
+    // semaphoreCall();
+    // atomicCall();
+    // deadLockCall();
 
     // 锁包装器
     // lockGuardCall();
@@ -128,9 +132,8 @@ void MutexDeadLock::mutexCall() noexcept {
       try_lock()：非阻塞式的尝试加锁
       native_handle()：获取实际的互斥锁的句柄
     
-    从本质上来看，互斥锁有这么一个流程，当前线程尝试获取锁，如果该锁已经被其他线程占有，则此线程则会被投递到内核空间的
-    等待队列(通过调用futex)，然后锁解开时会调用通知，释放等待队列，随后重新回到用户态，
-    因此，多个上下文的切换导致的开销是很大的，且线程会被阻塞，这是不好的
+    从本质上来看，互斥锁有这么一个流程，当前线程尝试获取锁，如果该锁已经被其他线程占有，则此线程则会被投递到内核空间的等待队列(通过调用futex)，
+    然后锁解开时会调用通知，释放等待队列，随后重新回到用户态，因此，多个上下文的切换导致的开销是很大的，且线程会被阻塞，这是不好的
   */
   std::mutex mtx;
   std::atomic<std::uint32_t> num = 0;
@@ -422,7 +425,95 @@ void MutexDeadLock::spinlockCall() noexcept {
 }
 
 void MutexDeadLock::semaphoreCall() noexcept {
+  /*
+    信号量的底层比较简单：维护一个内部计数器，表示可用资源的数量，如果为0则在acquire(获取)时可能阻塞，其余情况下可以递增
+
+    二进制信号量：只有一个可用资源，此时功能类似于互斥量
+    计数信号量：维护有限资源的访问
+
+    Lock.md中有一个连接池的例子
+  */
+  std::binary_semaphore mainTothread{0};
+  std::binary_semaphore sonToMain{0};
+
+  auto workThread = [&]() -> void {
+    // 阻塞在这里等待主线程增加
+    mainTothread.acquire();
+
+    logger.info("[Son] i am work thread ,i have got the signal");
+    using namespace std::literals;
+    std::this_thread::sleep_for(3s);
+
+    sonToMain.release();
+  };  
+
+  std::jthread work{workThread};
+
+  logger.info("[Main] i send a singal");
+  mainTothread.release();
+
+  sonToMain.acquire();
+  logger.info("[Main] i got the signal");
+}
+
+void MutexDeadLock::atomicCall() noexcept {
+  /*
+    cppreference: https://en.cppreference.com/w/cpp/atomic/atomic
+    原子操作是不可分割的操作单元，在操作过程中不会被中断，是无锁并发的基础，也是其他同步原语的底层实现
   
+    基础的方法这里不介绍了，主要说一下简单的内存序: 
+     - memory_order_relaxed：不保证顺序，只保证原子性
+     - memory_order_acquire：读取操作，建立后续读取的屏障
+     - memory_order_release：写入操作，建立之前写入的屏障
+     - memory_order_acq_rel：组合 `acquire`和 `release`语义
+     - memory_order_seq_cst：最严格的顺序，保证所有线程看到一致的操作顺序
+  */
+
+  std::atomic_uint32_t counter{0};
+  logger.info("the counter is: {}", counter.load(std::memory_order_acquire));
+  counter.fetch_add(1, std::memory_order_acq_rel);
+  logger.info("the counter is: {}", counter.load(std::memory_order_acquire));
+}
+
+void MutexDeadLock::deadLockCall() noexcept {
+  /*
+    A和B线程都确保都对自己的锁进行加锁，然后期望获取对方的锁，就形成了循环引用
+
+    如果需要在一个函数里加多个锁，我们可以选择std::lock和std::defer_lock或std::adopt_lock进行加锁，或者直接std::scoped_lock
+  */
+  std::mutex lockA;
+  std::mutex lockB;
+
+  std::binary_semaphore AtoB{0};
+  std::binary_semaphore BtoA{0};
+
+  auto threadA = [&]() -> void {
+    std::scoped_lock<std::mutex> lock(lockA);
+
+    // A被阻塞在这里，等待B解锁
+    BtoA.acquire();
+    logger.info("A: i acquire success");
+    AtoB.release();
+
+    lockB.lock();
+    logger.info("A: i complete");
+    lockB.unlock();
+  };
+
+  auto threadB = [&]() -> void {
+    std::scoped_lock<std::mutex> lock(lockB);
+
+    BtoA.release();
+    AtoB.acquire();
+    logger.info("B: i acquire success");
+
+    lockA.lock();
+    logger.info("B: i complete");
+    lockA.unlock();
+  };
+
+  std::jthread thr_A{threadA};
+  std::jthread thr_B{threadB};
 }
 
 void MutexDeadLock::lockGuardCall() noexcept {
@@ -480,6 +571,7 @@ void MutexDeadLock::uniqueLockCall() noexcept {
 
       // std::lock()底层实现了一个避免死锁的算法，即全部加锁，全部解锁，如果遍历的过程中加锁失败，则回退前面的锁进行解锁
       std::lock(lock1, lock2);  
+      // 当然我们也可以不用上面的defer_lock，选择使用这个std::unique_lock<std::mutex> lock(mtx1_, std::adopt_lock);
       
       if (num1_.load() < 100) {
         num1_.fetch_add(1);

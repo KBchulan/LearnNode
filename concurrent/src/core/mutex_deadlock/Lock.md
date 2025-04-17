@@ -2116,6 +2116,7 @@ C++11引入了原子操作库，位于 `<atomic>`头文件中：
    - **比较交换(compare_exchange)**：条件更新
    - **算术操作**：如 `fetch_add`、`fetch_sub`等
    - **位操作**：如 `fetch_and`、`fetch_or`、`fetch_xor`
+   - **类条件变量** 如 `wait`、`notify_one`、`notify_all`
 3. **内存序(Memory Ordering)**：
    C++原子库允许指定操作的内存顺序：
 

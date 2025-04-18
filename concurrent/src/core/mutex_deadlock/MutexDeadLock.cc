@@ -111,6 +111,7 @@ void MutexDeadLock::enterFunc() noexcept {
     // spinlockCall();
     // semaphoreCall();
     // atomicCall();
+    timedCall();
     // deadLockCall();
 
     // 锁包装器
@@ -475,6 +476,34 @@ void MutexDeadLock::atomicCall() noexcept {
   logger.info("the counter is: {}", counter.load(std::memory_order_acquire));
 }
 
+void MutexDeadLock::timedCall() noexcept {
+  /*
+    超时锁是比较简单的，就是基本的互斥锁加上一个时间的限制，超时则返回失败，而不是阻塞
+
+    比较常用于死锁的预防和一些实时系统的操作
+  */
+  using namespace std::literals;
+
+  std::timed_mutex tmtx;
+
+  auto timedWork = [&]() -> void {
+    // bool result = tmtx.try_lock_for(2s);
+    bool result = tmtx.try_lock_until(std::chrono::high_resolution_clock::now() + 2s);
+    if(result) {
+      logger.info("i have got the lock");
+    } else {
+      logger.info("i can't get the lock, {}", result);
+    }
+  };
+
+  tmtx.lock();
+  logger.info("in main thread, i have got the lock");
+  std::jthread timedThr{timedWork};
+  
+  std::this_thread::sleep_for(3s);
+  tmtx.unlock();
+}
+
 void MutexDeadLock::deadLockCall() noexcept {
   /*
     A和B线程都确保都对自己的锁进行加锁，然后期望获取对方的锁，就形成了循环引用
@@ -635,7 +664,8 @@ void MutexDeadLock::sharedLockCall() noexcept {
   };
 
   auto read = [&](const std::string& key) -> void {
-    std::shared_lock<std::shared_mutex> lock{shmtx};
+    shmtx.lock();
+    std::shared_lock<std::shared_mutex> lock{shmtx, std::adopt_lock};
 
     logger.info("read shared_entries, [{} is {}]", key, entries[key]);
   };

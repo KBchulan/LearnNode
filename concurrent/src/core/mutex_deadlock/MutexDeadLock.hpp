@@ -36,6 +36,8 @@ class CORE_EXPORT MutexDeadLock final
 
   static void CORE_NO_EXPORT atomicCall() noexcept;
 
+  static void CORE_NO_EXPORT timedCall() noexcept;
+
   static void CORE_NO_EXPORT deadLockCall() noexcept;
 
   static void CORE_NO_EXPORT lockGuardCall() noexcept;

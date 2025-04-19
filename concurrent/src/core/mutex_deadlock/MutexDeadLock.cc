@@ -601,6 +601,10 @@ void MutexDeadLock::uniqueLockCall() noexcept {
       // std::lock()底层实现了一个避免死锁的算法，即全部加锁，全部解锁，如果遍历的过程中加锁失败，则回退前面的锁进行解锁
       std::lock(lock1, lock2);  
       // 当然我们也可以不用上面的defer_lock，选择使用这个std::unique_lock<std::mutex> lock(mtx1_, std::adopt_lock);
+      // std::lock(mtx1_, mtx2_);
+      // std::unique_lock<std::mutex> guard1{mtx1_, std::adopt_lock};
+      // std::unique_lock<std::mutex> guard2{mtx2_, std::adopt_lock};
+
       
       if (num1_.load() < 100) {
         num1_.fetch_add(1);

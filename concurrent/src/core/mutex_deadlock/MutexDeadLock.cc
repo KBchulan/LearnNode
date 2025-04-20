@@ -446,7 +446,7 @@ void MutexDeadLock::semaphoreCall() noexcept {
     std::this_thread::sleep_for(3s);
 
     sonToMain.release();
-  };  
+  };
 
   std::jthread work{workThread};
 
@@ -461,8 +461,8 @@ void MutexDeadLock::atomicCall() noexcept {
   /*
     cppreference: https://en.cppreference.com/w/cpp/atomic/atomic
     原子操作是不可分割的操作单元，在操作过程中不会被中断，是无锁并发的基础，也是其他同步原语的底层实现
-  
-    基础的方法这里不介绍了，主要说一下简单的内存序: 
+
+    基础的方法这里不介绍了，主要说一下简单的内存序:
      - memory_order_relaxed：不保证顺序，只保证原子性
      - memory_order_acquire：读取操作，建立后续读取的屏障
      - memory_order_release：写入操作，建立之前写入的屏障
@@ -499,7 +499,7 @@ void MutexDeadLock::timedCall() noexcept {
   tmtx.lock();
   logger.info("in main thread, i have got the lock");
   std::jthread timedThr{timedWork};
-  
+
   std::this_thread::sleep_for(3s);
   tmtx.unlock();
 }

@@ -22,7 +22,7 @@
 #endif
 
 #ifndef UTILS_DEPRECATED
-#  define UTILS_DEPRECATED __attribute__ ((__deprecated__))
+#  define UTILS_DEPRECATED __declspec(deprecated)
 #endif
 
 #ifndef UTILS_DEPRECATED_EXPORT
@@ -33,6 +33,7 @@
 #  define UTILS_DEPRECATED_NO_EXPORT UTILS_NO_EXPORT UTILS_DEPRECATED
 #endif
 
+/* NOLINTNEXTLINE(readability-avoid-unconditional-preprocessor-if) */
 #if 0 /* DEFINE_NO_DEPRECATED */
 #  ifndef UTILS_NO_DEPRECATED
 #    define UTILS_NO_DEPRECATED

@@ -12,7 +12,7 @@ add_library(
 
 # 生成导出的头文件
 generate_export_header(
-  core 
+  core
   BASE_NAME CORE
   EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/CoreExport.hpp
 )

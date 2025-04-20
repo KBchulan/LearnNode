@@ -77,7 +77,7 @@ public:
   auto operator<=>(const Vector2 &other) const {
     return this->length() <=> other.length();
   }
-	
+
   bool operator==(const Vector2 &other) const{
     return this->x_ == other.x_ && this->y_ == other.y_;
   }
@@ -85,7 +85,7 @@ public:
   bool operator!=(const Vector2 &other) const{
     return this->x_ != other.x_ || this->y_ != other.y_;
   }
-  
+
 private:
   double x_{0};
   double y_{0};

@@ -132,7 +132,7 @@ void MutexDeadLock::mutexCall() noexcept {
       unlock()：解锁
       try_lock()：非阻塞式的尝试加锁
       native_handle()：获取实际的互斥锁的句柄
-    
+
     从本质上来看，互斥锁有这么一个流程，当前线程尝试获取锁，如果该锁已经被其他线程占有，则此线程则会被投递到内核空间的等待队列(通过调用futex)，
     然后锁解开时会调用通知，释放等待队列，随后重新回到用户态，因此，多个上下文的切换导致的开销是很大的，且线程会被阻塞，这是不好的
   */
@@ -322,7 +322,7 @@ void MutexDeadLock::conditionVariableCall() noexcept {
   producer.join();
   done = true;
   data_cond.notify_all();
-  space_cond.notify_all();  
+  space_cond.notify_all();
 }
 
 void MutexDeadLock::spinlockCall() noexcept {
@@ -547,7 +547,7 @@ void MutexDeadLock::deadLockCall() noexcept {
 
 void MutexDeadLock::lockGuardCall() noexcept {
   // 简单的锁包装器，源码也是非常简单，利用RAII实现的自动加锁和解锁，没有任何实际的函数
-    
+
   std::mutex mtx;
   std::atomic<std::uint32_t> num = 0;
 
@@ -599,13 +599,13 @@ void MutexDeadLock::uniqueLockCall() noexcept {
       std::unique_lock<std::mutex> lock2{mtx2_, std::defer_lock};
 
       // std::lock()底层实现了一个避免死锁的算法，即全部加锁，全部解锁，如果遍历的过程中加锁失败，则回退前面的锁进行解锁
-      std::lock(lock1, lock2);  
+      std::lock(lock1, lock2);
       // 当然我们也可以不用上面的defer_lock，选择使用这个std::unique_lock<std::mutex> lock(mtx1_, std::adopt_lock);
       // std::lock(mtx1_, mtx2_);
       // std::unique_lock<std::mutex> guard1{mtx1_, std::adopt_lock};
       // std::unique_lock<std::mutex> guard2{mtx2_, std::adopt_lock};
 
-      
+
       if (num1_.load() < 100) {
         num1_.fetch_add(1);
       } else {

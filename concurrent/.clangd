@@ -7,7 +7,6 @@ Diagnostics:
     Add: [performance-*, modernize-*, readability-*]
     Remove: [modernize-use-trailing-return-type, readability-magic-numbers]
 
-
 Index:
   Background: Build
   StandardLibrary: true

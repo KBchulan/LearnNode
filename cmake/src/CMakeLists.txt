@@ -47,7 +47,7 @@ endif()
 
 # 第三方库
 target_link_libraries(
-  ${PROJECT_NAME} PRIVATE 
+  ${PROJECT_NAME} PRIVATE
   ${FMT_LIBRARIES}
 )
 

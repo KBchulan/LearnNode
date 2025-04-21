@@ -22,31 +22,31 @@ class CORE_EXPORT MutexDeadLock final
   static void enterFunc() noexcept;
 
  private:
-  static void CORE_NO_EXPORT mutexCall() noexcept;
+  static void mutexCall() noexcept;
 
-  static void CORE_NO_EXPORT rwmutexCall() noexcept;
+  static void rwmutexCall() noexcept;
 
-  static void CORE_NO_EXPORT recursivemutexCall() noexcept;
+  static void recursivemutexCall() noexcept;
 
-  static void CORE_NO_EXPORT conditionVariableCall() noexcept;
+  static void conditionVariableCall() noexcept;
 
-  static void CORE_NO_EXPORT spinlockCall() noexcept;
+  static void spinlockCall() noexcept;
 
-  static void CORE_NO_EXPORT semaphoreCall() noexcept;
+  static void semaphoreCall() noexcept;
 
-  static void CORE_NO_EXPORT atomicCall() noexcept;
+  static void atomicCall() noexcept;
 
-  static void CORE_NO_EXPORT timedCall() noexcept;
+  static void timedCall() noexcept;
 
-  static void CORE_NO_EXPORT deadLockCall() noexcept;
+  static void deadLockCall() noexcept;
 
-  static void CORE_NO_EXPORT lockGuardCall() noexcept;
+  static void lockGuardCall() noexcept;
 
-  static void CORE_NO_EXPORT uniqueLockCall() noexcept;
+  static void uniqueLockCall() noexcept;
 
-  static void CORE_NO_EXPORT scopedLockCall() noexcept;
+  static void scopedLockCall() noexcept;
 
-  static void CORE_NO_EXPORT sharedLockCall() noexcept;
+  static void sharedLockCall() noexcept;
 };
 
 }  // namespace core

@@ -1,3 +1,4 @@
+#include <core/safe_queue/SafeQueue.hpp>
 #include <core/mutex_deadlock/MutexDeadLock.hpp>
 #include <core/thread_basic/ThreadBasic.hpp>
 #include <core/thread_manage/ThreadManage.hpp>
@@ -10,5 +11,8 @@ int main() {
   // core::ThreadManage::enterFunc();
 
   // 互斥和死锁
-  core::MutexDeadLock::enterFunc();
+  // core::MutexDeadLock::enterFunc();
+
+  // 条件变量实现线程安全队列
+  core::SafeQueue::enterFunc();
 }

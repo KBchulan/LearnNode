@@ -2114,7 +2114,6 @@ C++11引入了原子操作库，位于 `<atomic>`头文件中：
    C++原子库允许指定操作的内存顺序：
 
    - **`memory_order_relaxed`**：仅保证操作的原子性，无额外同步
-   - **`memory_order_consume`**：已被废弃，通常使用 `acquire`代替
    - **`memory_order_acquire`**：读取操作，建立后续读取的屏障
    - **`memory_order_release`**：写入操作，建立之前写入的屏障
    - **`memory_order_acq_rel`**：组合 `acquire`和 `release`语义

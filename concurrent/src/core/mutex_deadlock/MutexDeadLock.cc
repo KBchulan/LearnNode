@@ -38,7 +38,7 @@ double benchmark(int num_threads, WorkMode mode, int operations_per_thread) {
   std::atomic_bool start{false};
 
   auto thread_func = [&](int) {
-    while (!start.load()) {}
+    while (!start.load(std::memory_order_acquire)) {}
 
     for (int i = 0; i < operations_per_thread; i++) {
       lock.lock();
@@ -442,7 +442,7 @@ void MutexDeadLock::semaphoreCall() noexcept {
     mainTothread.acquire();
 
     logger.info("[Son] i am work thread ,i have got the signal");
-    using namespace std::literals;
+    using namespace std::chrono_literals;
     std::this_thread::sleep_for(3s);
 
     sonToMain.release();

@@ -22,7 +22,7 @@
 #endif
 
 #ifndef CORE_DEPRECATED
-#  define CORE_DEPRECATED __attribute__ ((__deprecated__))
+#  define CORE_DEPRECATED __declspec(deprecated)
 #endif
 
 #ifndef CORE_DEPRECATED_EXPORT
@@ -33,6 +33,7 @@
 #  define CORE_DEPRECATED_NO_EXPORT CORE_NO_EXPORT CORE_DEPRECATED
 #endif
 
+/* NOLINTNEXTLINE(readability-avoid-unconditional-preprocessor-if) */
 #if 0 /* DEFINE_NO_DEPRECATED */
 #  ifndef CORE_NO_DEPRECATED
 #    define CORE_NO_DEPRECATED

@@ -21,7 +21,15 @@ public:
   static void enterFunc() noexcept;
 
 private:
-  static void asyncTask() noexcept;
+  static void futureCall() noexcept;
+
+  static void packageCall() noexcept;
+
+  static void promiseCall() noexcept;
+
+  static void exceptionCall() noexcept;
+
+  static void destructCall() noexcept;
 };
 
 } // namespace core

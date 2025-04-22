@@ -4,6 +4,7 @@
 #include <functional>
 #include <future>
 #include <middleware/Logger.hpp>
+#include <mutex>
 #include <stdexcept>
 #include <string>
 #include <thread>
@@ -19,7 +20,9 @@ void AsyncFunc::enterFunc() noexcept {
 
   // exceptionCall();
 
-  destructCall();
+  // destructCall();
+
+  sharedfutureCall();
 }
 
 void AsyncFunc::futureCall() noexcept {
@@ -99,7 +102,7 @@ void AsyncFunc::promiseCall() noexcept {
 void AsyncFunc::exceptionCall() noexcept {
   using namespace std::chrono_literals;
   // 此处子线程会抛出异常
-  auto func = [](std::promise<void> pro) -> void {
+  auto func = [](std::promise<void> &pro) -> void {
     try {
       auto thred_id = std::hash<std::thread::id>{}(std::this_thread::get_id());
       throw std::runtime_error(
@@ -114,7 +117,7 @@ void AsyncFunc::exceptionCall() noexcept {
   std::future<void> res = pro.get_future();
 
   try {
-    std::jthread work(func, std::move(pro));
+    std::jthread work(func, std::ref(pro));
 
     // 子线程的异常被存储到这个future里面了，如果获取这个future的内容则会导致异常重新抛出
     auto status = res.wait_for(2s);
@@ -129,7 +132,7 @@ void AsyncFunc::exceptionCall() noexcept {
 void AsyncFunc::destructCall() noexcept {
   using namespace std::chrono_literals;
 
-  auto func = [](std::promise<int> pro) -> void {
+  auto func = [](std::promise<int> &pro) -> void {
     std::this_thread::sleep_for(2s);
     pro.set_value(20);
   };
@@ -139,10 +142,45 @@ void AsyncFunc::destructCall() noexcept {
   {
     std::promise<int> pro;
     res = pro.get_future();
-    thr = std::jthread(func, std::move(pro));
+    thr = std::jthread(func, std::ref(pro));
   }
   // 此处promise的东西会被释放，但是由于这些的底层都是共同维护一个共享数据，future还存在引用，因此此处不会报错
   logger.info("the return value is: {}", res.get());
+}
+
+void AsyncFunc::sharedfutureCall() noexcept {
+  std::mutex mtx;
+
+  using namespace std::chrono_literals;
+  auto task = [](std::promise<int> &pro) -> void {
+    std::this_thread::sleep_for(1s);
+    pro.set_value(15);
+  };
+
+  auto print = [&mtx](const std::shared_future<int> &sha) -> void {
+    try {
+      auto status = sha.wait_for(2s);
+
+      if (status == std::future_status::ready) {
+        std::scoped_lock<std::mutex> guard{mtx};
+        logger.info("the value is: {}", sha.get());
+      } else if (status == std::future_status::timeout) {
+        logger.warning("the task failed executable");
+      } else {
+        logger.error("the task has been set to defered");
+      }
+
+    } catch (const std::exception &exc) {
+      logger.error("the error msg is: {}", exc.what());
+    }
+  };
+
+  std::promise<int> pro_;
+  std::shared_future<int> shaFut = pro_.get_future().share();
+
+  std::jthread work{task, std::ref(pro_)};
+  std::jthread consu1{print, shaFut};
+  std::jthread consu2{print, shaFut};
 }
 
 } // namespace core

@@ -30,6 +30,8 @@ private:
   static void exceptionCall() noexcept;
 
   static void destructCall() noexcept;
+
+  static void sharedfutureCall() noexcept;
 };
 
 } // namespace core

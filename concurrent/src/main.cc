@@ -1,8 +1,9 @@
-#include <core/safe_queue/SafeQueue.hpp>
+#include <core/async_func/AsyncFunc.hpp>
 #include <core/mutex_deadlock/MutexDeadLock.hpp>
+#include <core/safe_queue/SafeQueue.hpp>
 #include <core/thread_basic/ThreadBasic.hpp>
 #include <core/thread_manage/ThreadManage.hpp>
-#include <core/async_func/AsyncFunc.hpp>
+#include <core/thread_pool/ThreadPool.hpp>
 
 int main() {
   // 线程基础
@@ -18,5 +19,9 @@ int main() {
   // core::SafeQueue::enterFunc();
 
   // 异步三剑客
-  core::AsyncFunc::enterFunc();
+  // core::AsyncFunc::enterFunc();
+
+  // 线程池
+  extern void test_thread_pool();
+  test_thread_pool();
 }

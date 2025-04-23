@@ -36,10 +36,8 @@ void AsyncFunc::futureCall() noexcept {
 
   /*
     这里我们可以看一下std::async的第一个参数：launch __policy，表示一个启动策略
-      -
-    std::launch::async：异步的执行，即调用到std::async时会直接启动一个后台线程进行该任务的处理
-      - std::launch::defered：延迟执行，即在调用std::futher::get() 或
-    std::futher::wait()才会执行(此处是在主线程进行执行的)
+      - std::launch::async：异步的执行，即调用到std::async时会直接启动一个后台线程进行该任务的处理
+      - std::launch::defered：延迟执行，即在调用std::futher::get() 或 std::futher::wait()才会执行(此处是在主线程进行执行的)
       默认行为是这两者同时选取，由编译器决定选择什么策略
   */
   std::future<std::string> res = std::async(std::launch::async, func);
@@ -122,7 +120,7 @@ void AsyncFunc::exceptionCall() noexcept {
     // 子线程的异常被存储到这个future里面了，如果获取这个future的内容则会导致异常重新抛出
     auto status = res.wait_for(2s);
     if (status == std::future_status::ready) {
-      res.get();
+      res.get();  // 这里会再次抛出异常
     }
   } catch (const std::exception &exc) {
     logger.error("{}", exc.what());

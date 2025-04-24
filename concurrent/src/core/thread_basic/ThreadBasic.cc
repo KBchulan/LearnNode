@@ -10,9 +10,9 @@
 #include <string>
 #include <string_view>
 #include <thread>
-#include <middleware/Logger.hpp>
 
-#include <utils/guard/ThreadGuard.hpp>
+#include <middleware/Logger.hpp>
+#include <utils/ThreadGuard.hpp>
 
 namespace core {
 

@@ -4,6 +4,7 @@
 #include <core/thread_basic/ThreadBasic.hpp>
 #include <core/thread_manage/ThreadManage.hpp>
 #include <core/thread_pool/ThreadPool.hpp>
+#include <core/parallel_compute/ParallelCompute.hpp>
 
 int main() {
   // 线程基础
@@ -22,6 +23,9 @@ int main() {
   // core::AsyncFunc::enterFunc();
 
   // 线程池
-  extern void test_thread_pool();
-  test_thread_pool();
+  // extern void test_thread_pool();
+  // test_thread_pool();
+
+  // 并行计算
+  core::ParallelCompute::enterFunc();
 }

@@ -10,7 +10,7 @@ arr.splice(2, 0, 'DDD')
     <!-- no key，vue 会认为所有节点都变了，所以会重新渲染所有节点，
      比如我原来只有 a b c d，现在我插入一个 DDD，vue 会认为我原来有 a b c d，
      现在我变成了 a b DDD c d，所以会重新渲染所有节点，导致性能下降，
-     
+
     无key：替换 新增 删除
     区别是是无key patch会重新渲染所有节点，有key patch会根据key来渲染节点 -->
     <div v-for="item in arr">

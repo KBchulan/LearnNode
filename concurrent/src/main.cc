@@ -1,10 +1,10 @@
 #include <core/async_func/AsyncFunc.hpp>
 #include <core/mutex_deadlock/MutexDeadLock.hpp>
+#include <core/parallel_compute/ParallelCompute.hpp>
 #include <core/safe_queue/SafeQueue.hpp>
 #include <core/thread_basic/ThreadBasic.hpp>
 #include <core/thread_manage/ThreadManage.hpp>
 #include <core/thread_pool/ThreadPool.hpp>
-#include <core/parallel_compute/ParallelCompute.hpp>
 
 int main() {
   // 线程基础

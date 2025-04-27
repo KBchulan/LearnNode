@@ -5,6 +5,7 @@
 #include <core/thread_basic/ThreadBasic.hpp>
 #include <core/thread_manage/ThreadManage.hpp>
 #include <core/thread_pool/ThreadPool.hpp>
+#include <core/actor_csp/ActorCsp.hpp>
 
 int main() {
   // 线程基础
@@ -27,5 +28,8 @@ int main() {
   // test_thread_pool();
 
   // 并行计算
-  core::ParallelCompute::enterFunc();
+  // core::ParallelCompute::enterFunc();
+
+  // 两种并发编程的设计模式
+  core::ActorCsp::enterFunc();
 }

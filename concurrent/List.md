@@ -8,3 +8,4 @@
 4. [条件变量实现线程安全队列](src/core/safe_queue/SafeQueue.hpp)
 5. [利用异步组件实现线程池](src/core/thread_pool/ThreadPool.hpp)
 6. [函数式编程实现并行计算](src/core/parallel_compute/ParallelCompute.hpp)
+7. [两种并发编程的设计模式](src/core/actor_csp/ActorCsp.hpp)

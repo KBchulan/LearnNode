@@ -6,6 +6,7 @@
 #include <core/thread_manage/ThreadManage.hpp>
 #include <core/thread_pool/ThreadPool.hpp>
 #include <core/actor_csp/ActorCsp.hpp>
+#include <core/atomic_memory/AtomicMemory.hpp>
 
 int main() {
   // 线程基础
@@ -31,5 +32,8 @@ int main() {
   // core::ParallelCompute::enterFunc();
 
   // 两种并发编程的设计模式
-  core::ActorCsp::enterFunc();
+  // core::ActorCsp::enterFunc();
+
+  // 原子和内存序的初步开始
+  core::AtomicMemory::enterFunc();
 }

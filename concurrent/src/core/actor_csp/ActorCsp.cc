@@ -16,7 +16,7 @@
 namespace core {
 
 // 消息基类的设计
-struct CORE_NO_EXPORT Message {
+struct Message {
   enum class Type : std::uint8_t { LOGIN, MOVE, ATTACK, LOGOUT };
   Type type_;
   int userId_;
@@ -25,14 +25,14 @@ struct CORE_NO_EXPORT Message {
   virtual ~Message() {}
 };
 
-struct CORE_NO_EXPORT LoginMessage final : public Message {
+struct LoginMessage final : public Message {
   std::string userName_;
 
   LoginMessage(int userId, std::string user)
       : Message(Type::LOGIN, userId), userName_(std::move(user)) {}
 };
 
-struct CORE_NO_EXPORT MoveMessage final : public Message {
+struct MoveMessage final : public Message {
   int x_;
   int y_;
   int z_;
@@ -40,7 +40,7 @@ struct CORE_NO_EXPORT MoveMessage final : public Message {
       : Message(Type::MOVE, userId), x_(pos_x), y_(pos_y), z_(pos_z) {}
 };
 
-struct CORE_NO_EXPORT AttackMessage final : public Message {
+struct AttackMessage final : public Message {
   int targetId_;
   int skillId_;
 
@@ -48,11 +48,11 @@ struct CORE_NO_EXPORT AttackMessage final : public Message {
       : Message(Type::ATTACK, userId), targetId_(targetId), skillId_(skillId) {}
 };
 
-struct CORE_NO_EXPORT LogoutMessage final : public Message {
+struct LogoutMessage final : public Message {
   LogoutMessage(int userId) : Message(Type::LOGOUT, userId) {}
 };
 
-class CORE_NO_EXPORT Actor {
+class Actor {
 protected:
   int id_;
   std::queue<std::shared_ptr<Message>> mailBox_;
@@ -278,8 +278,8 @@ void ActorCsp::actorDesign() noexcept {
   GameWorld gameWorld;
   auto player1 = gameWorld.getOrCreatePlayer(1);
   auto player2 = gameWorld.getOrCreatePlayer(2);
-  player1->send(std::make_shared<LoginMessage>(1, "张三", "123456"));
-  player2->send(std::make_shared<LoginMessage>(2, "李四", "123456"));
+  player1->send(std::make_shared<LoginMessage>(1, "张三"));
+  player2->send(std::make_shared<LoginMessage>(2, "李四"));
   player1->send(std::make_shared<MoveMessage>(1, 100, 200, 300));
   player2->send(std::make_shared<MoveMessage>(2, 100, 200, 300));
   player1->send(std::make_shared<AttackMessage>(1, 2, 1));
@@ -307,7 +307,7 @@ void ActorCsp::cspDesign() noexcept {
 
   std::thread consumer([&]() {
     std::this_thread::sleep_for(
-        std::chrono::milliseconds(500)); // 故意延迟消费者开始消费
+        std::chrono::milliseconds(500));
     int val;
     while (chan.receive(val)) {
       logger.info("Received: {}", val);

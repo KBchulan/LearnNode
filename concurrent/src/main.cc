@@ -9,31 +9,31 @@
 #include <core/atomic_memory/AtomicMemory.hpp>
 
 int main() {
-  // 线程基础
+  // 1.线程基础
   // core::ThreadBasic::enterFunc();
 
-  // 线程管控
+  // 2.线程管控
   // core::ThreadManage::enterFunc();
 
-  // 互斥和死锁
+  // 3.互斥和死锁
   // core::MutexDeadLock::enterFunc();
 
-  // 条件变量实现线程安全队列
+  // 4.条件变量实现线程安全队列
   // core::SafeQueue::enterFunc();
 
-  // 异步三剑客
+  // 5.异步三剑客
   // core::AsyncFunc::enterFunc();
 
-  // 线程池
+  // 6.线程池
   // extern void test_thread_pool();
   // test_thread_pool();
 
-  // 并行计算
+  // 7.并行计算
   // core::ParallelCompute::enterFunc();
 
-  // 两种并发编程的设计模式
+  // 8.两种并发编程的设计模式
   // core::ActorCsp::enterFunc();
 
-  // 原子和内存序的初步开始
+  // 9.原子操作和内存序
   core::AtomicMemory::enterFunc();
 }

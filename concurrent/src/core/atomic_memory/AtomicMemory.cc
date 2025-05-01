@@ -20,8 +20,11 @@ void AtomicMemory::atomicFunc() noexcept {
       - 多个对象上的改动序列只是相对关系，线程之间不必达成一致，线程需要维护的是同一个对象的改动序列一致
   */
 
-  // std::atomic<>::is_always_lock_free c++17即以后可以用这个内置函数判断是否是无锁结构，如果返回true，表示该原子变量的原子操作完全不需要借助任何锁即可保证原子性
+  // std::atomic<>::is_always_lock_free 是一个编译期常量，c++17及以后可以用这个内置函数判断是否是无锁结构，如果返回true，表明在当前平台上，对该类型的所有原子操作都能通过硬件指令直接实现，不需要使用互斥锁
   logger.info("the atomic<bool>: {}", std::atomic_bool::is_always_lock_free);
+
+  // 接下来是内存序相关内容，https://gitbookcpp.llfc.club/sections/cpp/concurrent/concpp11.html
 }
+
 
 } // namespace core

@@ -35,6 +35,11 @@ void AtomicMemory::atomicFunc() noexcept {
       - memory_order_acq_rel：组合 `acquire`和 `release`语义
       - memory_order_seq_cst：最严格的顺序，保证所有线程看到一致的操作顺序
 
+    三种内存模型：
+      - Sequencial consistent ordering：实现同步, 且保证全局顺序一致 (single total order) 的模型. 是一致性最强的模型, 也是默认的顺序模型
+      - Acquire-release ordering. 实现一个变量的同步, 但不保证多个变量全局顺序一致的模型
+      - Relaxed ordering. 不能实现同步, 只保证原子性的模型
+
     前置知识：
     1. 硬件组成：
         - cpu(store buffer, read buffer) --- Cache(三层缓存) --- Memory(内存) --- 外存
@@ -52,15 +57,17 @@ void AtomicMemory::atomicFunc() noexcept {
             之后有另一个线程读取变量m，我们将这个操作叫做B，那么B一定读取A修改m之后的最新值
 
     4. 先行："A happens-before B" 的意思是如果A操作先于B操作，那么A操作的结果对B操作可见(我们可以看出同步是先行的一种)
-
-    正题：
-    1. 宽松内存序(memory_order_relaxed)：
-        - 作用于原子变量
-        - 不具有synchronizes-with关系
-        - 在同一个线程中,对于同一个原子变量具有happens-before关系, 不同的原子变量不具有happens-before关系，可以乱序执行
-        - 多线程情况下不具有happens-before关系
   */
+}
 
+void AtomicMemory::relaxedFunc() noexcept {
+  /*
+    宽松内存序(memory_order_relaxed)：
+      - 作用于原子变量
+      - 不具有synchronizes-with关系
+      - 在同一个线程中,对于同一个原子变量具有happens-before关系, 不同的原子变量不具有happens-before关系，可以乱序执行
+      - 多线程情况下不具有happens-before关系
+  */
   std::atomic_bool bxval_{false};
   std::atomic_bool byval_{false};
   std::atomic_int izval_{0};
@@ -72,7 +79,7 @@ void AtomicMemory::atomicFunc() noexcept {
 
   auto read_y_then_x = [&]() -> void {
     while (!byval_.load(std::memory_order_relaxed)) {
-      logger.info("y load true");
+      logger.info("y load false");
     }
 
     if (bxval_.load(std::memory_order_relaxed)) {
@@ -85,7 +92,7 @@ void AtomicMemory::atomicFunc() noexcept {
   thr_1.join();
   thr_2.join();
   logger.info("the z value is: {}", izval_.load());
-  assert(izval_.load() == 1);   // 可能会被触发，分析详见上面的url
+  assert(izval_.load() == 1); // 可能会被触发，分析详见上面的url
 }
 
 } // namespace core

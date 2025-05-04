@@ -22,6 +22,8 @@ public:
 
 private:
   static void atomicFunc() noexcept;
+
+  static void relaxedFunc() noexcept;
 };
 
 } // namespace core

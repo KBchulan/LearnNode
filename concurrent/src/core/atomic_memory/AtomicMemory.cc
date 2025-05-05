@@ -9,7 +9,9 @@ namespace core {
 
 void AtomicMemory::enterFunc() noexcept {
   // 原子操作的介绍
-  atomicFunc();
+  // atomicFunc();
+  // relaxedFunc();
+  seqConsFunc();
 }
 
 void AtomicMemory::atomicFunc() noexcept {
@@ -36,7 +38,7 @@ void AtomicMemory::atomicFunc() noexcept {
       - memory_order_seq_cst：最严格的顺序，保证所有线程看到一致的操作顺序
 
     三种内存模型：
-      - Sequencial consistent ordering：实现同步, 且保证全局顺序一致 (single total order) 的模型. 是一致性最强的模型, 也是默认的顺序模型
+      - Sequencial consistent ordering：实现同步, 且保证全局顺序一致(single total order)的模型. 是一致性最强的模型, 也是默认的顺序模型
       - Acquire-release ordering. 实现一个变量的同步, 但不保证多个变量全局顺序一致的模型
       - Relaxed ordering. 不能实现同步, 只保证原子性的模型
 
@@ -92,7 +94,38 @@ void AtomicMemory::relaxedFunc() noexcept {
   thr_1.join();
   thr_2.join();
   logger.info("the z value is: {}", izval_.load());
-  assert(izval_.load() == 1); // 可能会被触发，分析详见上面的url
+  assert(izval_.load() != 0); // 可能会被触发，分析详见上面的url
+}
+
+void AtomicMemory::seqConsFunc() noexcept {
+  std::atomic_bool bxval_{false};
+  std::atomic_bool byval_{false};
+  std::atomic_int izval_{0};
+
+  auto write_x_then_y = [&]() -> void {
+    bxval_.store(true, std::memory_order_seq_cst);
+    byval_.store(true, std::memory_order_seq_cst);
+  };
+
+  auto read_y_then_x = [&]() -> void {
+    while (!byval_.load(std::memory_order_seq_cst)) {
+      logger.info("y load false");
+    }
+
+    if (bxval_.load(std::memory_order_seq_cst)) {
+      izval_.fetch_add(1, std::memory_order_seq_cst);
+    }
+  };
+
+  std::jthread thr_1{write_x_then_y};
+  std::jthread thr_2{read_y_then_x};
+  thr_1.join();
+  thr_2.join();
+  logger.info("the z value is: {}", izval_.load());
+  // 这个一定不会触发，因为这个内存序可以保证同步和全局顺序一致，
+  // 即线程1对x,y进行修改，那么线程2可见修改结果，且由于顺序一致，1修改了y，则x也一定被修改，也就是z一定fetch_add了，那么
+  // 此情况一定是true;不会触发断言
+  assert(izval_.load() != 0);
 }
 
 } // namespace core

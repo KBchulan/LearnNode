@@ -45,7 +45,7 @@ public:
     std::scoped_lock<std::mutex> lock{mtx};
 
     if ((tail_ + 1) % max_size_ == head_) {
-      logger.warning("the queue full");
+      logger.error("the queue full");
       return false;
     }
     std::construct_at(data_ + tail_, std::forward<Args>(args)...);
@@ -60,7 +60,7 @@ public:
   bool pop(Type &val) {
     std::scoped_lock<std::mutex> lock{mtx};
     if (head_ == tail_) {
-      logger.warning("the queue empty");
+      logger.error("the queue empty");
       return false;
     }
     val = std::move(data_[head_]);
@@ -71,8 +71,8 @@ public:
 
 private:
   std::size_t max_size_;
-  std::size_t head_{};
-  std::size_t tail_{};
+  std::size_t head_{0};
+  std::size_t tail_{0};
   Type* data_;
   std::mutex mtx;
 };

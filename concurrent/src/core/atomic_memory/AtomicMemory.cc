@@ -11,7 +11,8 @@ void AtomicMemory::enterFunc() noexcept {
   // 原子操作的介绍
   // atomicFunc();
   // relaxedFunc();
-  seqConsFunc();
+  // seqConsFunc();
+  acqrelFunc();
 }
 
 void AtomicMemory::atomicFunc() noexcept {
@@ -20,7 +21,7 @@ void AtomicMemory::atomicFunc() noexcept {
       - 只要某线程看到过某个对象，则该线程的后续读操作必须获得相对新近的值，并且，该线程就同一对象的后续写操作，必然出现在改动序列后方。
       - 如果某线程先向一个对象写数据，过后再读取它，那么必须读取前面写的值。
       - 若在改动序列中，上述读写操作之间还有别的写操作，则必须读取最后写的值。
-      - 在程序内部，对于同一个对象，全部线程都必须就其形成相同的改动序列，并且在所有对象上都要求如此.
+      - 在程序内部，对于同一个对象，全部线程都必须形成相同的改动序列，并且在所有对象上都要求如此.
       - 多个对象上的改动序列只是相对关系，线程之间不必达成一致，线程需要维护的是同一个对象的改动序列一致
   */
 
@@ -65,16 +66,15 @@ void AtomicMemory::atomicFunc() noexcept {
 void AtomicMemory::relaxedFunc() noexcept {
   /*
     宽松内存序(memory_order_relaxed)：
-      - 作用于原子变量
-      - 不具有synchronizes-with关系
-      - 在同一个线程中,对于同一个原子变量具有happens-before关系, 不同的原子变量不具有happens-before关系，可以乱序执行
-      - 多线程情况下不具有happens-before关系
+      只能保证操作的原子性，(x，y的修改不会被中断，它一定是true/false，而不会是修改被中断产生的乱码)
+      无法实现同步，(线程1操作的x对线程2不是立即可见的)
+      也无法保证全局顺序一致 (线程1是x -> y，线程2完全可以是y -> x)
   */
   std::atomic_bool bxval_{false};
   std::atomic_bool byval_{false};
-  std::atomic_int izval_{0};
 
   auto write_x_then_y = [&]() -> void {
+    // release版本下编译器进行指令重排，y操作先于x
     bxval_.store(true, std::memory_order_relaxed);
     byval_.store(true, std::memory_order_relaxed);
   };
@@ -84,20 +84,20 @@ void AtomicMemory::relaxedFunc() noexcept {
       logger.info("y load false");
     }
 
-    if (bxval_.load(std::memory_order_relaxed)) {
-      izval_.fetch_add(1, std::memory_order_relaxed);
-    }
+    assert(bxval_.load(std::memory_order_relaxed));
   };
 
   std::jthread thr_1{write_x_then_y};
   std::jthread thr_2{read_y_then_x};
-  thr_1.join();
-  thr_2.join();
-  logger.info("the z value is: {}", izval_.load());
-  assert(izval_.load() != 0); // 可能会被触发，分析详见上面的url
 }
 
 void AtomicMemory::seqConsFunc() noexcept {
+  /*
+    最强的顺序模型，可以保证全局顺序一致，底层是这样的：一个core在写入的数据到memory之前都是写失效的，其他线程是不能读取的，因此
+    会造成一些额外的开销，如一个bank需要多走一层从cache到memory的路径，因此存在一定性能丢失
+    seq_cst保证全局顺序一致且与程序执行顺序相同，如在线程1中x->y->z，那么在线程2一定也是这个顺序
+    其他内存模型接受编译器或者处理器指令重排，无法保证所有线程的执行顺序相同
+  */
   std::atomic_bool bxval_{false};
   std::atomic_bool byval_{false};
   std::atomic_int izval_{0};
@@ -126,6 +126,34 @@ void AtomicMemory::seqConsFunc() noexcept {
   // 即线程1对x,y进行修改，那么线程2可见修改结果，且由于顺序一致，1修改了y，则x也一定被修改，也就是z一定fetch_add了，那么
   // 此情况一定是true;不会触发断言
   assert(izval_.load() != 0);
+}
+
+void AtomicMemory::acqrelFunc() noexcept {
+  /*
+    release 操作保证在此操作之前的所有内存写入对稍后执行的acquire操作的线程可见且有序
+    acquire 操作保证在此操作之后的所有内存读取/写入(在本线程内)不会被重排到此操作之前
+
+    acq-rel不会产生新的指令，只是影响编译器的优化，任何指令不会被编排到acquire前面，也不会编排到release后面
+  */
+  std::atomic_bool xval{false};
+  std::atomic_bool yval{false};
+
+  std::jthread thr_1{[&]() -> void {
+    xval.store(true, std::memory_order_relaxed);
+    yval.store(true, std::memory_order_release); // 此操作保证之前所有的修改(包括非原子的)对于acquire操作都是可见的
+  }};
+
+  // rel-acq形成的同步关系是一对一的，如果这个线程与thr_2形成同步关系，那么会导致断言被触发
+  std::jthread danthr{[&yval]() -> void {
+    yval.store(true, std::memory_order_release);
+  }};
+
+  std::jthread thr_2{[&]() -> void {
+    while (!yval.load(std::memory_order_acquire)) {
+      logger.info("the y load false");
+    }
+    assert(xval.load(std::memory_order_relaxed));
+  }};
 }
 
 } // namespace core

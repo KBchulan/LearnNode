@@ -26,6 +26,8 @@ private:
   static void relaxedFunc() noexcept;
 
   static void seqConsFunc() noexcept;
+
+  static void acqrelFunc() noexcept;
 };
 
 } // namespace core

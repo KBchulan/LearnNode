@@ -1,3 +1,4 @@
+#include <cmath>
 #include <core/actor_csp/ActorCsp.hpp>
 #include <core/async_func/AsyncFunc.hpp>
 #include <core/atomic_memory/AtomicMemory.hpp>
@@ -39,5 +40,5 @@ int main() {
   // core::AtomicMemory::enterFunc();
 
   // 10.内存序实现无锁队列
-  core::TestQueue::test1();
+  core::TestQueue::test3();
 }

@@ -2,6 +2,7 @@
 
 #include <middleware/Logger.hpp>
 #include <mutex>
+#include <print>
 #include <thread>
 
 namespace core {

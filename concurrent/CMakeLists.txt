@@ -53,7 +53,7 @@ include(InstallRequiredSystemLibraries)
 # 代码质量检测(g++, clang++)
 function(set_warning_flags target)
   get_target_property(target_type ${target} TYPE)
-  
+
   if(target_type STREQUAL "INTERFACE_LIBRARY")
     set(visibility INTERFACE)
   else()
@@ -62,15 +62,15 @@ function(set_warning_flags target)
 
   if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     target_compile_options(${target} ${visibility}
-      -Wall                 
-      -Wextra               
-      -Wpedantic            
+      -Wall
+      -Wextra
+      -Wpedantic
       -Wconversion
-      -Wshadow              
-      -Wcast-align 
-      -Wcast-qual 
-      -Wunused 
-      -Woverloaded-virtual  
+      -Wshadow
+      -Wcast-align
+      -Wcast-qual
+      -Wunused
+      -Woverloaded-virtual
       -Wformat=2
       -Wdouble-promotion
     )

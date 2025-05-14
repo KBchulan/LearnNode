@@ -18,6 +18,7 @@
 #include <global/Singleton.hpp>
 #include <memory>
 #include <mutex>
+#include <new>
 #include <utility>
 
 #ifndef __cpp_lib_hardware_interference_size
@@ -242,8 +243,8 @@ public:
 private:
   const std::size_t max_size_;
 
-  alignas(64) std::atomic<size_t> head_{0};
-  alignas(64) std::atomic<size_t> tail_{0};
+  alignas(std::hardware_destructive_interference_size) std::atomic<size_t> head_{0};
+  alignas(std::hardware_destructive_interference_size) std::atomic<size_t> tail_{0};
 
   Type *data_;
 };

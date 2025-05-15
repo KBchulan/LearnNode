@@ -1,0 +1,119 @@
+/* 主题样式 */
+/* 默认亮色主题在index.html中 */
+
+/* 暗色主题 */
+.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-theme header {
+    background: linear-gradient(135deg, #4a5d9d, #6c3a6c);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .category {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .bookmark {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+.dark-theme .bookmark:hover {
+    background-color: #3a3a3a;
+}
+
+.dark-theme #search {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+.dark-theme .category-icon {
+    background-color: #333;
+    color: #ccc;
+}
+
+.dark-theme .collapse-btn {
+    color: #9e9eff;
+}
+
+.dark-theme .subcategory {
+    border-left: 3px solid #9e9eff;
+}
+
+.dark-theme footer {
+    color: #999;
+}
+
+/* 翠绿主题 */
+.green-theme {
+    background-color: #f0f7f0;
+    color: #333;
+}
+
+.green-theme header {
+    background: linear-gradient(135deg, #2c8c5f, #2ecc71);
+}
+
+.green-theme .category-icon {
+    background-color: #e8f5e9;
+    color: #2c8c5f;
+}
+
+.green-theme .collapse-btn {
+    color: #2c8c5f;
+}
+
+.green-theme .subcategory {
+    border-left: 3px solid #2ecc71;
+}
+
+/* 蓝色主题 */
+.blue-theme {
+    background-color: #e8f0f8;
+    color: #333;
+}
+
+.blue-theme header {
+    background: linear-gradient(135deg, #1565c0, #2196F3);
+}
+
+.blue-theme .category-icon {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+.blue-theme .collapse-btn {
+    color: #1565c0;
+}
+
+.blue-theme .subcategory {
+    border-left: 3px solid #1565c0;
+}
+
+/* 橙色主题 */
+.orange-theme {
+    background-color: #fff8e1;
+    color: #333;
+}
+
+.orange-theme header {
+    background: linear-gradient(135deg, #f57c00, #ffb74d);
+}
+
+.orange-theme .category-icon {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+.orange-theme .collapse-btn {
+    color: #f57c00;
+}
+
+.orange-theme .subcategory {
+    border-left: 3px solid #f57c00;
+}

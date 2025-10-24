@@ -1,0 +1,17 @@
+/******************************************************************************
+ *
+ * @file       Config.hpp
+ * @brief      CMake变量在项目中的使用
+ *
+ * @author     KBchulan
+ * @date       2025/04/03
+ * @history
+ ******************************************************************************/
+
+#ifndef CONFIG_HPP
+#define CONFIG_HPP
+
+#define PROJECT_NAME "@PROJECT_NAME@"
+#define PROJECT_VERSION "@PROJECT_VERSION@"
+
+#endif  // CONFIG_HPP

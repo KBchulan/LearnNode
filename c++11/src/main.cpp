@@ -72,7 +72,7 @@ namespace Test
         int b = 2;
         inline static int c = 3; // 静态成员
         static const int d = 4;  // 静态常量成员
-        inline static const char *const e = "i am hansdom";
+        inline static const char *const e{ "i am hansdom" };
         string name;
     };
 
@@ -98,7 +98,7 @@ namespace Test
 
         virtual void on_updata(double delta)
         {
-            cout << "aaaa";
+            cout << "aaaa" << endl;
         }
     };
 
@@ -124,9 +124,13 @@ namespace Test
 
     void character_4()
     {
-        unique_ptr<Player> player(new MainPlayer());
-        player->on_update(0.5);
-        player->on_updata(1);
+        // unique_ptr<Player> player(new MainPlayer());
+        Player *__restrict player_01 = new MainPlayer();
+        Player *__restrict player_02 = new MainPlayer();
+        player_01->on_update(0.5);
+        player_02->on_update(1);
+        delete player_01;
+        delete player_02;
     }
 
     // 模板的优化,即增加默认参数
@@ -241,7 +245,7 @@ namespace Test
     // 用auto定义需要初始化,推导时说白了就是相当于一个或多个单词（占位符号）
     // auto只有在修饰指针或者volatile时才会记录const
     // auto：STL遍历，泛型编程
-    // decltype规则：普通变量就是变量类型，函数则为其右值，传入纯左值就可以有修饰符号
+    // decltype规则：普通变量就是变量类型，函数则为其右值，传入左值就可以有修饰符号
     // 应用：泛型编程中推导类型，返回类型后置（与auto联合使用）
     // 区别：decltype：在不需要定义变量或者不能定义变量但是需要得到类型时才使用(基本都是模板里才会用到)
     template <typename T, typename U>
@@ -447,7 +451,7 @@ namespace Test
     class Child final : public Base
     {
     public:
-        Child() = default;
+        using Base::Base;
         explicit Child(int x, int y, int z, int w) : Base(x, y), z(z), w(w) {}
         explicit Child(Child &&child) : Base(child.x, child.y), z(child.z), w(child.w) {}
 
@@ -481,7 +485,7 @@ namespace Test
 
     // 右值引用类型:&&
     // 左值引用类型:&
-    // const Test& t可以返回任何引用类型
+    // const Test&可以返回任何引用类型
     // 对于需要动态申请大量资源的类，应该设计移动构造函数，以提高程序效率。需要注意的是，我们一般在提供移动构造函数的同时，也会提供常量左值引用的拷贝构造函数，以保证移动不成还可以使用拷贝构造函数
     /*
     值：左值（可取地址的值）
@@ -903,7 +907,7 @@ int main(int argc, char **argv)
 
     {
         using namespace Test;
-        // character_17();
+        character_4();
     }
     {
         using namespace USING;
@@ -934,8 +938,8 @@ int main(int argc, char **argv)
         //     if(x == 3)
         //         break;
         // }
-        simple_test();
-        wchar_t_test();
+        // simple_test();
+        // wchar_t_test();
     }
 
 

@@ -1,0 +1,37 @@
+$namespace: 'hx' !default;
+$block-sel: '-' !default;
+$element-sel: '__' !default;
+$modifier-sel: '--' !default;
+
+@mixin bfc {
+  height: 100%;
+  overflow: hidden;
+}
+
+@mixin block($bl) {
+  $B: $namespace + $block-sel + $bl;
+
+  .#{$B} {
+    @content;
+  }
+}
+
+@mixin element($el) {
+  $E: &;
+
+  @at-root {
+    #{$E + $element-sel + $el} {
+      @content;
+    }
+  }
+}
+
+@mixin modifier($mod) {
+  $M: &;
+
+  @at-root {
+    #{$M + $modifier-sel + $mod} {
+      @content;
+    }
+  }
+}

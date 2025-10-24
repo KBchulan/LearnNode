@@ -1,0 +1,8 @@
+{
+    "msg": "success",
+    "code": 200,
+    "data": {
+        "name": "张三",
+        "age": 18
+    }
+}

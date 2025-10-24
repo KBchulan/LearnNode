@@ -1,0 +1,87 @@
+QWidget {
+    font-family: "Microsoft YaHei", "SimHei";
+    background-color: #f0f2f5;
+}
+
+QLabel[class="title"] {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    padding: 10px;
+}
+
+QLabel {
+    font-size: 14px;
+    color: #34495e;
+}
+
+QLineEdit {
+    padding: 8px;
+    border: 2px solid #bdc3c7;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 14px;
+}
+
+QLineEdit:focus {
+    border-color: #3498db;
+}
+
+QPushButton {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    font-size: 14px;
+    min-width: 80px;
+}
+
+QPushButton:hover {
+    background-color: #2980b9;
+}
+
+QPushButton:pressed {
+    background-color: #2472a4;
+}
+
+QPushButton[class="numpad"] {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+QPushButton[class="numpad"]:hover {
+    background-color: #bdc3c7;
+}
+
+QPushButton[class="enter"] {
+    background-color: #27ae60;
+    font-weight: bold;
+}
+
+QPushButton[class="enter"]:hover {
+    background-color: #219a52;
+}
+
+QLabel[class="atm-hint"] {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    padding: 20px;
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    background-color: white;
+    min-width: 200px;
+    min-height: 50px;
+    text-align: center;
+}
+
+QLabel[class="atm-hint"][type="take"] {
+    border-color: #e74c3c;
+}
+
+QLabel[class="atm-hint"][type="insert"] {
+    border-color: #27ae60;
+} 

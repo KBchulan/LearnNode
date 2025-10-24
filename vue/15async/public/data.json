@@ -1,0 +1,8 @@
+{
+  "data":{
+    "name": "张三",
+    "age": 18,
+    "img": "https://github.com/KBchulan/LearnNode/tree/main/doc/register.png",
+    "dec": "it just a content"
+  }
+}

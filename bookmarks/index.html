@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的书签导航</title>
+    <!-- Assuming themes.css and main.js are in the same directory or correctly linked -->
+    <link rel="stylesheet" href="themes.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            border-radius: 8px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        #search {
+            padding: 10px 15px;
+            width: 60%;
+            max-width: 500px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        #search:focus {
+            outline: none;
+            border-color: #6e8efb;
+            box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.2);
+        }
+
+        #search-status {
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .search-highlight {
+            animation: pulse 1s;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(110, 142, 251, 0.5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 5px rgba(110, 142, 251, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(110, 142, 251, 0);
+            }
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .category {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            width: 100%;
+            /* Default to full width, adjust with media queries or flex basis */
+            flex-basis: calc(50% - 10px);
+            /* Two columns on larger screens, adjust as needed */
+        }
+
+        @media (max-width: 992px) {
+            .category {
+                flex-basis: 100%;
+                /* Single column on medium screens */
+            }
+        }
+
+
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .category-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            color: #555;
+            font-size: 1.2em;
+            /* For emoji */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .category-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #444;
+            flex-grow: 1;
+            transition: color 0.3s;
+        }
+
+        .bookmarks {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .bookmark {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+            transition: background-color 0.2s, color 0.3s;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .bookmark:hover {
+            background-color: #e9ecef;
+        }
+
+        .bookmark-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 4px;
+            object-fit: contain;
+            /* Prevents large favicons from breaking layout */
+        }
+
+        .bookmark-icon-fallback {
+            /* Style for the fallback div */
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 4px;
+            background-color: #ccc;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .bookmark-title {
+            font-size: 0.95em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .subcategory {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            border-left: 3px solid #6e8efb;
+            transition: border-color 0.3s;
+        }
+
+        .subcategory-title {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9em;
+            transition: color 0.3s;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .stats-item {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        .stats-item span {
+            font-weight: bold;
+            color: #6e8efb;
+        }
+
+        .bookmark-time {
+            margin-left: auto;
+            font-size: 0.75em;
+            color: #999;
+            opacity: 0.7;
+        }
+
+        .collapse-btn {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            color: #6e8efb;
+            transition: color 0.3s;
+        }
+
+        .collapsed .bookmarks,
+        .collapsed .subcategory {
+            display: none;
+        }
+
+        /* 主题切换器样式 */
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+            transition: background-color 0.3s;
+        }
+
+        .theme-option {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .theme-option:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-option.active {
+            border-color: #fff;
+            box-shadow: 0 0 0 2px #333;
+        }
+
+        .theme-light {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .theme-dark {
+            background: linear-gradient(135deg, #343a40, #212529);
+        }
+
+        .theme-green {
+            background: linear-gradient(135deg, #2c8c5f, #2ecc71);
+        }
+
+        .theme-blue {
+            background: linear-gradient(135deg, #1565c0, #2196F3);
+        }
+
+        .theme-orange {
+            background: linear-gradient(135deg, #f57c00, #ffb74d);
+        }
+
+        @media (max-width: 768px) {
+            .bookmarks {
+                grid-template-columns: 1fr;
+            }
+
+            .category {
+                width: 100%;
+                flex-basis: 100%;
+            }
+
+            .theme-switcher {
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="theme-switcher">
+        <div class="theme-option theme-light active" data-theme="light"></div>
+        <div class="theme-option theme-dark" data-theme="dark"></div>
+        <div class="theme-option theme-green" data-theme="green"></div>
+        <div class="theme-option theme-blue" data-theme="blue"></div>
+        <div class="theme-option theme-orange" data-theme="orange"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>我的书签导航</h1>
+            <p>简洁、美观的个人书签收藏</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="search" placeholder="搜索书签...">
+            <div id="search-status"></div>
+        </div>
+
+        <div class="categories">
+            <!-- 书签栏 (常用网站) -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">📌</div>
+                    <h2 class="category-title">常用网站</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://mail.google.com/mail/u/0/#inbox" class="bookmark"
+                        title="gamil | https://mail.google.com/mail/u/0/#inbox">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACEUlEQVQ4jcWSP0iVYRTGf+d9v/d6/ZelXBCSIHJIKbHCq1DkkIVubVK0NCSI0ODWdpcagigShDRoawhqygZz0BAxrU2I6ApCDsGnpl3Fe73f956GTDS4jfUsz/L84Twc+N8QgJmGhlqXsB3bxs1fzGbDvxn0Dan4kG3b2oxna7pZMxkwmrAjzpgx54uTn86c7Cxlzt2r74zKgklrZawiCEY0gzHpxkZn4sLpvCpWpLkyWTa2ejk9qBnMXmsGE17oGNSlmrHA0UweAo1bSOOC+ze+yLV3t+LWpXEi9WCk0ok8WJluS3+74m4DrEwXH7sEvd4bfOQxIozvNESvF68SADy/NMRi9hXdM3exPqLgE5SJ6c1HOy0AZdY25b2nAk9OHUNbLbzMHWOzMYspr0Wtxsw2X+dpzzMNq46GSTx57wmMaQqMacp7T9IIXzUZDqyf1xfbJwh2D9wlxUUFluvP8jD9qJ9iftiJoIACTgSJo+E7rcf7F6I6khLvDWv2r+w0ks9VjavVUwsDEdonsCGwEaF91VMfB7L1wWpCVPZ7DgQAlPuCBUhNzI/GQlcsdKUm5kcByiPsn/rgN4sYQFEf7zWk3s59OKD2XnAWRND4l9e0r1FUZM7jQ68+tNYWSj2SGFMg9iHqQ7zOZXvai0EmI/7cE71Z94MjAMtbrJcK2LTy/nAQnwIo5FLfkYwvpf13+AmqpdgP1oFy7QAAAABJRU5ErkJggg=="
+                            alt="" class="bookmark-icon">
+                        <div class="bookmark-icon-fallback" style="display:none;">G</div>
+                        <div class="bookmark-title">gamil</div>
+                    </a>
+                    <a href="https://mail.163.com/js6/main.jsp?sid=OLBbaWXXgDApBDwDOeXXVCQqdPZXnmyh&df=mail163_letter#module=welcome.WelcomeModule%7C%7B%7D"
+                        class="bookmark"
+                        title="网易 | https://mail.163.com/js6/main.jsp?sid=OLBbaWXXgDApBDwDOeXXVCQqdPZXnmyh&df=mail163_letter#module=welcome.WelcomeModule%7C%7B%7D">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAcElEQVQ4ja1RwQrAUAhyo///5XYKwjTe2DxVWJkBH3GpYgJpyIM/Cr25GlRNDmBi5T3mIeGv05IZ6wDnxdGABLIrWIx9t5XPujeC8oAXSIn8vpN3DvCmnvc4HMmpYAQ3K+dPvjHkF5GlWxPdCVv9FzypAjoLkmOBWQAAAABJRU5ErkJggg=="
+                            alt="" class="bookmark-icon">
+                        <div class="bookmark-icon-fallback" style="display:none;">网</div>
+                        <div class="bookmark-title">网易</div>
+                    </a>
+                    <a href="https://github.com/" class="bookmark" title="GitHub | https://github.com/">
+                        <img src="https://github.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">G</div>
+                        <div class="bookmark-title">GitHub</div>
+                    </a>
+                    <a href="https://www.overleaf.com/project" class="bookmark"
+                        title="overleaf | https://www.overleaf.com/project">
+                        <img src="https://www.overleaf.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">O</div>
+                        <div class="bookmark-title">overleaf</div>
+                    </a>
+                    <a href="https://www.bilibili.com/?spm_id_from=333.788.0.0" class="bookmark"
+                        title="bilibili | https://www.bilibili.com/?spm_id_from=333.788.0.0">
+                        <img src="https://www.bilibili.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">B</div>
+                        <div class="bookmark-title">bilibili</div>
+                    </a>
+                    <a href="https://leetcode.com/problem-list/array/" class="bookmark"
+                        title="LeetCode | https://leetcode.com/problem-list/array/">
+                        <img src="https://leetcode.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">L</div>
+                        <div class="bookmark-title">LeetCode</div>
+                    </a>
+                    <a href="https://www.yuque.com/lianlianfengchen-cvvh2" class="bookmark"
+                        title="语雀 | https://www.yuque.com/lianlianfengchen-cvvh2">
+                        <img src="https://www.yuque.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">语</div>
+                        <div class="bookmark-title">语雀</div>
+                    </a>
+                    <a href="https://hzh.sealos.run/" class="bookmark" title="Sealos | https://hzh.sealos.run/">
+                        <img src="https://hzh.sealos.run/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">Sealos</div>
+                    </a>
+                    <a href="https://zh.d2l.ai/" class="bookmark" title="deepth | https://zh.d2l.ai/">
+                        <img src="https://zh.d2l.ai/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">D</div>
+                        <div class="bookmark-title">deepth</div>
+                    </a>
+                    <a href="https://doc.rust-lang.org/std/" class="bookmark"
+                        title="Rust | https://doc.rust-lang.org/std/">
+                        <img src="https://doc.rust-lang.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">R</div>
+                        <div class="bookmark-title">Rust</div>
+                    </a>
+                    <a href="https://zh.cppreference.com/w/cpp" class="bookmark"
+                        title="cppreference | https://zh.cppreference.com/w/cpp">
+                        <img src="https://zh.cppreference.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">C</div>
+                        <div class="bookmark-title">cppreference</div>
+                    </a>
+                    <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/API?application_version=5.4"
+                        class="bookmark"
+                        title="ue5 | https://dev.epicgames.com/documentation/en-us/unreal-engine/API?application_version=5.4">
+                        <img src="https://dev.epicgames.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">U</div>
+                        <div class="bookmark-title">ue5</div>
+                    </a>
+                    <a href="https://learnopengl-cn.github.io/" class="bookmark"
+                        title="OpenGL | https://learnopengl-cn.github.io/">
+                        <img src="https://learnopengl-cn.github.io/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">O</div>
+                        <div class="bookmark-title">OpenGL</div>
+                    </a>
+                </div>
+            </div>
+            <!-- AI 分类 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">🤖</div>
+                    <h2 class="category-title">ai</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://www.kaggle.com/" class="bookmark" title="Kaggle | https://www.kaggle.com/">
+                        <img src="https://www.kaggle.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">K</div>
+                        <div class="bookmark-title">Kaggle</div>
+                    </a>
+                    <a href="https://chatgpt.com/" class="bookmark" title="ChatGPT | https://chatgpt.com/">
+                        <img src="https://chatgpt.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">C</div>
+                        <div class="bookmark-title">ChatGPT</div>
+                    </a>
+                    <a href="https://gemini.google.com/app" class="bookmark"
+                        title="Gemini | https://gemini.google.com/app">
+                        <img src="https://gemini.google.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">G</div>
+                        <div class="bookmark-title">Gemini</div>
+                    </a>
+                    <a href="https://www.usbot.net/zh" class="bookmark" title="Usbo | https://www.usbot.net/zh">
+                        <img src="https://www.usbot.net/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">U</div>
+                        <div class="bookmark-title">Usbo</div>
+                    </a>
+                    <a href="https://civitai.com/" class="bookmark" title="Civitai | https://civitai.com/">
+                        <img src="https://civitai.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">C</div>
+                        <div class="bookmark-title">Civitai</div>
+                    </a>
+                    <a href="https://labs.google/fx/tools/image-fx" class="bookmark"
+                        title="ImageFX | https://labs.google/fx/tools/image-fx">
+                        <img src="https://labs.google/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">I</div>
+                        <div class="bookmark-title">ImageFX</div>
+                    </a>
+                    <a href="https://klingai.kuaishou.com/image-to-video/new" class="bookmark"
+                        title="可灵 | https://klingai.kuaishou.com/image-to-video/new">
+                        <img src="https://klingai.kuaishou.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">可</div>
+                        <div class="bookmark-title">可灵</div>
+                    </a>
+                    <a href="https://lanhuapp.com/dashboard/#/item?tid=03920b46-9562-41bd-b14d-694b3e808e97"
+                        class="bookmark"
+                        title="蓝湖 | https://lanhuapp.com/dashboard/#/item?tid=03920b46-9562-41bd-b14d-694b3e808e97">
+                        <img src="https://lanhuapp.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">蓝</div>
+                        <div class="bookmark-title">蓝湖</div>
+                    </a>
+                    <a href="https://chat.deepseek.com/" class="bookmark" title="DeepSeek | https://chat.deepseek.com/">
+                        <img src="https://chat.deepseek.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">D</div>
+                        <div class="bookmark-title">DeepSeek</div>
+                    </a>
+                    <a href="https://huggingface.co/welcome" class="bookmark"
+                        title="Hugging Face | https://huggingface.co/welcome">
+                        <img src="https://huggingface.co/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">H</div>
+                        <div class="bookmark-title">Hugging Face</div>
+                    </a>
+                    <a href="https://aistudio.google.com/prompts/new_chat" class="bookmark"
+                        title="Google AI Studio | https://aistudio.google.com/prompts/new_chat">
+                        <img src="https://aistudio.google.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">G</div>
+                        <div class="bookmark-title">Google AI Studio</div>
+                    </a>
+                    <a href="https://bolt.new/" class="bookmark" title="bolt | https://bolt.new/">
+                        <img src="https://bolt.new/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">B</div>
+                        <div class="bookmark-title">bolt</div>
+                    </a>
+                    <a href="https://lovable.dev/" class="bookmark" title="Lovable | https://lovable.dev/">
+                        <img src="https://lovable.dev/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">L</div>
+                        <div class="bookmark-title">Lovable</div>
+                    </a>
+                    <a href="https://platform.minimaxi.com/user-center/basic-information?key=66701c8e1d57f38758d58198&document=platform+introduction"
+                        class="bookmark"
+                        title="miniMax | https://platform.minimaxi.com/user-center/basic-information?key=66701c8e1d57f38758d58198&document=platform+introduction">
+                        <img src="https://platform.minimaxi.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">M</div>
+                        <div class="bookmark-title">miniMax</div>
+                    </a>
+                    <a href="https://cloud.siliconflow.cn/models" class="bookmark"
+                        title="SiliconCloud | https://cloud.siliconflow.cn/models">
+                        <img src="https://cloud.siliconflow.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">SiliconCloud</div>
+                    </a>
+                    <a href="https://www.midjourney.com/rooms/09ef7297-15ad-4cbc-a958-6bcdca8d181b" class="bookmark"
+                        title="midjourney | https://www.midjourney.com/rooms/09ef7297-15ad-4cbc-a958-6bcdca8d181b">
+                        <img src="https://www.midjourney.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">M</div>
+                        <div class="bookmark-title">midjourney</div>
+                    </a>
+                    <a href="https://suno.com/create?wid=default" class="bookmark"
+                        title="suno | https://suno.com/create?wid=default">
+                        <img src="https://suno.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">suno</div>
+                    </a>
+                    <a href="https://www.coze.cn/space-preview" class="bookmark"
+                        title="口子 | https://www.coze.cn/space-preview">
+                        <img src="https://www.coze.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">口</div>
+                        <div class="bookmark-title">口子</div>
+                    </a>
+                </div>
+            </div>
+            <!-- 娱乐 (Enjoy) 分类 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">🎮</div>
+                    <h2 class="category-title">enjoy</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://www.aplaybox.com/" class="bookmark" title="模之屋 | https://www.aplaybox.com/">
+                        <img src="https://www.aplaybox.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">模</div>
+                        <div class="bookmark-title">模之屋</div>
+                    </a>
+                    <a href="https://steamgalgame.com/" class="bookmark"
+                        title="steamgalgame | https://steamgalgame.com/">
+                        <img src="https://steamgalgame.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">steamgalgame</div>
+                    </a>
+                    <a href="https://www.shinnku.com/" class="bookmark" title="失落小站 | https://www.shinnku.com/">
+                        <img src="https://www.shinnku.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">失</div>
+                        <div class="bookmark-title">失落小站 </div>
+                    </a>
+                    <a href="https://www.gamer520.com/" class="bookmark" title="Switch520 | https://www.gamer520.com/">
+                        <img src="https://www.gamer520.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">Switch520</div>
+                    </a>
+                    <a href="https://acgmon.net/" class="bookmark" title="acg red导航 | https://acgmon.net/">
+                        <img src="https://acgmon.net/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">A</div>
+                        <div class="bookmark-title">acg red导航</div>
+                    </a>
+                    <a href="https://lutris.net/" class="bookmark" title="Lutris | https://lutris.net/">
+                        <img src="https://lutris.net/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">L</div>
+                        <div class="bookmark-title">Lutris</div>
+                    </a>
+                    <a href="https://www.gugu3.com/?ref=www.clicli.pro" class="bookmark"
+                        title="咕咕番 | https://www.gugu3.com/?ref=www.clicli.pro">
+                        <img src="https://www.gugu3.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">咕</div>
+                        <div class="bookmark-title">咕咕番</div>
+                    </a>
+                </div>
+            </div>
+            <!-- 工具 (Tools) 分类 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">🛠️</div>
+                    <h2 class="category-title">tools</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://www.processon.com/diagrams" class="bookmark"
+                        title="ProcessOn | https://www.processon.com/diagrams">
+                        <img src="https://www.processon.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">P</div>
+                        <div class="bookmark-title">ProcessOn</div>
+                    </a>
+                    <a href="https://godbolt.org/" class="bookmark" title="Compiler Explorer | https://godbolt.org/">
+                        <img src="https://godbolt.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">C</div>
+                        <div class="bookmark-title">Compiler Explorer</div>
+                    </a>
+                    <a href="https://convertio.co/zh/ico-converter/" class="bookmark"
+                        title="ICO转换器 | https://convertio.co/zh/ico-converter/">
+                        <img src="https://convertio.co/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">I</div>
+                        <div class="bookmark-title">ICO转换器</div>
+                    </a>
+                    <a href="https://afrihag.co.za/" class="bookmark" title="MP3Juice | https://afrihag.co.za/">
+                        <img src="https://afrihag.co.za/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">M</div>
+                        <div class="bookmark-title">MP3Juice</div>
+                    </a>
+                    <a href="https://www.luogu.com.cn/problem/list" class="bookmark"
+                        title="洛谷 | https://www.luogu.com.cn/problem/list">
+                        <img src="https://www.luogu.com.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">洛</div>
+                        <div class="bookmark-title">洛谷</div>
+                    </a>
+                    <a href="https://itch.io/" class="bookmark" title="itch | https://itch.io/">
+                        <img src="https://itch.io/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">I</div>
+                        <div class="bookmark-title">itch</div>
+                    </a>
+                    <a href="https://inkarnate.com/maps" class="bookmark" title="制作地图 | https://inkarnate.com/maps">
+                        <img src="https://inkarnate.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">制</div>
+                        <div class="bookmark-title">制作地图</div>
+                    </a>
+                    <a href="https://www.aigei.com/" class="bookmark" title="爱给网 | https://www.aigei.com/">
+                        <img src="https://www.aigei.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">爱</div>
+                        <div class="bookmark-title">爱给网</div>
+                    </a>
+                    <a href="https://datawhaler.feishu.cn/wiki/X9AVwtmvyi87bIkYpi2cNGlIn3v" class="bookmark"
+                        title="darawhale | https://datawhaler.feishu.cn/wiki/X9AVwtmvyi87bIkYpi2cNGlIn3v">
+                        <img src="https://datawhaler.feishu.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">D</div>
+                        <div class="bookmark-title">darawhale</div>
+                    </a>
+                    <a href="https://highlightcode.com/" class="bookmark" title="代码高亮 | https://highlightcode.com/">
+                        <img src="https://highlightcode.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">代</div>
+                        <div class="bookmark-title">代码高亮</div>
+                    </a>
+                    <a href="https://greasyfork.org/zh-CN" class="bookmark" title="油猴插件 | https://greasyfork.org/zh-CN">
+                        <img src="https://greasyfork.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">油</div>
+                        <div class="bookmark-title">油猴插件</div>
+                    </a>
+                    <a href="https://jxdy.top/" class="bookmark" title="v2ray节点购买 | https://jxdy.top/">
+                        <img src="https://jxdy.top/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">V</div>
+                        <div class="bookmark-title">v2ray节点购买</div>
+                    </a>
+                    <a href="https://wordpress.com/reader" class="bookmark"
+                        title="WordPress | https://wordpress.com/reader">
+                        <img src="https://wordpress.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">W</div>
+                        <div class="bookmark-title">WordPress</div>
+                    </a>
+                    <a href="https://home.console.aliyun.com/home/dashboard/ProductAndService" class="bookmark"
+                        title="阿里云 | https://home.console.aliyun.com/home/dashboard/ProductAndService">
+                        <img src="https://home.console.aliyun.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">阿</div>
+                        <div class="bookmark-title">阿里云</div>
+                    </a>
+                    <a href="https://zh.annas-archive.org/" class="bookmark"
+                        title="安娜的档案 | https://zh.annas-archive.org/">
+                        <img src="https://zh.annas-archive.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">安</div>
+                        <div class="bookmark-title">安娜的档案</div>
+                    </a>
+                    <a href="https://dash.cloudflare.com/258ac44e99a5a1ef8c177ef696f64e1d/home" class="bookmark"
+                        title="Cloudflare | https://dash.cloudflare.com/258ac44e99a5a1ef8c177ef696f64e1d/home">
+                        <img src="https://dash.cloudflare.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">C</div>
+                        <div class="bookmark-title">Cloudflare</div>
+                    </a>
+                    <a href="https://devops.aliyun.com/workbench?_userId=68205451e5683b384763326e×tamp=1747051874168&mode=redirect&sign=267c77ce0d2cd122540388b6e168fe6c"
+                        class="bookmark"
+                        title="云效 | https://devops.aliyun.com/workbench?_userId=68205451e5683b384763326e×tamp=1747051874168&mode=redirect&sign=267c77ce0d2cd122540388b6e168fe6c">
+                        <img src="https://devops.aliyun.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">云</div>
+                        <div class="bookmark-title">云效</div>
+                    </a>
+                </div>
+            </div>
+            <!-- 学习 (Class) 分类 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">📚</div>
+                    <h2 class="category-title">class</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="http://csujwc.its.csu.edu.cn/jsxsd/framework/xsMain.jsp" class="bookmark"
+                        title="学生个人中心 | http://csujwc.its.csu.edu.cn/jsxsd/framework/xsMain.jsp">
+                        <div class="bookmark-icon" style="background-color:#4285f4;color:white;">学</div>
+                        <div class="bookmark-icon-fallback" style="display:none;">学</div>
+                        <div class="bookmark-title">学生个人中心</div>
+                    </a>
+                    <a href="https://mooc2-ans.chaoxing.com/mooc2-ans/mycourse/stu?courseid=245569148&clazzid=104592905&cpi=337132623&enc=53805d7ed7cf51af7a833a348d21e42a&t=1728657628664&pageHeader=1&v=2"
+                        class="bookmark"
+                        title="学习通 | https://mooc2-ans.chaoxing.com/mooc2-ans/mycourse/stu?courseid=245569148&clazzid=104592905&cpi=337132623&enc=53805d7ed7cf51af7a833a348d21e42a&t=1728657628664&pageHeader=1&v=2">
+                        <img src="https://mooc2-ans.chaoxing.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">学</div>
+                        <div class="bookmark-title">学习通</div>
+                    </a>
+                    <a href="https://my.csu.edu.cn/portal/index.jsp" class="bookmark"
+                        title="中南大学信息门户 | https://my.csu.edu.cn/portal/index.jsp">
+                        <div class="bookmark-icon" style="background-color:#e74c3c;color:white;">中</div>
+                        <div class="bookmark-icon-fallback" style="display:none;">中</div>
+                        <div class="bookmark-title">中南大学信息门户</div>
+                    </a>
+                    <a href="https://aiarena.tencent.com/p/edu/course-content/287/382" class="bookmark"
+                        title="人工智能-腾讯开悟 | https://aiarena.tencent.com/p/edu/course-content/287/382">
+                        <img src="https://aiarena.tencent.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">人</div>
+                        <div class="bookmark-title">人工智能-腾讯开悟</div>
+                    </a>
+                    <a href="https://mail.csu.edu.cn/" class="bookmark" title="中南大学电子邮件系统 | https://mail.csu.edu.cn/">
+                        <img src="https://mail.csu.edu.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">中</div>
+                        <div class="bookmark-title">中南大学电子邮件系统</div>
+                    </a>
+                </div>
+            </div>
+            <!-- 前端开发文档 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">🌐</div>
+                    <h2 class="category-title">前端开发</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://juejin.cn/post/7258881840823713848" class="bookmark"
+                        title="Nodejs | https://juejin.cn/post/7258881840823713848">
+                        <img src="https://juejin.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">N</div>
+                        <div class="bookmark-title">Nodejs</div>
+                    </a>
+                    <a href="https://www.w3schools.com/html/html_intro.asp" class="bookmark"
+                        title="HTML | https://www.w3schools.com/html/html_intro.asp">
+                        <img src="https://www.w3schools.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">H</div>
+                        <div class="bookmark-title">HTML</div>
+                    </a>
+                    <a href="https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html" class="bookmark"
+                        title="TypeScript | https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html">
+                        <img src="https://www.typescriptlang.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">T</div>
+                        <div class="bookmark-title">TypeScript</div>
+                    </a>
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" class="bookmark"
+                        title="JavaScript | https://developer.mozilla.org/en-US/docs/Web/JavaScript">
+                        <img src="https://developer.mozilla.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">J</div>
+                        <div class="bookmark-title">JavaScript</div>
+                    </a>
+                    <a href="https://vuejs.org/guide/introduction.html" class="bookmark"
+                        title="Vue.js | https://vuejs.org/guide/introduction.html">
+                        <img src="https://vuejs.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">V</div>
+                        <div class="bookmark-title">Vue.js</div>
+                    </a>
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components" class="bookmark"
+                        title="Web Components | https://developer.mozilla.org/en-US/docs/Web/API/Web_components">
+                        <img src="https://developer.mozilla.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">W</div>
+                        <div class="bookmark-title">Web Components</div>
+                    </a>
+                    <a href="https://element-plus.org/zh-CN/component/layout.html" class="bookmark"
+                        title="Element Plus | https://element-plus.org/zh-CN/component/layout.html">
+                        <img src="https://element-plus.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">E</div>
+                        <div class="bookmark-title">Element Plus</div>
+                    </a>
+                    <a href="https://sass.nodejs.cn/guide/" class="bookmark"
+                        title="Sass | https://sass.nodejs.cn/guide/">
+                        <img src="https://sass.nodejs.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">Sass</div>
+                    </a>
+                    <a href="https://animate.style/" class="bookmark" title="Animate.css | https://animate.style/">
+                        <img src="https://animate.style/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">A</div>
+                        <div class="bookmark-title">Animate.css</div>
+                    </a>
+                    <a href="https://vueuse.org/core/useColorMode/" class="bookmark"
+                        title="VueUse | https://vueuse.org/core/useColorMode/">
+                        <img src="https://vueuse.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">V</div>
+                        <div class="bookmark-title">VueUse</div>
+                    </a>
+                    <a href="https://www.npmjs.com/" class="bookmark" title="npm | https://www.npmjs.com/">
+                        <img src="https://www.npmjs.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">N</div>
+                        <div class="bookmark-title">npm</div>
+                    </a>
+                    <a href="https://ant.design/components/overview-cn/" class="bookmark"
+                        title="Ant Design | https://ant.design/components/overview-cn/">
+                        <img src="https://ant.design/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">A</div>
+                        <div class="bookmark-title">Ant Design</div>
+                    </a>
+                    <a href="https://www.tailwindcss.cn/" class="bookmark"
+                        title="Tailwind | https://www.tailwindcss.cn/">
+                        <img src="https://www.tailwindcss.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">T</div>
+                        <div class="bookmark-title">Tailwind</div>
+                    </a>
+                    <a href="https://pinia.vuejs.org/api/" class="bookmark"
+                        title="Pinia | https://pinia.vuejs.org/api/">
+                        <img src="https://pinia.vuejs.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">P</div>
+                        <div class="bookmark-title">Pinia</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- C/C++开发文档 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">⚙️</div>
+                    <h2 class="category-title">C/C++</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://zh.cppreference.com/w/cpp" class="bookmark"
+                        title="cppreference | https://zh.cppreference.com/w/cpp">
+                        <img src="https://zh.cppreference.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">C</div>
+                        <div class="bookmark-title">cppreference</div>
+                    </a>
+                    <a href="https://cplusplus.com/reference/iolibrary/" class="bookmark"
+                        title="cplusplus | https://cplusplus.com/reference/iolibrary/">
+                        <img src="https://cplusplus.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">C</div>
+                        <div class="bookmark-title">cplusplus</div>
+                    </a>
+                    <a href="https://www.hello-algo.com/chapter_preface/about_the_book/" class="bookmark"
+                        title="Hello | https://www.hello-algo.com/chapter_preface/about_the_book/">
+                        <img src="https://www.hello-algo.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">H</div>
+                        <div class="bookmark-title">Hello</div>
+                    </a>
+                    <a href="https://en.oi-wiki.org/" class="bookmark" title="OI Wiki | https://en.oi-wiki.org/">
+                        <img src="https://en.oi-wiki.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">O</div>
+                        <div class="bookmark-title">OI Wiki</div>
+                    </a>
+                    <a href="https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/thinkings"
+                        class="bookmark"
+                        title="算法 | https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/thinkings">
+                        <img src="https://leetcode-solution-leetcode-pp.gitbook.io/favicon.ico" alt=""
+                            class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">算</div>
+                        <div class="bookmark-title">算法</div>
+                    </a>
+                    <a href="https://mq-b.github.io/ModernCpp-ConcurrentProgramming-Tutorial/md/" class="bookmark"
+                        title="并发编程 | https://mq-b.github.io/ModernCpp-ConcurrentProgramming-Tutorial/md/">
+                        <img src="https://mq-b.github.io/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">并</div>
+                        <div class="bookmark-title">并发编程</div>
+                    </a>
+                    <a href="https://juejin.cn/post/7078530622527897631" class="bookmark"
+                        title="模板 | https://juejin.cn/post/7078530622527897631">
+                        <img src="https://juejin.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">模</div>
+                        <div class="bookmark-title">模板</div>
+                    </a>
+                    <a href="https://mq-b.github.io/Modern-Cpp-templates-tutorial/md/%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/01%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF"
+                        class="bookmark"
+                        title="cc模板 | https://mq-b.github.io/Modern-Cpp-templates-tutorial/md/%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/01%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF">
+                        <img src="https://mq-b.github.io/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">C</div>
+                        <div class="bookmark-title">cc模板</div>
+                    </a>
+                    <a href="https://zh.cppreference.com/w/cpp/language/overload_resolution" class="bookmark"
+                        title="重载决议 | https://zh.cppreference.com/w/cpp/language/overload_resolution">
+                        <img src="https://zh.cppreference.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">重</div>
+                        <div class="bookmark-title">重载决议</div>
+                    </a>
+                    <a href="https://cmake.org/cmake/help/latest/guide/tutorial/index.html" class="bookmark"
+                        title="CMake | https://cmake.org/cmake/help/latest/guide/tutorial/index.html">
+                        <img src="https://cmake.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">C</div>
+                        <div class="bookmark-title">CMake</div>
+                    </a>
+                    <a href="https://doc.rust-lang.org/std/" class="bookmark"
+                        title="Rust | https://doc.rust-lang.org/std/">
+                        <img src="https://doc.rust-lang.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">R</div>
+                        <div class="bookmark-title">Rust</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 图形编程 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">🎮</div>
+                    <h2 class="category-title">图形编程</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://learnopengl-cn.github.io/" class="bookmark"
+                        title="OpenGL | https://learnopengl-cn.github.io/">
+                        <img src="https://learnopengl-cn.github.io/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">O</div>
+                        <div class="bookmark-title">OpenGL</div>
+                    </a>
+                    <a href="https://docs.opencv.org/4.x/" class="bookmark"
+                        title="OpenCV | https://docs.opencv.org/4.x/">
+                        <img src="https://docs.opencv.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">O</div>
+                        <div class="bookmark-title">OpenCV</div>
+                    </a>
+                    <a href="https://blog.csdn.net/qq_42722197/article/details/119658234" class="bookmark"
+                        title="OpenCV | https://blog.csdn.net/qq_42722197/article/details/119658234">
+                        <img src="https://blog.csdn.net/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">O</div>
+                        <div class="bookmark-title">OpenCV教程</div>
+                    </a>
+                    <a href="https://yimicgh.top/%E7%AC%94%E8%AE%B0/Flow-field-pathfinding-01/" class="bookmark"
+                        title="流场寻路算法 | https://yimicgh.top/%E7%AC%94%E8%AE%B0/Flow-field-pathfinding-01/">
+                        <img src="https://yimicgh.top/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">流</div>
+                        <div class="bookmark-title">流场寻路算法</div>
+                    </a>
+                    <a href="https://cloud.tencent.com/developer/article/2391442" class="bookmark"
+                        title="A星寻路算法 | https://cloud.tencent.com/developer/article/2391442">
+                        <img src="https://cloud.tencent.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">A</div>
+                        <div class="bookmark-title">A星寻路算法</div>
+                    </a>
+                    <a href="https://www.cnblogs.com/hggzhang/p/17432947.html" class="bookmark"
+                        title="柏林噪声 | https://www.cnblogs.com/hggzhang/p/17432947.html">
+                        <img src="https://www.cnblogs.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">柏</div>
+                        <div class="bookmark-title">柏林噪声</div>
+                    </a>
+                    <a href="https://wiki.libsdl.org/SDL2_mixer/Mix_Init" class="bookmark"
+                        title="SDL2_mixer | https://wiki.libsdl.org/SDL2_mixer/Mix_Init">
+                        <div class="bookmark-icon" style="background-color:#007bff;color:white;">S</div>
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">SDL2_mixer</div>
+                    </a>
+                    <a href="https://wiki.libsdl.org/SDL3/CategoryAPI" class="bookmark"
+                        title="SDL3 Wiki | https://wiki.libsdl.org/SDL3/CategoryAPI">
+                        <div class="bookmark-icon" style="background-color:#007bff;color:white;">S</div>
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">SDL3 Wiki</div>
+                    </a>
+                    <a href="https://wiki.libsdl.org/SDL2/CategoryAPI" class="bookmark"
+                        title="SDL2 Wiki | https://wiki.libsdl.org/SDL2/CategoryAPI">
+                        <div class="bookmark-icon" style="background-color:#007bff;color:white;">S</div>
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">SDL2 Wiki</div>
+                    </a>
+                    <a href="https://easyvulkan.github.io/" class="bookmark"
+                        title="vulkan | https://easyvulkan.github.io/">
+                        <div class="bookmark-icon" style="background-color:#ff9900;color:white;">V</div>
+                        <div class="bookmark-icon-fallback" style="display:none;">V</div>
+                        <div class="bookmark-title">vulkan</div>
+                    </a>
+                    <a href="https://www.glfw.org/docs/latest/quick_guide.html" class="bookmark"
+                        title="GLFW | https://www.glfw.org/docs/latest/quick_guide.html">
+                        <img src="https://www.glfw.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">G</div>
+                        <div class="bookmark-title">GLFW</div>
+                    </a>
+                    <a href="https://docs.godotengine.org/en/stable/" class="bookmark"
+                        title="Godot | https://docs.godotengine.org/en/stable/">
+                        <img src="https://docs.godotengine.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">G</div>
+                        <div class="bookmark-title">Godot</div>
+                    </a>
+                    <a href="https://glad.dav1d.de/" class="bookmark" title="glad | https://glad.dav1d.de/">
+                        <div class="bookmark-icon" style="background-color:#3399cc;color:white;">G</div>
+                        <div class="bookmark-icon-fallback" style="display:none;">G</div>
+                        <div class="bookmark-title">glad</div>
+                    </a>
+                    <a href="https://www.ferzkopp.net/Software/SDL2_gfx/Docs/html/index.html" class="bookmark"
+                        title="SDL2_gfx | https://www.ferzkopp.net/Software/SDL2_gfx/Docs/html/index.html">
+                        <img src="https://www.ferzkopp.net/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">SDL2_gfx</div>
+                    </a>
+                    <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/API?application_version=5.4"
+                        class="bookmark"
+                        title="ue5 | https://dev.epicgames.com/documentation/en-us/unreal-engine/API?application_version=5.4">
+                        <img src="https://dev.epicgames.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">U</div>
+                        <div class="bookmark-title">ue5</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Python开发 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">🐍</div>
+                    <h2 class="category-title">Python</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://www.freecodecamp.org/chinese/news/python-code-examples-sample-script-coding-tutorial-for-beginners/"
+                        class="bookmark"
+                        title="python_basic | https://www.freecodecamp.org/chinese/news/python-code-examples-sample-script-coding-tutorial-for-beginners/">
+                        <img src="https://www.freecodecamp.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">P</div>
+                        <div class="bookmark-title">python_basic</div>
+                    </a>
+                    <a href="https://www.w3cschool.cn/numpy_ln/" class="bookmark"
+                        title="numpy | https://www.w3cschool.cn/numpy_ln/">
+                        <img src="https://www.w3cschool.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">N</div>
+                        <div class="bookmark-title">numpy</div>
+                    </a>
+                    <a href="https://github.com/whyscience/CS231n-Note-Translation_CN/blob/master/CS231n%201%EF%BC%9APython%20Numpy%E6%95%99%E7%A8%8B.md"
+                        class="bookmark"
+                        title="numpy | https://github.com/whyscience/CS231n-Note-Translation_CN/blob/master/CS231n%201%EF%BC%9APython%20Numpy%E6%95%99%E7%A8%8B.md">
+                        <img src="https://github.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">N</div>
+                        <div class="bookmark-title">numpy教程</div>
+                    </a>
+                    <a href="https://github.com/nummy/pymongo-tutorial-cn" class="bookmark"
+                        title="mongDB for python | https://github.com/nummy/pymongo-tutorial-cn">
+                        <img src="https://github.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">M</div>
+                        <div class="bookmark-title">mongDB for python</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 数据库 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">💾</div>
+                    <h2 class="category-title">数据库</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://www.w3school.com.cn/sql/sql_syntax.asp" class="bookmark"
+                        title="SQL 语法 | https://www.w3school.com.cn/sql/sql_syntax.asp">
+                        <img src="https://www.w3school.com.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">SQL 语法</div>
+                    </a>
+                    <a href="https://www.mongodb.com/zh-cn/docs/" class="bookmark"
+                        title="MongoDB 文档 | https://www.mongodb.com/zh-cn/docs/">
+                        <img src="https://www.mongodb.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">M</div>
+                        <div class="bookmark-title">MongoDB 文档</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 个人博客 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">👨‍💻</div>
+                    <h2 class="category-title">技术博客</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://llfc.club/home" class="bookmark" title="恋恋风辰 | https://llfc.club/home">
+                        <img src="https://llfc.club/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">恋</div>
+                        <div class="bookmark-title">恋恋风辰</div>
+                    </a>
+                    <a href="https://subingwen.cn/" class="bookmark" title="大丙 | https://subingwen.cn/">
+                        <img src="https://subingwen.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">大</div>
+                        <div class="bookmark-title">大丙</div>
+                    </a>
+                    <a href="https://fishros.org.cn/forum/" class="bookmark"
+                        title="鱼香ROS | https://fishros.org.cn/forum/">
+                        <img src="https://fishros.org.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">鱼</div>
+                        <div class="bookmark-title">鱼香ROS</div>
+                    </a>
+                    <a href="https://programmercarl.com/qita/language.html" class="bookmark"
+                        title="代码随想录 | https://programmercarl.com/qita/language.html">
+                        <img src="https://programmercarl.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">代</div>
+                        <div class="bookmark-title">代码随想录</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 移动端开发 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">📱</div>
+                    <h2 class="category-title">移动开发</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://uniapp.dcloud.net.cn/" class="bookmark"
+                        title="uni-app | https://uniapp.dcloud.net.cn/">
+                        <img src="https://uniapp.dcloud.net.cn/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">U</div>
+                        <div class="bookmark-title">uni-app</div>
+                    </a>
+                    <a href="https://ionicframework.com/docs" class="bookmark"
+                        title="ionic | https://ionicframework.com/docs">
+                        <img src="https://ionicframework.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">I</div>
+                        <div class="bookmark-title">ionic</div>
+                    </a>
+                    <a href="https://docs.flutter.dev/get-started/codelab" class="bookmark"
+                        title="flutter | https://docs.flutter.dev/get-started/codelab">
+                        <img src="https://docs.flutter.dev/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">F</div>
+                        <div class="bookmark-title">flutter</div>
+                    </a>
+                    <a href="https://www.iviewui.com/view-ui-plus/component/base/button" class="bookmark"
+                        title="View Design | https://www.iviewui.com/view-ui-plus/component/base/button">
+                        <img src="https://www.iviewui.com/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">V</div>
+                        <div class="bookmark-title">View Design</div>
+                    </a>
+                    <a href="https://vant-ui.github.io/vant/#/zh-CN/address-edit" class="bookmark"
+                        title="Vant | https://vant-ui.github.io/vant/#/zh-CN/address-edit">
+                        <img src="https://vant-ui.github.io/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">V</div>
+                        <div class="bookmark-title">Vant</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 其他编程资源 -->
+            <div class="category">
+                <div class="category-header">
+                    <div class="category-icon">🔧</div>
+                    <h2 class="category-title">其他开发资源</h2>
+                    <button class="collapse-btn">-</button>
+                </div>
+                <div class="bookmarks">
+                    <a href="https://docs.opencv.org/4.x/" class="bookmark"
+                        title="OpenCV | https://docs.opencv.org/4.x/">
+                        <img src="https://docs.opencv.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">O</div>
+                        <div class="bookmark-title">OpenCV</div>
+                    </a>
+                    <a href="https://jsoncpp.sourceforge.net/old.html" class="bookmark"
+                        title="JsonCpp | https://jsoncpp.sourceforge.net/old.html">
+                        <div class="bookmark-icon" style="background-color:#CCCCCC;color:white;">J</div>
+                        <div class="bookmark-icon-fallback" style="display:none;">J</div>
+                        <div class="bookmark-title">JsonCpp</div>
+                    </a>
+                    <a href="https://www.boost.org/doc/libs/1_86_0/" class="bookmark"
+                        title="Boost | https://www.boost.org/doc/libs/1_86_0/">
+                        <img src="https://www.boost.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">B</div>
+                        <div class="bookmark-title">Boost</div>
+                    </a>
+                    <a href="https://www.ferzkopp.net/Software/SDL2_gfx/Docs/html/index.html" class="bookmark"
+                        title="SDL2_gfx | https://www.ferzkopp.net/Software/SDL2_gfx/Docs/html/index.html">
+                        <img src="https://www.ferzkopp.net/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">S</div>
+                        <div class="bookmark-title">SDL2_gfx</div>
+                    </a>
+                    <a href="https://blog.csdn.net/qq_42722197/article/details/119658234" class="bookmark"
+                        title="OpenCV | https://blog.csdn.net/qq_42722197/article/details/119658234">
+                        <img src="https://blog.csdn.net/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">O</div>
+                        <div class="bookmark-title">OpenCV</div>
+                    </a>
+                    <a href="https://nginx.org/en/docs/beginners_guide.html" class="bookmark"
+                        title="nginx | https://nginx.org/en/docs/beginners_guide.html">
+                        <img src="https://nginx.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">N</div>
+                        <div class="bookmark-title">nginx</div>
+                    </a>
+                    <a href="https://graphql.org/learn/" class="bookmark" title="GraphQL | https://graphql.org/learn/">
+                        <img src="https://graphql.org/favicon.ico" alt="" class="bookmark-icon"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="bookmark-icon-fallback" style="display:none;">G</div>
+                        <div class="bookmark-title">GraphQL</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© KBchulan书签导航</p>
+        </footer>
+    </div>
+    <!-- Ensure main.js handles collapsing and theme switching -->
+    <script src="main.js"></script>
+</body>
+
+</html>

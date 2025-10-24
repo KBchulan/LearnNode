@@ -1,0 +1,18 @@
+CompileFlags:
+  Add: [-Wall, -Wextra, -std=c++23]
+  Remove: [-W*deprecated-declarations]
+
+Diagnostics:
+  ClangTidy:
+    Add: [performance-*, modernize-*, readability-*]
+    Remove: [modernize-use-trailing-return-type, readability-magic-numbers]
+
+
+Index:
+  Background: Build
+  StandardLibrary: true
+
+InlayHints:
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true

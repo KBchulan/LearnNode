@@ -10,4 +10,8 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_executable(thread src/main.cpp
         include/chrono.hpp
-        include/thread.hpp)
+        include/thread.hpp
+        include/multhread.hpp
+        include/this_thread.hpp
+        include/condition.hpp
+        include/async_thread.hpp)

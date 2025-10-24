@@ -1,5 +1,6 @@
 //
 // Created by whx on 24-10-14.
+// 本文件为线程基本操作
 //
 
 #ifndef THREAD_HPP
@@ -10,6 +11,8 @@
 #include <memory>
 #include <iostream>
 #include <functional>
+
+#define app 5
 
 // 前言：linux只有进程，基于进程实现的线程（轻量级的进程）
 // 进程有自己的虚拟内存空间，而多个线程共用一片虚拟空间，虚拟空间介绍：https://subingwen.cn/linux/file-descriptor/#1-2-%E5%88%86%E5%8C%BA
@@ -49,7 +52,6 @@ namespace Thread {
         main_callback();
 
         std::this_thread::sleep_for(std::chrono::seconds(1));
-        cout << "----------------" <<endl;
     }
 
     /*******
@@ -130,6 +132,9 @@ namespace Thread {
      线程分离
      *******/
 
+    // 调用pthread_detach可以实现子线程与主线程分离，当子线程退出时，其占用的内核资源
+    // 会被其他的进程回收了
+
     inline void *detach_callback(void *arg) {
         cout << pthread_self() << endl;
         static int x = 1;
@@ -145,8 +150,111 @@ namespace Thread {
         pthread_create(&id, nullptr ,detach_callback, nullptr);
 
         cout << "main thread" << endl;
-        // pthread_detach(id);
+        pthread_detach(id);
+
+        // void *ptr;
+
         pthread_exit(nullptr);
+    }
+
+    /******
+    线程取消
+    *******/
+
+    // 在一个线程中调用pthread_cancel去取消另外一个线程B，同时在线程B中调用一次系统->
+    // 调用一次系统函数即可（实现用户区向内核区的转化
+
+    inline void *cancel_callback(void *arg) {
+        std::string str = R"thread(this ia a son_thread)thread";
+        cout << str << endl << pthread_self() << endl;
+        cout << "----------" << endl;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        return nullptr;
+    }
+
+    inline void cancel_workspace() {
+        cout << pthread_self() << endl;
+
+        // 创建B
+        pthread_t id;
+        pthread_create(&id, nullptr, cancel_callback, nullptr);
+
+        auto callback = [&]() {
+            std::string str = R"thread(this ia a father_thread)thread";
+            cout << str << endl;
+        };
+
+        // 取消子线程（子线程调用了pthread_self）
+        pthread_cancel(id);
+        callback();
+
+        pthread_exit(nullptr);
+    }
+
+    /******
+    线程类
+    *******/
+
+    // 线程类的使用
+    template <typename T, typename U, typename R>
+    R add(const T a, const U b) {
+        cout << static_cast<R>(a + b) << endl;
+        return static_cast<R>(a + b);
+    }
+
+    inline void class_workspace() {
+        // 构造：只有无参和移动构造，不允许赋值构造和拷贝，还有一个比较复杂的构造:
+        // thread(&&func, &&args);第一个位置的函数可以是普通，匿名，类成员，仿函数
+        // 也可以是绑定的函数
+        auto callback = [&]<typename T0, typename T1>(T0 &&PH1, T1 &&PH2) {
+            return add<decltype(PH1), decltype(PH2), decltype(PH1 + PH2)>
+            (std::forward<T0>(PH1), std::forward<T1>(PH2)); };
+
+        const auto thr_01 = make_shared<thread>(callback, 1, 2.3);
+        this_thread::sleep_for(chrono::seconds(1));
+        const auto thr_02 = make_shared<thread>(callback, -5.3, 8);
+        this_thread::sleep_for(chrono::seconds(1));
+
+        cout << thr_01->get_id() << endl
+             << thr_02->get_id() << endl;
+
+        // 主线程退出会释放子线程，我们想要确保子线程完全执行，有join（阻塞）和detach（非阻塞两种情况）
+        // 建议使用join
+#if 1
+        // join与pthread_join一致，都是阻塞函数，执行完下面两行才会继续执行下一步
+        thr_01->join();
+        thr_02->join();
+#else
+        // detach实际上就是子线程独立于主线程作用，且会自动释放，但主线程退出还是会被释放
+        thr_01->detach();
+        thr_02->detach();
+#endif
+        // joinable
+        // 在创建子线程时，如果没有指定任务函数，则子线程不启动，不与主线程链接
+        // detach会断开此连接，并将joinable返回false
+        const auto thr_03 = make_shared<thread>(callback, 111, 222);
+        cout << thr_03->joinable() << endl;
+
+        thr_03->join();
+        this_thread::sleep_for(chrono::seconds(1));
+        cout << thr_03->joinable() << endl;
+
+        const auto thr_04 = make_shared<thread>(callback, 11, 22);
+        cout << thr_04->joinable() << endl;
+
+        thr_04->detach();
+        this_thread::sleep_for(chrono::seconds(1));
+        cout << thr_03->joinable() << endl;
+
+        // operator=:
+        // thread& operator=(const thread&) = delete
+        // thread& operator=(thread&& __t) noexcept
+        // 因此只能通过右值引用转移
+
+        // 静态函数，获取当前计算机的cpu核心数目（16核心）
+        cout << thread::hardware_concurrency() << endl;
+
+
     }
 
 }

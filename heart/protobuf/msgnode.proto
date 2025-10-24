@@ -1,0 +1,9 @@
+// protoc --cpp_out=. ./msgnode.proto
+syntax = "proto3";
+
+message Book
+{
+    string name = 1;
+    int32 pages = 2;
+    float price = 3;
+}
